@@ -1,7 +1,9 @@
 <?php
 // import Config File
-require('config.php');
+require_once('config.php');
+
 ?>
+
 <html lang="en">
 
 <head>
@@ -28,7 +30,7 @@ require('config.php');
 
         <!-- import the header section-->
         <?php
-            include './components/header.php';
+        include './components/header.php';
         ?>
 
         <!-- start landing section -->

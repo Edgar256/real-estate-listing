@@ -1,6 +1,6 @@
 <?php
 // import Config File
-require('config.php');
+require_once('config.php');
 
 // check if email session variable is set
 // if (isset($_SESSION['email'])) {

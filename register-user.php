@@ -119,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             Your account was successfully created.</div>';
 
             // once user is logged in , redirect to listing page after 2 seconds
-            sleep(10);
+            // sleep(10);
             header("Location: login-user.php");
         } else {
             // $saving_user_err = "`Error: " . $sql . "<br>" . $conn->error;
