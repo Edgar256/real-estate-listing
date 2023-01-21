@@ -132,6 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="position-relative">
             <div class="container d-flex">
                 <div class="col-6 col-xl-6 col-sm-12 mx-auto py-5">
+                    
                     <!-- Login form  -->
                     <form class="row g-3" action='<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>' method="POST">
                         <div class="col-md-6">

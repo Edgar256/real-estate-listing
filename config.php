@@ -52,14 +52,32 @@ if ($conn->query($sql_create_users_table) !== TRUE) {
 // sql to create managers table
 $sql_create_managers_table = "CREATE TABLE Managers (
     id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    firstname VARCHAR(30) NOT NULL,
-    lastname VARCHAR(30) NOT NULL,
-    email VARCHAR(50),
+    firstname VARCHAR(255) NOT NULL,
+    lastname VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    phone VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )";
 
 // create Managers table
 if ($conn->query($sql_create_managers_table) !== TRUE) {
+    // echo "Error creating table: " . $conn->error;
+}
+
+// sql to create managers table
+$sql_create_admins_table = "CREATE TABLE Admins (
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    firstname VARCHAR(255) NOT NULL,
+    lastname VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    phone VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    )";
+
+// create Managers table
+if ($conn->query($sql_create_admins_table) !== TRUE) {
     // echo "Error creating table: " . $conn->error;
 }
 

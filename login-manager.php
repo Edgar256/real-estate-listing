@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($email_err) && empty($password_err)) {
 
         // Prepare and execute the query
-        $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt = $conn->prepare("SELECT * FROM managers WHERE email = ?");
         // $stmt->bind_param("s", $email);
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $stmt->bind_param("s", $email);
@@ -146,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="container d-flex">
 
                 <div class="col-6 col-xl-6 col-sm-12 mx-auto py-5">
-                    <h1 class="text-center display-4">USER LOGIN</h1>
+                    <h1 class="text-center display-4">MANAGER LOGIN</h1>
                     <div>
                         <?php echo $login_err; ?>
                         <?php echo $success_msg; ?>
@@ -171,7 +171,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <input type="submit" class="btn btn-primary w-100">Sign in</input>
                         <div class="d-flex py-4">
-                            <a href="register-user.php" class="text-decoration-none">Do not have Account? Register</a>
+                            <a href="register-manager.php" class="text-decoration-none">Do not have Account? Register</a>
                             <a href="forgot-password.php" class="text-decoration-none ms-auto">Forgot Password</a>
                         </div>
                     </form>

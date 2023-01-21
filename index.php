@@ -34,7 +34,7 @@ require_once('config.php');
         ?>
 
         <!-- start landing section -->
-        <div class="position-absolute landing-area">
+        <div class="position-absolute_ landing-area">
             <div class="container d-flex">
                 <div class="col-8 col-xl-8 col-sm-12">
                     <div class="p-5">
@@ -49,8 +49,14 @@ require_once('config.php');
         </div>
         <!-- end landing section -->
 
+        <!-- import the footer section-->
+        <?php
+        include './components/footer.php';
+        ?>
+            
 
     </div>
+     
 </body>
 
 </html>
