@@ -1,6 +1,7 @@
 <?php
 // import Config File
 require('config.php');
+require('./auth/clear_sessions.php');
 
 // check if email session variable is set
 // if (isset($_SESSION['email'])) {
@@ -91,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // sleep(5);
 
                 // once user is logged in , redirect to listing page
-                header("Location: listing.php");
+                header("Location: property-dashboard.php");
 
 
             } else {

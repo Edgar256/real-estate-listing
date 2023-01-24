@@ -29,14 +29,14 @@ if (isset($_SESSION['email'])) {
       </ul>
       <?php
       if ($firstname && $lastname) {
-        echo '<span class="d-flex">
-                  <span class="nav-link" href="login-user.php">' . 'Horray ' . ' ' . $firstname . ' ' . $lastname . '</span>
-                  <a href="./auth/logout.php" class="btn btn-danger text-white">LOGOUT</a>
-              </span>';
+        echo '<div class="dropdown">' .
+          '<button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"> ' . 'Hey ' . ' ' . $firstname . ' ' . $lastname . '</button>' .
+          '<ul class="dropdown-menu w-100 text-center"><li><a class="dropdown-item" href="listing.php">Listing</a></li><li><a class="dropdown-item" href="./auth/logout.php">Logout</a></li></ul>' .
+          '</div>';
       } else {
         echo '<span class="d-flex">
-                  <a class="nav-link" href="login-user.php">Login</a>
-                  <a class="nav-link" href="register-user.php">Register</a>
+                <a class="nav-link" href="login-user.php">Login</a>
+                <a class="nav-link" href="register-user.php">Register</a>
               </span>';
       }
       ?>

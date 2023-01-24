@@ -108,8 +108,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($firstname_err) && empty($password_err) && empty($confirm_password_err)) {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        echo ("processing");
-
         // Prepare an insert statement
         $sql = "INSERT INTO admins (firstname, lastname, email, phone, password) VALUES ('$firstname', '$lastname', '$email', '$phone', '$hashed_password')";
 
@@ -122,8 +120,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // sleep(10);
             header("Location: login-admin.php");
         } else {
-            // $saving_user_err = 'Failed to register Manager';
-            // echo("Error description: " . $mysqli -> error);
             $saving_user_err =  $conn->error;
         }
     }

@@ -180,6 +180,11 @@ require_once('config.php');
             </div>
             <!-- end lisitng section -->
 
+            <!-- import the footer section-->
+            <?php
+            include './components/footer.php';
+            ?>
+
         </div>
     </div>
 </body>

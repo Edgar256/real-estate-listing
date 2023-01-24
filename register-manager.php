@@ -108,8 +108,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($firstname_err) && empty($password_err) && empty($confirm_password_err)) {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        echo ("processing");
-
         // Prepare an insert statement
         $sql = "INSERT INTO managers (firstname, lastname, email, phone, password) VALUES ('$firstname', '$lastname', '$email', '$phone', '$hashed_password')";
 
@@ -122,9 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // sleep(10);
             header("Location: login-manager.php");
         } else {
-            // $saving_user_err = 'Failed to register Manager';
-            // echo("Error description: " . $mysqli -> error);
-            $saving_user_err =  $conn->error;
+            $saving_user_err = $conn->error;
         }
     }
 
@@ -170,7 +166,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <!-- Display error if fail to save user -->
                     <?php if (!empty($saving_user_err)) {
-                        echo "<div class='alert alert-danger'>" .json_encode($saving_user_err)."</div>";
+                        echo "<div class='alert alert-danger'>" . json_encode($saving_user_err) . "</div>";
                     } ?>
 
                     <?php echo $success_msg ?>
