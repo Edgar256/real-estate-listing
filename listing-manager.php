@@ -59,11 +59,11 @@ require_once('config.php');
             <!-- start listing section -->
             <div class="container d-flex flex-wrap pb-5 mb-5">
                 <?php
-                if ($_SESSION['role'] == "USER") {
+                if ($_SESSION['role'] == "MANAGER") {
                     $table = "properties";
                     $property_type_name = "";
                     $query = "SELECT *, types.name AS property_type_name FROM properties JOIN property_type ON properties.property_type = property_type.id JOIN locations ON properties.location = locations.id JOIN managers ON properties.manager = managers.id ";
-                    $sql = "SELECT properties.*, locations.id AS location_id, locations.name AS location_name,  types.name AS property_type_name FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id ;";
+                    $sql = "SELECT properties.*, locations.id AS location_id, locations.name AS location_name,  types.name AS property_type_name FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id  WHERE manager =" .$_SESSION['role'] . " ORDER BY reg_date DESC";
                     $check_properties_list = $conn->query($sql);
                     if ($check_properties_list->num_rows > 0) {
                         while ($row = $check_properties_list->fetch_assoc()) {

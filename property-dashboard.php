@@ -168,6 +168,7 @@ if (isset($_POST['form_submit_location'])) {
                     // Display success message 
                     $property_success_msg = '<div class="alert alert-success text-center">
                                                 Property entry was successfully created.</div>';
+                    header("location: listing-admin.php");
                 } else {
                     $saving_property_err = $conn->error;
                 }
@@ -422,47 +423,6 @@ if (isset($_POST['form_submit_location'])) {
                 </div>
                 <!-- end search section -->
 
-                <!-- start listing section -->
-                <div class="container d-flex flex-wrap">
-                    <?php
-                    $table = "properties";
-                    $query = "SELECT * FROM properties JOIN property_type ON properties.property_type = property_type.id JOIN locations ON properties.location = locations.id JOIN managers ON properties.manager = managers.id";
-                    $sql = "SELECT properties.*, locations.* FROM properties JOIN locations ON properties.property_location = locations.id";
-                    $check_properties_list = $conn->query($sql);
-                    if ($check_properties_list->num_rows > 0) {
-                        while ($row = $check_properties_list->fetch_assoc()) {
-                            $title = mb_convert_case($row["title"], MB_CASE_TITLE, "UTF-8");
-                            $id = $row["id"];
-                            $description = $row["property_description"];
-                            $price = $row["price"];
-                            $location = $row["name"];
-                            $imageData = $row['property_image'];
-                            $imageData = base64_encode($imageData);
-                            $datePosted = $row["reg_date"];
-
-                            echo '<div class="w-25 p-1">
-                            <div class="card">
-                                <img src="data:image/jpeg;base64,' . $imageData . '" style="font-weight:bold">
-                                <div class="card-body">
-                                    <p class="card-title"><small><i>Posted :' . date("F j, Y, g:i a", strtotime($datePosted)) . '</i></small></p>
-                                    <h5 class="card-title">' . $title . '</h5>
-                                    <h6>Location: ' . $location . '</h6>
-                                    <h6>Price: USD ' . $price . '</h6>
-                                    <p class="card-text">
-                                        ' . $description . '
-                                    </p>
-                                    <button class="btn btn-danger w-100">DELETE</button>
-                                </div>
-                            </div>
-                        </div>';
-                        }
-                    } else {
-                        echo "No Locations found";
-                    }
-                    ?>
-
-                </div>
-                <!-- end lisitng section -->
             </div>
 
         </div>

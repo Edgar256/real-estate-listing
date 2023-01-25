@@ -79,13 +79,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $success_msg = '<div class="alert alert-success text-center">
                 Login was successful.</div>';
 
+                $inactive = 60;
+                ini_set('session.gc_maxlifetime', $inactive); // set the session max lifetime to 2 hours
+
                 session_start();
+
 
                 // set session variables
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['firstname'] = $user['firstname'];
                 $_SESSION['lastname'] = $user['lastname'];
                 $_SESSION['phone'] = $user['phone'];
+                $_SESSION['role'] = $user['role'];
+                $_SESSION['time'] = time();
 
                 // echo json_encode($_SESSION);
                 // sleep(5);
@@ -109,7 +115,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     // Close connection
-    // $mysqli->close();
+    $conn->close();
+
 }
 
 ?>
@@ -169,7 +176,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     echo "border-danger"; ?>" name="password" />
                             </div>
                         </div>
-                        <input type="submit" class="btn btn-primary w-100">Sign in</input>
+                        <input type="submit" class="btn btn-primary w-100" value="Login" />
                         <div class="d-flex py-4">
                             <a href="register-user.php" class="text-decoration-none">Do not have Account? Register</a>
                             <a href="forgot-password.php" class="text-decoration-none ms-auto">Forgot Password</a>

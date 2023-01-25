@@ -79,6 +79,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $success_msg = '<div class="alert alert-success text-center">
                 Login was successful.</div>';
 
+                $inactive = 60;
+                ini_set('session.gc_maxlifetime', $inactive); // set the session max lifetime to 2 hours
+
                 session_start();
 
                 // set session variables
@@ -86,12 +89,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['firstname'] = $user['firstname'];
                 $_SESSION['lastname'] = $user['lastname'];
                 $_SESSION['phone'] = $user['phone'];
-
-                // echo json_encode($_SESSION);
-                // sleep(5);
+                $_SESSION['role'] = $user['role'];
+                $_SESSION['id'] = $user['id'];
+                $_SESSION['time'] = time();
 
                 // once user is logged in , redirect to listing page
-                header("Location: listing.php");
+                header("Location: listing-manager.php");
 
 
             } else {
