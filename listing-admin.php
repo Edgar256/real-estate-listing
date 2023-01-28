@@ -253,7 +253,14 @@ if (isset($_POST['form_submit_location'])) {
 
                             echo '<div class="w-25 p-1">
                             <div class="card">
-                                <img src="data:image/jpeg;base64,' . $imageData . '" style="font-weight:bold">
+                                <span style="background-image: url(data:image/jpeg;base64,' . $imageData . ');
+                                    background-size: cover;
+                                    background-repeat: no-repeat;
+                                    background-position: center center;
+                                    width: 100%;
+                                    border-radius: 3px 3px 0px 0px;
+                                    min-height: 200px;">
+                                </span>
                                 <div class="card-body">
                                     <p class="card-title"><small><i>Posted :' . date("F j, Y, g:i a", strtotime($datePosted)) . '</i></small></p>
                                     <h5 class="card-title">' . $title . '</h5>

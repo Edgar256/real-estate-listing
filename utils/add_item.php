@@ -151,7 +151,7 @@ if (isset($_POST['form_submit_location'])) {
                     // Display success message 
                     $property_success_msg = '<div class="alert alert-success text-center">
                                                 Property entry was successfully created.</div>';
-                    echo "<script>setTimeout(\"location.href = 'listing-admin.php';\",1500);</script>";
+                    echo "<script>setTimeout(\"location.href = 'listing-admin.php';\",2000);</script>";
                 } else {
                     $saving_property_err = $conn->error;
                 }
