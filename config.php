@@ -22,6 +22,7 @@ $sql_create_users_table = "CREATE TABLE Users (
     lastname VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     phone VARCHAR(255) NOT NULL,
+    role VARCHAR(255) NOT NULL DEFAULT 'USER';
     password VARCHAR(255) NOT NULL,
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )";
@@ -38,6 +39,7 @@ $sql_create_managers_table = "CREATE TABLE Managers (
     lastname VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     phone VARCHAR(255) NOT NULL,
+    role VARCHAR(255) NOT NULL DEFAULT 'MANAGER';
     password VARCHAR(255) NOT NULL,
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )";
@@ -54,7 +56,8 @@ $sql_create_admins_table = "CREATE TABLE Admins (
     lastname VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     phone VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL,
+    role VARCHAR(255) NOT NULL DEFAULT 'ADMIN';
+    password VARCHAR(255) NOT NULL,    
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )";
 
