@@ -172,10 +172,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     echo "border-danger"; ?>" name="password" />
                             </div>
                         </div>
-                        <input type="submit" class="btn btn-primary w-100">Sign in</input>
+                        <input type="submit" class="btn btn-primary w-100" value="Sign in">
                         <div class="d-flex py-4">
-                            <a href="register-admin.php" class="text-decoration-none">Do not have Account? Register</a>
-                            <a href="forgot-password.php" class="text-decoration-none ms-auto">Forgot Password</a>
+                            <a href="admin-register.php" class="text-decoration-none text-center w-100">Do not have Account? Register</a>
                         </div>
                     </form>
                 </div>

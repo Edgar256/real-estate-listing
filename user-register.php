@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // verify if email exists
-        $emailCheck = $conn->query("SELECT * FROM admins WHERE email = '{$email}' ");
+        $emailCheck = $conn->query("SELECT * FROM users WHERE email = '{$email}' ");
         if (!empty($emailCheck) > 0) {
             // Email exists
             $email_err = "Email already taken format";
@@ -64,6 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Email does not exist
             $email = trim($_POST["email"]);
         }
+        // $rowCount = $emailCheck->fetchColumn();
 
     }
 
@@ -109,7 +110,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         // Prepare an insert statement
-        $sql = "INSERT INTO admins (firstname, lastname, email, phone, password) VALUES ('$firstname', '$lastname', '$email', '$phone', '$hashed_password')";
+        $sql = "INSERT INTO users (firstname, lastname, email, phone, password) VALUES ('$firstname', '$lastname', '$email', '$phone', '$hashed_password')";
+        // $emailCheck = $conn->query("SELECT * FROM users WHERE email = '{$email}' ");
 
         if ($conn->query($sql) === TRUE) {
             echo "New record created successfully";
@@ -118,9 +120,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // once user is logged in , redirect to listing page after 2 seconds
             // sleep(10);
-            header("Location: login-admin.php");
+            header("Location: login-user.php");
         } else {
-            $saving_user_err =  $conn->error;
+            // $saving_user_err = "`Error: " . $sql . "<br>" . $conn->error;
+            $saving_user_err = '<div class="alert alert-danger">' . $saving_user_err . '</div>';
+
+            // echo "Error creating table: " . $conn->error;
         }
     }
 
@@ -162,11 +167,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="position-relative">
             <div class="container d-flex">
                 <div class="col-6 col-xl-6 col-sm-12 mx-auto py-5">
-                    <h1 class="text-center display-4">ADMIN REGISTRATION</h1>
-
+                    <h1 class="text-center display-4">USER REGISTRATION</h1>
                     <!-- Display error if fail to save user -->
                     <?php if (!empty($saving_user_err)) {
-                        echo "<div class='alert alert-danger'>" .json_encode($saving_user_err)."</div>";
+                        echo $saving_user_err;
                     } ?>
 
                     <?php echo $success_msg ?>
@@ -213,7 +217,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </button>
                         </div>
                         <div class="d-flex py-4">
-                            <a href="login-admin.php" class="text-decoration-none">Already have Account? Login</a>
+                            <a href="user-login.php" class="text-decoration-none text-center w-100">Already have Account? Login</a>
                         </div>
                     </form>
                 </div>

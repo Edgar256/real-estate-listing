@@ -52,12 +52,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Verify the password
             if (password_verify($password, $user['password'])) {
 
-                $inactive = 60;
-                ini_set('session.gc_maxlifetime', $inactive); // set the session max lifetime to 2 hours
+                $inactive = 1800;                
 
                 // start session if session is not started
                 if (!isset($_SESSION)) {
-                    session_start();
+                    ini_set('session.gc_maxlifetime', $inactive); // set the session max lifetime to 2 hours
+                    session_start();                   
                 }
 
                 // set session variables
@@ -67,13 +67,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['phone'] = $user['phone'];
                 $_SESSION['role'] = $user['role'];
                 $_SESSION['time'] = time();
+                $_SESSION['auth_active'] = TRUE;
 
                 $success_msg = '<div class="alert alert-success text-center">
                 Login was successful.</div>';
 
                 echo '<script>setTimeout(function(){
                     window.location.href = "listing.php";
-                }, 2000);</script>';
+                }, 1500);</script>';
 
             } else {
                 $login_err = '<div class="alert alert-danger">

@@ -4,8 +4,8 @@
             <div class="col-6 col-md-2 mb-3">
                 <h5>Users</h5>
                 <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="login-user.php" class="nav-link p-0 text-muted">Login</a></li>
-                    <li class="nav-item mb-2"><a href="register-user.php" class="nav-link p-0 text-muted">Register</a>
+                    <li class="nav-item mb-2"><a href="user-login.php" class="nav-link p-0 text-muted">Login</a></li>
+                    <li class="nav-item mb-2"><a href="user-register.php" class="nav-link p-0 text-muted">Register</a>
                     </li>
                 </ul>
             </div>
@@ -13,8 +13,8 @@
             <div class="col-6 col-md-2 mb-3">
                 <h5>Managers</h5>
                 <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="login-manager.php" class="nav-link p-0 text-muted">Login</a></li>
-                    <li class="nav-item mb-2"><a href="register-manager.php"
+                    <li class="nav-item mb-2"><a href="manager-login.php" class="nav-link p-0 text-muted">Login</a></li>
+                    <li class="nav-item mb-2"><a href="manager-register.php"
                             class="nav-link p-0 text-muted">Register</a></li>
                 </ul>
             </div>
@@ -22,8 +22,8 @@
             <div class="col-6 col-md-2 mb-3">
                 <h5>Admins</h5>
                 <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="login-admin.php" class="nav-link p-0 text-muted">Login</a></li>
-                    <li class="nav-item mb-2"><a href="register-admin.php" class="nav-link p-0 text-muted">Register</a>
+                    <li class="nav-item mb-2"><a href="admin-login.php" class="nav-link p-0 text-muted">Login</a></li>
+                    <li class="nav-item mb-2"><a href="admin-register.php" class="nav-link p-0 text-muted">Register</a>
                     </li>
                 </ul>
             </div>

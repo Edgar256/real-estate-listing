@@ -59,6 +59,12 @@ require_once('config.php');
             <!-- start listing section -->
             <div class="container d-flex flex-wrap pb-5 mb-5">
                 <?php
+                if(!$_SESSION['auth_active']){
+                    echo '<script>alert("Your Session has expired please login")</script>';
+                    echo '<script>setTimeout(function(){
+                        window.location.href = "user-login.php";
+                    }, 500);</script>';
+                }
                 if ($_SESSION['role'] == "USER") {
                     $table = "properties";
                     $property_type_name = "";
@@ -87,7 +93,7 @@ require_once('config.php');
                                         min-height: 200px;">
                                     </span>
                                     <div class="card-body">
-                                        <p class="text_muted"><small><i>Posted :' . date("F j, Y, g:i a", strtotime($datePosted)) . '</i></small></p>
+                                        <p class="text_muted"><small><i>Posted : ' . date("F j, Y, g:i a", strtotime($datePosted)) . '</i></small></p>
                                         <h5 class="card-title">' . $title . '</h5>
                                         <h6>Location: ' . $location . '</h6>
                                         <h6>Property Type : ' . $property_type_name . '</h6>

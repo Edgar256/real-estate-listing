@@ -213,7 +213,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </button>
                         </div>
                         <div class="d-flex py-4">
-                            <a href="login-manager.php" class="text-decoration-none">Already have Account? Login</a>
+                            <a href="manager-login.php" class="text-decoration-none text-center w-100">Already have Account? Login</a>
                         </div>
                     </form>
                 </div>

@@ -2,10 +2,14 @@
 // import Config File
 require('config.php');
 
-// check if email session variable is set
-// if (isset($_SESSION['email'])) {
-//     header("Location: index.php");
-// }
+// set FALSE to AUTH_ACTIVE SESSION VARIABLE
+if (isset($_SESSION)) {
+    session_start(); 
+    $_SESSION['auth_active'] = FALSE;
+} else {
+    session_start();
+    $_SESSION['auth_active'] = FALSE;
+}
 
 function test_input($data)
 {
@@ -82,8 +86,8 @@ require('./utils/user-login.php');
                         </div>
                         <input type="submit" class="btn btn-primary w-100" value="Login" />
                         <div class="d-flex py-4">
-                            <a href="register-user.php" class="text-decoration-none">Do not have Account? Register</a>
-                            <a href="forgot-password.php" class="text-decoration-none ms-auto">Forgot Password</a>
+                            <a href="user-register.php" class="text-decoration-none text-center w-100">Do not have
+                                Account? Register</a>
                         </div>
                     </form>
                 </div>
