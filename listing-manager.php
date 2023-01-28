@@ -1,6 +1,6 @@
 <?php
 // import Config File
-require_once('config.php');
+require_once('./config/config.php');
 
 ?>
 <html lang="en">

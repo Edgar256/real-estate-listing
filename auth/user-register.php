@@ -1,6 +1,6 @@
 <?php
 // import Config File
-require('config.php');
+require('../config/config.php');
 function test_input($data)
 {
     $data = trim($data);
@@ -16,7 +16,7 @@ $saving_user_err = "";
 $success_msg = "";
 
 // require user-register.php
-require('./utils/user_register.php');
+require('../utils/user_register.php');
 
 ?>
 
@@ -110,7 +110,7 @@ require('./utils/user_register.php');
 
         <!-- import the footer section-->
         <?php
-        include './components/footer.php';
+        include './footer.php';
         ?>
 
     </div>

@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 Login was successful.</div>';
 
                 echo '<script>setTimeout(function(){
-                    window.location.href = "listing.php";
+                    window.location.href = "../listing.php";
                 }, 1500);</script>';
 
             } else {

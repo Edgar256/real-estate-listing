@@ -1,6 +1,6 @@
 <?php
 // import Config File
-require_once('config.php');
+require_once('./config/config.php');
 
 // Automatically logut after 30 minutes
 $inactive = 1800;
@@ -72,20 +72,20 @@ if (isset($_SESSION['email']) && isset($_SESSION['firstname']) && isset($_SESSIO
             }
           } else {
             echo '<span class="d-flex">
-                    <a class="nav-link" href="user-login.php">Login</a>
-                    <a class="nav-link" href="user-register.php">Register</a>
-                  </span>';
+              <a class="nav-link" href="./auth/user-login.php">Login</a>
+              <a class="nav-link" href="./auth/user-register.php">Register</a>
+            </span>';
           }
         } else {
           echo '<span class="d-flex">
-                <a class="nav-link" href="user-login.php">Login</a>
-                <a class="nav-link" href="user-register.php">Register</a>
-              </span>';
+              <a class="nav-link" href="./auth/user-login.php">Login</a>
+              <a class="nav-link" href="./auth/user-register.php">Register</a>
+            </span>';
         }
       } else {
         echo '<span class="d-flex">
-              <a class="nav-link" href="user-login.php">Login</a>
-              <a class="nav-link" href="user-register.php">Register</a>
+              <a class="nav-link" href="./auth/user-login.php">Login</a>
+              <a class="nav-link" href="./auth/user-register.php">Register</a>
             </span>';
       }
 

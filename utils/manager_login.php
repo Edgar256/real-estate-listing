@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 // once user is logged in , redirect to listing page
                 echo '<script>setTimeout(function(){
-                    window.location.href = "listing-manager.php";
+                    window.location.href = "../listing-manager.php";
                 }, 1500);</script>';
 
 

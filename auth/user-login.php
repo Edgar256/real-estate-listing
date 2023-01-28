@@ -1,6 +1,6 @@
 <?php
 // import Config File
-require('config.php');
+require('../config/config.php');
 
 // set FALSE to AUTH_ACTIVE SESSION VARIABLE
 if (isset($_SESSION)) {
@@ -24,8 +24,8 @@ $email = $password = "";
 $email_err = $password_err = "";
 $login_err = $success_msg = "";
 
-// require manager.php
-require('./utils/manager_login.php');
+// require user-login.php
+require('../utils/user_login.php');
 
 ?>
 
@@ -58,7 +58,7 @@ require('./utils/manager_login.php');
             <div class="container d-flex">
 
                 <div class="col-6 col-xl-6 col-sm-12 mx-auto py-5">
-                    <h1 class="text-center display-4">MANAGER LOGIN</h1>
+                    <h1 class="text-center display-4">USER LOGIN</h1>
                     <div>
                         <?php echo $login_err; ?>
                         <?php echo $success_msg; ?>
@@ -81,9 +81,9 @@ require('./utils/manager_login.php');
                                     echo "border-danger"; ?>" name="password" />
                             </div>
                         </div>
-                        <input type="submit" class="btn btn-primary w-100" value="Sign in" />
+                        <input type="submit" class="btn btn-primary w-100" value="Login" />
                         <div class="d-flex py-4">
-                            <a href="manager-register.php" class="text-decoration-none text-center w-100">Do not have
+                            <a href="user-register.php" class="text-decoration-none text-center w-100">Do not have
                                 Account? Register</a>
                         </div>
                     </form>
@@ -94,7 +94,7 @@ require('./utils/manager_login.php');
 
         <!-- import the footer section-->
         <?php
-        include './components/footer.php';
+        include './footer.php';
         ?>
 
     </div>

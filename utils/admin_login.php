@@ -72,12 +72,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['role'] = $user['role'];
                 $_SESSION['time'] = time();
                 $_SESSION['auth_active'] = TRUE;
-                
+
                 $success_msg = '<div class="alert alert-success text-center">
                 Login was successful.</div>';
 
                 echo '<script>setTimeout(function(){
-                    window.location.href = "property-dashboard.php";
+                    window.location.href = "../property-dashboard.php";
                 }, 1500);</script>';
 
             } else {

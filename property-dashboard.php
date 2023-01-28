@@ -1,6 +1,6 @@
 <?php
 // import Config File
-require('config.php');
+require('./config/config.php');
 function test_input($data)
 {
     $data = trim($data);

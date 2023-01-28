@@ -1,13 +1,6 @@
 <?php
 // import Config File
-require('config.php');
-require('./auth/clear_sessions.php');
-
-// check if email session variable is set
-// if (isset($_SESSION['email'])) {
-//     header("Location: index.php");
-// }
-
+require('../config/config.php');
 function test_input($data)
 {
     $data = trim($data);
@@ -22,7 +15,7 @@ $email_err = $password_err = "";
 $login_err = $success_msg = "";
 
 // require admin_login.php
-require('./utils/admin_login.php');
+require('../utils/admin_login.php');
 
 ?>
 
@@ -90,7 +83,7 @@ require('./utils/admin_login.php');
 
         <!-- import the footer section-->
         <?php
-        include './components/footer.php';
+        include './footer.php';
         ?>
 
     </div>
