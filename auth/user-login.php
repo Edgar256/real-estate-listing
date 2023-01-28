@@ -4,7 +4,7 @@ require('../config/config.php');
 
 // set FALSE to AUTH_ACTIVE SESSION VARIABLE
 if (isset($_SESSION)) {
-    session_start(); 
+    session_start();
     $_SESSION['auth_active'] = FALSE;
 } else {
     session_start();
@@ -37,7 +37,7 @@ require('../utils/user_login.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- CSS LINKS -->
-    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="../css/style.css" />
 
     <!-- BOOTSTRAP CSS LINKS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -65,20 +65,20 @@ require('../utils/user_login.php');
                     </div>
                     <!-- Login form  -->
                     <form class="py-5" action='<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>' method="post"
-                        action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+                        action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" onsubmit="return validateForm()">
                         <div class="row mb-3">
                             <label for="inputEmail3" class="col-sm-2 col-form-label">Email<span
                                     class="text-danger pl-2">*</span></label>
                             <div class="col-sm-10">
                                 <input type="email" class="form-control <?php if (!empty($email_err))
-                                    echo "border-danger"; ?>" name="email" />
+                                    echo "border-danger"; ?>" name="email" id="email" required/>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
                             <div class="col-sm-10">
                                 <input type="password" class="form-control <?php if (!empty($password_err))
-                                    echo "border-danger"; ?>" name="password" />
+                                    echo "border-danger"; ?>" name="password" id="password" required/>
                             </div>
                         </div>
                         <input type="submit" class="btn btn-primary w-100" value="Login" />
@@ -98,6 +98,30 @@ require('../utils/user_login.php');
         ?>
 
     </div>
+
+    <script>
+        // Function to validate form input
+        function validateForm() {
+            // Get input values
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+
+            // Check if input values are not empty
+            if (email == "" || password == "" ) {
+                alert("All fields are required!");
+                return false;
+            }
+
+            // Check if email is a valid email address
+            if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+                alert("Invalid email address!");
+                return false;
+            }
+
+            // If all validation checks pass, return true
+            return true;
+        }
+    </script>
 </body>
 
 </html>

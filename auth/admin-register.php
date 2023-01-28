@@ -28,7 +28,7 @@ require('../utils/admin_register.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- CSS LINKS -->
-    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="../css/style.css" />
 
     <!-- BOOTSTRAP CSS LINKS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -58,40 +58,40 @@ require('../utils/admin_register.php');
                     <?php echo $success_msg ?>
 
                     <!-- Login form  -->
-                    <form class="row g-3" action='<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>' method="POST">
+                    <form class="row g-3" action='<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>' method="POST" onsubmit="return validateForm()">
                         <div class="col-md-6">
                             <label for="firstname" class="form-label">First Name <span
                                     class="text-danger pl-2">*</span></label>
                             <input type="text" class="form-control <?php if (!empty($firstname_err))
-                                echo "border-danger"; ?>" name="firstname" />
+                                echo "border-danger"; ?>" name="firstname" id="firstname" required />
                         </div>
                         <div class="col-md-6">
                             <label for="lastname" class="form-label">Last Name<span
                                     class="text-danger pl-2">*</span></label>
                             <input type="text" class="form-control <?php if (!empty($lastname_err))
-                                echo "border-danger"; ?>" name="lastname" />
+                                echo "border-danger"; ?>" name="lastname" id="lastname" required />
                         </div>
                         <div class="col-md-6">
                             <label for="email" class="form-label">Email<span class="text-danger pl-2">*</span></label>
                             <input type="email" class="form-control <?php if (!empty($email_err))
-                                echo "border-danger"; ?>" name="email" />
+                                echo "border-danger"; ?>" name="email" id="email" required />
                         </div>
                         <div class="col-md-6">
                             <label for="phone" class="form-label">Phone<span class="text-danger pl-2">*</span></label>
                             <input type="tel" class="form-control <?php if (!empty($phone_err))
-                                echo "border-danger"; ?>" name="phone" />
+                                echo "border-danger"; ?>" name="phone" id="phone" required />
                         </div>
                         <div class="col-md-6">
                             <label for="password" class="form-label">Password<span
                                     class="text-danger pl-2">*</span></label>
                             <input type="password" class="form-control <?php if (!empty($password_err))
-                                echo "border-danger"; ?>" name="password" />
+                                echo "border-danger"; ?>" name="password" id="password" required />
                         </div>
                         <div class="col-md-6">
                             <label for="confirm_password" class="form-label">Confirm Password<span
                                     class="text-danger pl-2">*</span></label>
                             <input type="password" class="form-control <?php if (!empty($confirm_password_err))
-                                echo "border-danger"; ?>" name="confirm_password" />
+                                echo "border-danger"; ?>" name="confirm_password" id="confirmPassword" required />
                         </div>
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary w-100">
@@ -114,6 +114,51 @@ require('../utils/admin_register.php');
         ?>
 
     </div>
+
+    <script>
+        // Function to validate form input
+        function validateForm() {
+            // Get input values
+            var firstname = document.getElementById("firstnamename").value;
+            console.log(firstname);
+            var lastname = document.getElementById("lastnamename").value;
+            var email = document.getElementById("email").value;
+            var phone = document.getElementById("phone").value;
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("confirmPassword").value;
+
+            // Check if input values are not empty
+            if (firstname == "" || lastname == "" || email == "" || phone == "" || password == "" || confirmPassword == "") {
+                alert("All fields are required!");
+                return false;
+            }
+
+            // Check if email is a valid email address
+            if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+                alert("Invalid email address!");
+                return false;
+            }
+
+            // Check if phone number is valid
+            if (!/^\d{10}$/.test(phone)) {
+                alert("Invalid phone number!");
+                return false;
+            }
+
+            if (password.length < 6) {
+                alert("Password must be at least 6 characters long!");
+                return false;
+            }
+
+            if (password != confirmPassword) {
+                alert("Passwords do not match!");
+                return false;
+            }
+
+            // If all validation checks pass, return true
+            return true;
+        }
+    </script>
 </body>
 
 </html>

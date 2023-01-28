@@ -2,6 +2,49 @@
 // import Config File
 require_once('./config/config.php');
 
+$property_name = $location_id = $entries_err = $result = "";
+
+// Processing form data when form is submitted
+if (isset($_POST['form_search_property'])) {
+
+    // return error if both are empty
+    if (empty(trim($_POST["property_name"])) && empty(trim($_POST["location_id"]))) {
+        $entries_err ='<div class="alert alert-danger text-center mx-auto">
+        Please enter a property name or location.</div>';
+    }
+
+    if (!empty(trim($_POST["property_name"])) && !empty(trim($_POST["location_id"]))) {
+        $property_name = trim($_POST["property_name"]);
+        $property_name = mb_strtolower($property_name);
+        $property_name = ucwords($property_name);
+        $property_name = mysqli_real_escape_string($conn, $property_name);
+        echo $property_name;
+
+        $location_id = trim($_POST["location_id"]);
+        echo $location_id;
+
+        // $query = "SELECT * FROM properties WHERE name LIKE '%$search_term%' OR description LIKE '%$search_term%'";
+        $query = "SELECT * FROM properties WHERE (UPPER(name) LIKE UPPER('%$property_name%') OR UPPER(id) LIKE UPPER('%$property_name%') OR UPPER(description) LIKE UPPER('%$property_name'))";
+        // execute the query
+        $result = $conn->query($query);
+    }
+
+    if(!empty(trim($_POST["property_name"])) && empty(trim($_POST["location_id"]))){
+        $property_name = trim($_POST["property_name"]);
+        $property_name = mb_strtolower($property_name);
+        $property_name = ucwords($property_name);
+        $property_name = mysqli_real_escape_string($conn, $property_name);
+        echo $property_name;
+    }
+
+    if(empty(trim($_POST["location_id"])) && empty(trim($_POST["property_name"]))){        
+        $location_id = trim($_POST["location_id"]);
+        echo $location_id;
+    }
+
+    
+}
+
 ?>
 <html lang="en">
 
@@ -34,23 +77,39 @@ require_once('./config/config.php');
 
             <!-- start seacrh section -->
             <div class="container pt-5">
-                <form class="row gx-3 gy-2 align-items-center">
+                <div class="d-flex">
+                    <?php echo $entries_err; ?>
+                </div>
+                <form class="row gx-3 gy-2 align-items-center" method="post">
                     <div class="col-sm-5">
                         <!-- <label for="specificSizeInputName">Search by Name</label> -->
-                        <input type="text" class="form-control" id="specificSizeInputName"
+                        <input type="text" class="form-control" id="property_name" name="property_name"
                             placeholder="Search by Name" />
                     </div>
                     <div class="col-sm-5">
                         <!-- <label for="specificSizeInputName">Search by Location</label> -->
-                        <select class="form-select" id="specificSizeSelect">
-                            <option selected>Search by Location</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <select name="location_id" id="" class="form-control <?php if (!empty($location_err))
+                            echo "border-danger"; ?>">
+                            <option value="">Select Property Location</option>
+                            <?php
+                            
+
+                            $table = "locations";
+                            $check_locations_list = $conn->query("SELECT * FROM $table");
+                            if ($check_locations_list->num_rows > 0) {
+                                while ($row = $check_locations_list->fetch_assoc()) {
+                                    $name = mb_convert_case($row["name"], MB_CASE_TITLE, "UTF-8");
+                                    $id = $row["id"];
+                                    echo "<option value=" . $id . ">" . $name . "</option>";
+                                }
+                            } else {
+                                echo "No Locations found";
+                            }
+                            ?>
                         </select>
                     </div>
                     <div class="col-sm-2">
-                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                        <button type="submit" class="btn btn-primary w-100" name="form_search_property">Submit</button>
                     </div>
                 </form>
             </div>
@@ -58,32 +117,32 @@ require_once('./config/config.php');
 
             <!-- start listing section -->
             <div class="container d-flex flex-wrap pb-5 mb-5">
-                <?php
-                // redirect to user login if session is expired
-                if(!$_SESSION['auth_active']){
-                    echo '<script>alert("Your Session has expired please login")</script>';
-                    echo '<script>setTimeout(function(){
-                        window.location.href = "user-login.php";
+                            <?php
+                            // redirect to user login if session is expired
+                            if (!$_SESSION['auth_active']) {
+                                echo '<script>alert("Your Session has expired please login")</script>';
+                                echo '<script>setTimeout(function(){
+                        window.location.href = "./auth/user-login.php";
                     }, 1000);</script>';
-                }
-                if ($_SESSION['role'] == "USER") {
-                    $table = "properties";
-                    $property_type_name = "";
-                    $sql = "SELECT properties.*, locations.id AS location_id, locations.name AS location_name,  types.name AS property_type_name FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id ORDER BY reg_date DESC";
-                    $check_properties_list = $conn->query($sql);
-                    if ($check_properties_list->num_rows > 0) {
-                        while ($row = $check_properties_list->fetch_assoc()) {
-                            $title = mb_convert_case($row["title"], MB_CASE_TITLE, "UTF-8");
-                            $id = $row["id"];
-                            $description = $row["property_description"];
-                            $price = $row["price"];
-                            $location = $row["location_name"];
-                            $imageData = $row['property_image'];
-                            $imageData = base64_encode($imageData);
-                            $datePosted = $row["reg_date"];
-                            $property_type_name = $row["property_type_name"];
+                            }
+                            if ($_SESSION['role'] == "USER") {
+                                $table = "properties";
+                                $property_type_name = "";
+                                $sql = "SELECT properties.*, locations.id AS location_id, locations.name AS location_name,  types.name AS property_type_name FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id ORDER BY reg_date DESC";
+                                $check_properties_list = $conn->query($sql);
+                                if ($check_properties_list->num_rows > 0) {
+                                    while ($row = $check_properties_list->fetch_assoc()) {
+                                        $title = mb_convert_case($row["title"], MB_CASE_TITLE, "UTF-8");
+                                        $id = $row["id"];
+                                        $description = $row["property_description"];
+                                        $price = $row["price"];
+                                        $location = $row["location_name"];
+                                        $imageData = $row['property_image'];
+                                        $imageData = base64_encode($imageData);
+                                        $datePosted = $row["reg_date"];
+                                        $property_type_name = $row["property_type_name"];
 
-                            echo '<div class="w-25 p-1">
+                                        echo '<div class="w-25 p-1">
                                 <div class="card">
                                     <span style="background-image: url(data:image/jpeg;base64,' . $imageData . ');
                                         background-size: cover;
@@ -106,26 +165,26 @@ require_once('./config/config.php');
                                     </div>
                                 </div>
                             </div>';
-                        }
-                    } else {
-                        echo "<div class='w-100 text-center py-5 display-1'>No Results found</div>";
-                    }
-                } else {
-                    header("location:javascript://history.go(-1)");
-                }
+                                    }
+                                } else {
+                                    echo "<div class='w-100 text-center py-5 display-1'>No Results found</div>";
+                                }
+                            } else {
+                                header("location:javascript://history.go(-1)");
+                            }
 
-                ?>
+                            ?>
+
+                    </div>
+                    <!-- end lisitng section -->
+
+                    <!-- import the footer section-->
+                    <?php
+                    include './components/footer.php';
+                    ?>
 
             </div>
-            <!-- end lisitng section -->
-
-            <!-- import the footer section-->
-            <?php
-            include './components/footer.php';
-            ?>
-
         </div>
-    </div>
 </body>
 
 </html>

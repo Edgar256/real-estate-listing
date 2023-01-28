@@ -9,7 +9,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             First name is required.
         </div>';
     } elseif (strlen(trim($_POST["firstname"])) < 2) {
-        $firstname_err = "firstname must have atleast 2 characters.";
+        $firstname_err = '<div class="alert alert-danger">
+            Firstname must have atleast 2 characters.</div>';
     } else {
         $firstname = trim($_POST["firstname"]);
     }
@@ -21,7 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             Last name is required.
         </div>';
     } elseif (strlen(trim($_POST["lastname"])) < 2) {
-        $lastname_err = "lastname must have atleast 2 characters.";
+        $lastname_err = '<div class="alert alert-danger">
+            Lastname must have atleast 2 characters.</div>';
     } else {
         $lastname = trim($_POST["lastname"]);
     }
@@ -35,11 +37,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $email = test_input($_POST["email"]);
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $email_err = "Invalid email format";
+            $email_err = '<div class="alert alert-danger">
+            Invalid email format.</div>';
         }
 
         // verify if email exists
-        $emailCheck = $conn->query("SELECT * FROM users WHERE email = '{$email}' ");        
+        $emailCheck = $conn->query("SELECT * FROM users WHERE email = '{$email}' ");
         if ($emailCheck->num_rows > 0) {
             // Email exists
             $email_err = '<div class="alert alert-danger">
