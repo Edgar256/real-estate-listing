@@ -25,7 +25,7 @@ $email_err = $password_err = "";
 $login_err = $success_msg = "";
 
 // require manager.php
-require('./utils/manager-login.php');
+require('./utils/manager_login.php');
 
 ?>
 

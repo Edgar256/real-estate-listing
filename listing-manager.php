@@ -58,6 +58,7 @@ require_once('config.php');
 
             <!-- start listing section -->
             <div class="container d-flex flex-wrap pb-5 mb-5">
+            <div class='w-100 py-2 h3'>Dispalying all properties attached to you as a Property Manager</div>
                 <?php
                 // redirect to manager login if session is expired
                 if (!$_SESSION['auth_active']) {
@@ -109,7 +110,7 @@ require_once('config.php');
                             </div>';
                         }
                     } else {
-                        echo "No Results found";
+                        echo "<div class='w-100 text-center py-5 display-1'>No Results found</div>";
                     }
                 } else {
                     header("location:javascript://history.go(-1)");

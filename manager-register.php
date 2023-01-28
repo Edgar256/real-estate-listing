@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // verify if email exists
         $emailCheck = $conn->query("SELECT * FROM managers WHERE email = '{$email}' ");
-        if (!empty($emailCheck) > 0) {
+        if ($emailCheck->num_rows > 0)  {
             // Email exists
             $email_err = "Email already taken format";
         } else {
@@ -112,15 +112,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "INSERT INTO managers (firstname, lastname, email, phone, password) VALUES ('$firstname', '$lastname', '$email', '$phone', '$hashed_password')";
 
         if ($conn->query($sql) === TRUE) {
-            echo "New record created successfully";
+
             $success_msg = '<div class="alert alert-success text-center">
             Your account was successfully created.</div>';
 
             // once user is logged in , redirect to listing page after 2 seconds
-            // sleep(10);
-            header("Location: login-manager.php");
+            echo '<script>setTimeout(function(){
+                window.location.href = "manager-login.php";
+            }, 1500);</script>';
+
         } else {
-            $saving_user_err = $conn -> error();
+            $saving_user_err = $conn->error;
         }
     }
 
@@ -210,7 +212,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </button>
                         </div>
                         <div class="d-flex py-4">
-                            <a href="manager-login.php" class="text-decoration-none text-center w-100">Already have Account? Login</a>
+                            <a href="manager-login.php" class="text-decoration-none text-center w-100">Already have
+                                Account? Login</a>
                         </div>
                     </form>
                 </div>

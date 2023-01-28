@@ -237,8 +237,8 @@ if (isset($_POST['form_submit_location'])) {
                 <!-- start listing section -->
                 <div class="container d-flex flex-wrap">
                     <?php
-                    $table = "properties";              
-                    $sql = "SELECT properties.*, locations.name AS location_name, locations.id AS location_id FROM properties JOIN locations ON properties.property_location = locations.id ORDER BY reg_date DESC";
+                    $table = "properties";
+                    $sql = "SELECT properties.*, locations.name AS location_name, locations.id AS location_id, managers.firstname AS manager_firstname,managers.lastname AS manager_lastname FROM properties JOIN locations ON properties.property_location = locations.id JOIN managers ON properties.manager = managers.id ORDER BY reg_date DESC";
                     $check_properties_list = $conn->query($sql);
                     if ($check_properties_list->num_rows > 0) {
                         while ($row = $check_properties_list->fetch_assoc()) {
@@ -250,6 +250,10 @@ if (isset($_POST['form_submit_location'])) {
                             $imageData = $row['property_image'];
                             $imageData = base64_encode($imageData);
                             $datePosted = $row["reg_date"];
+
+                            $manager_firstname = mb_convert_case($row["manager_firstname"], MB_CASE_TITLE, "UTF-8");
+                            $manager_lastname = mb_convert_case($row["manager_lastname"], MB_CASE_TITLE, "UTF-8");
+
 
                             echo '<div class="w-25 p-1">
                             <div class="card">
@@ -269,6 +273,7 @@ if (isset($_POST['form_submit_location'])) {
                                     <p class="card-text">
                                         ' . $description . '
                                     </p>
+                                    <h6>Manager: ' . $manager_firstname . ' ' . $manager_lastname . '</h6>
                                     <form method="post" action="./utils/delete_property.php">
                                         <input type="hidden" name="id" value=' . $id . '>
                                         <input type="submit" name="delete" id="delete" value="DELETE" class="btn btn-danger w-100"/><br/>

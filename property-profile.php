@@ -124,7 +124,7 @@ require_once('config.php');
                         </div>';
             }
           } else {
-            echo "No Results found";
+            echo "<div class='w-100 text-center py-5 display-1'>No Results found</div>";
           }
 
           $conn->close();
