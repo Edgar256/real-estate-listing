@@ -59,6 +59,14 @@ require_once('config.php');
             <!-- start listing section -->
             <div class="container d-flex flex-wrap pb-5 mb-5">
                 <?php
+                // redirect to manager login if session is expired
+                if(!$_SESSION['auth_active']){
+                    echo '<script>alert("Your Session has expired please login")</script>';
+                    echo '<script>setTimeout(function(){
+                        window.location.href = "manager-login.php";
+                    }, 1000);</script>';
+                }
+
                 if ($_SESSION['role'] == "MANAGER") {
                     $table = "properties";
                     $property_type_name = "";

@@ -59,11 +59,12 @@ require_once('config.php');
             <!-- start listing section -->
             <div class="container d-flex flex-wrap pb-5 mb-5">
                 <?php
+                // redirect to user login if session is expired
                 if(!$_SESSION['auth_active']){
                     echo '<script>alert("Your Session has expired please login")</script>';
                     echo '<script>setTimeout(function(){
                         window.location.href = "user-login.php";
-                    }, 500);</script>';
+                    }, 1000);</script>';
                 }
                 if ($_SESSION['role'] == "USER") {
                     $table = "properties";

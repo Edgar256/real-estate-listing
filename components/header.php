@@ -52,8 +52,8 @@ if (isset($_SESSION['email']) && isset($_SESSION['firstname']) && isset($_SESSIO
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
       </ul>
-      <?php    
-      
+      <?php
+
 
       if ($_SESSION) {
         if ($_SESSION['auth_active']) {
@@ -87,6 +87,11 @@ if (isset($_SESSION['email']) && isset($_SESSION['firstname']) && isset($_SESSIO
                 <a class="nav-link" href="user-register.php">Register</a>
               </span>';
         }
+      } else {
+        echo '<span class="d-flex">
+              <a class="nav-link" href="user-login.php">Login</a>
+              <a class="nav-link" href="user-register.php">Register</a>
+            </span>';
       }
 
 
