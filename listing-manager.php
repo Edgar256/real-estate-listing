@@ -60,7 +60,7 @@ require_once('config.php');
             <div class="container d-flex flex-wrap pb-5 mb-5">
                 <?php
                 // redirect to manager login if session is expired
-                if(!$_SESSION['auth_active']){
+                if (!$_SESSION['auth_active']) {
                     echo '<script>alert("Your Session has expired please login")</script>';
                     echo '<script>setTimeout(function(){
                         window.location.href = "manager-login.php";
@@ -70,8 +70,7 @@ require_once('config.php');
                 if ($_SESSION['role'] == "MANAGER") {
                     $table = "properties";
                     $property_type_name = "";
-                    $query = "SELECT *, types.name AS property_type_name FROM properties JOIN property_type ON properties.property_type = property_type.id JOIN locations ON properties.location = locations.id JOIN managers ON properties.manager = managers.id ";
-                    $sql = "SELECT properties.*, locations.id AS location_id, locations.name AS location_name,  types.name AS property_type_name FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id  WHERE manager =" .$_SESSION['role'] . " ORDER BY reg_date DESC";
+                    $sql = "SELECT properties.*, locations.id AS location_id, locations.name AS location_name,  types.name AS property_type_name FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id WHERE manager =" . $_SESSION['id'] . " ORDER BY reg_date DESC";
                     $check_properties_list = $conn->query($sql);
                     if ($check_properties_list->num_rows > 0) {
                         while ($row = $check_properties_list->fetch_assoc()) {
@@ -87,7 +86,14 @@ require_once('config.php');
 
                             echo '<div class="w-25 p-1">
                                 <div class="card">
-                                    <img src="data:image/jpeg;base64,' . $imageData . '" style="font-weight:bold">
+                                    <span style="background-image: url(data:image/jpeg;base64,' . $imageData . ');
+                                        background-size: cover;
+                                        background-repeat: no-repeat;
+                                        background-position: center center;
+                                        width: 100%;
+                                        border-radius: 3px 3px 0px 0px;
+                                        min-height: 200px;">
+                                    </span>
                                     <div class="card-body">
                                         <p class="text_muted"><small><i>Posted :' . date("F j, Y, g:i a", strtotime($datePosted)) . '</i></small></p>
                                         <h5 class="card-title">' . $title . '</h5>

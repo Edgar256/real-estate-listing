@@ -141,9 +141,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="position-relative">
 
-        <!-- import the header section-->
-        <?php include './components/header.php'; ?>
-
         <!-- start login body -->
         <div class="position-relative">
             <div class="container d-flex">

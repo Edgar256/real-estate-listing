@@ -53,9 +53,6 @@ require('./utils/user-login.php');
 <body>
     <div class="position-relative">
 
-        <!-- import the header section-->
-        <?php include './components/header.php'; ?>
-
         <!-- start login body -->
         <div class="position-relative">
             <div class="container d-flex">

@@ -49,12 +49,8 @@ if (isset($_SESSION['email']) && isset($_SESSION['firstname']) && isset($_SESSIO
       <a class="navbar-brand" href="index.php">
         <img src="./images/logo.png" height="50" width="100" alt="" />
       </a>
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-      </ul>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
       <?php
-
-
       if ($_SESSION) {
         if ($_SESSION['auth_active']) {
           if ($firstname && $lastname) {
@@ -74,7 +70,6 @@ if (isset($_SESSION['email']) && isset($_SESSION['firstname']) && isset($_SESSIO
                 '<ul class="dropdown-menu w-100 text-center"><li><a class="dropdown-item" href="listing.php">Listing</a></li><li class="p-2"><a class="btn btn-danger w-100" href="./auth/logout.php">Logout</a></li></ul>' .
                 '</div>';
             }
-
           } else {
             echo '<span class="d-flex">
                     <a class="nav-link" href="user-login.php">Login</a>

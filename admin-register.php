@@ -120,7 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // sleep(10);
             header("Location: login-admin.php");
         } else {
-            $saving_user_err = $conn->error;
+            $saving_user_err = $conn->error();
         }
     }
 
@@ -154,9 +154,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <div class="position-relative">
-
-        <!-- import the header section-->
-        <?php include './components/header.php'; ?>
 
         <!-- start register body -->
         <div class="position-relative">
