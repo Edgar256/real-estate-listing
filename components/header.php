@@ -4,7 +4,11 @@ require_once('config.php');
 
 // Automatically logut after 30 minutes
 $inactive = 1800;
-session_start();
+
+// start session if session is not started
+if (!isset($_SESSION)) {
+  session_start();
+}
 if (isset($_SESSION['email']) && (time() - $_SESSION['time'] > $inactive)) {
   session_unset(); // unset $_SESSION variable for this page
   session_destroy(); // destroy session data
@@ -67,8 +71,8 @@ if (isset($_SESSION['email'])) {
 
       } else {
         echo '<span class="d-flex">
-                <a class="nav-link" href="login-user.php">Login</a>
-                <a class="nav-link" href="register-user.php">Register</a>
+                <a class="nav-link" href="user-login.php">Login</a>
+                <a class="nav-link" href="user-register.php">Register</a>
               </span>';
       }
       ?>

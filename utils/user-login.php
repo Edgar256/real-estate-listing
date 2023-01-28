@@ -2,9 +2,6 @@
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $login_err = "";
-    $success_msg = "";
-
     // Validate email
     if (empty(trim($_POST["email"]))) {
         // $email_err = "Please enter a email.";
@@ -55,13 +52,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Verify the password
             if (password_verify($password, $user['password'])) {
 
-                $success_msg = '<div class="alert alert-success text-center">
-                Login was successful.</div>';
-
                 $inactive = 60;
                 ini_set('session.gc_maxlifetime', $inactive); // set the session max lifetime to 2 hours
 
-                session_start();
+                // start session if session is not started
+                if (!isset($_SESSION)) {
+                    session_start();
+                }
 
                 // set session variables
                 $_SESSION['email'] = $user['email'];
@@ -76,9 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 echo '<script>setTimeout(function(){
                     window.location.href = "listing.php";
-                }, 1500);</script>';
-
-                // header("location: listing.php");
+                }, 2000);</script>';
 
             } else {
                 $login_err = '<div class="alert alert-danger">
