@@ -58,7 +58,7 @@ require_once('./config/config.php');
 
             <!-- start listing section -->
             <div class="container d-flex flex-wrap pb-5 mb-5">
-            <div class='w-100 py-2 h3'>Dispalying all properties attached to you as a Property Manager</div>
+            <div class='w-100 py-2 h3'>Displaying all properties attached to you as a Property Manager</div>
                 <?php
                 // redirect to manager login if session is expired
                 if (!$_SESSION['auth_active']) {
@@ -100,7 +100,7 @@ require_once('./config/config.php');
                                         <h5 class="card-title">' . $title . '</h5>
                                         <h6>Location: ' . $location . '</h6>
                                         <h6>Property Type : ' . $property_type_name . '</h6>
-                                        <h6>Price: USD ' . $price . '</h6>
+                                        <h6>Price: USD ' . number_format($price) . '</h6>
                                         <p class="card-text">
                                             ' . $description . '
                                         </p>

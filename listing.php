@@ -157,7 +157,7 @@ if (isset($_POST['form_search_property'])) {
                                         <h5 class="card-title">' . $title . '</h5>
                                         <h6>Location: ' . $location . '</h6>
                                         <h6>Property Type : ' . $property_type_name . '</h6>
-                                        <h6>Price: USD ' . $price . '</h6>
+                                        <h6>Price: USD ' . number_format($price ) . '</h6>
                                         <p class="card-text">
                                             ' . $description . '
                                         </p>

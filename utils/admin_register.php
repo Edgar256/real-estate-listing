@@ -102,9 +102,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // once user is logged in , redirect to listing page after 2 seconds
             // sleep(10);
-            header("Location: login-admin.php");
+            header("Location: admin-login.php");
         } else {
-            $saving_user_err = $conn->error();
+            $saving_user_err = $conn->error;
         }
     }
 

@@ -1,19 +1,27 @@
 <?php
 
-// DATABASE CREDENTIALS
-define("DB_HOST", 'localhost');
-define("DB_USER", 'root');
-define("DB_PASSWORD", '');
-define("DB_NAME", 'king');
-
-$db_connection_error;
-$manager_table_creation_error;
+// require database credentials
+require('credentials.php');
 
 // connect to the database
-$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD);
 if (!$conn) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+// sql to create users table
+$sql_create_database = "CREATE DATABASE " . DB_NAME;
+
+// connect to database
+if ($conn->query($sql_create_database) !== TRUE) {
+    // echo "Error creating database: " . $conn->error;
+}
+
+// Close connection
+$conn->close();
+
+//connect to the created database
+$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
 // sql to create users table
 $sql_create_users_table = "CREATE TABLE Users (
@@ -22,7 +30,7 @@ $sql_create_users_table = "CREATE TABLE Users (
     lastname VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     phone VARCHAR(255) NOT NULL,
-    role VARCHAR(255) NOT NULL DEFAULT 'USER';
+    role VARCHAR(255) NOT NULL DEFAULT 'USER',
     password VARCHAR(255) NOT NULL,
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )";
@@ -39,7 +47,7 @@ $sql_create_managers_table = "CREATE TABLE Managers (
     lastname VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     phone VARCHAR(255) NOT NULL,
-    role VARCHAR(255) NOT NULL DEFAULT 'MANAGER';
+    role VARCHAR(255) NOT NULL DEFAULT 'MANAGER',
     password VARCHAR(255) NOT NULL,
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )";
@@ -56,7 +64,7 @@ $sql_create_admins_table = "CREATE TABLE Admins (
     lastname VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     phone VARCHAR(255) NOT NULL,
-    role VARCHAR(255) NOT NULL DEFAULT 'ADMIN';
+    role VARCHAR(255) NOT NULL DEFAULT 'ADMIN',
     password VARCHAR(255) NOT NULL,    
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )";
@@ -103,7 +111,7 @@ $sql_create_prperties_table = "CREATE TABLE properties (
     FOREIGN KEY (property_type) REFERENCES types(id),
     
     manager INT(6) UNSIGNED,
-    FOREIGN KEY (manager) REFERENCES types(id),
+    FOREIGN KEY (manager) REFERENCES managers(id),
      
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )";
