@@ -2,16 +2,53 @@
 // import Config File
 require_once('./config/config.php');
 
-$property_name = $location_id = $entries_err = $result = "";
+$property_name = $location_id = $entries_err = $result =  "";
+$check_properties_list = array();
+
+$table = "properties";
+$property_type_name = "";
+$sql = "SELECT properties.*, locations.id AS location_id, locations.name AS location_name,  types.name AS property_type_name FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id ORDER BY reg_date DESC";
+$check_properties_list = $conn->query($sql);
 
 // Processing form data when form is submitted
 if (isset($_POST['form_search_property'])) {
 
     // return error if both are empty
     if (empty(trim($_POST["property_name"])) && empty(trim($_POST["location_id"]))) {
-        $entries_err ='<div class="alert alert-danger text-center mx-auto">
+        $entries_err = '<div class="alert alert-danger text-center mx-auto">
         Please enter a property name or location.</div>';
     }
+
+    if (!empty(trim($_POST["property_name"])) && empty(trim($_POST["location_id"]))) {
+        $property_name = trim($_POST["property_name"]);
+        $property_name = mb_strtolower($property_name);
+        $property_name = ucwords($property_name);
+        $property_name = mysqli_real_escape_string($conn, $property_name);
+        // $query = "SELECT * FROM properties WHERE name LIKE '%$property_name%' OR description LIKE '%$property_name%'";
+        // $query = "SELECT * FROM properties WHERE (UPPER(title) LIKE UPPER('%$property_name%') OR UPPER(id) LIKE UPPER('%$property_name%') OR UPPER(description) LIKE UPPER('%$property_name'))";
+        $query = "SELECT * FROM properties WHERE UPPER(title) LIKE UPPER('%$property_name%')";
+        $result = $conn->query($query);
+        $check_properties_list = $conn->query($query);
+
+        echo $property_name;
+
+        if ($result) {
+            echo "Query executed successfully";
+            echo json_encode($result);
+            $check_properties_list = $result;
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $title = mb_convert_case($row["title"], MB_CASE_TITLE, "UTF-8");
+                    $id = $row["id"];
+                    echo "<option value=" . $id . ">" . $title . "</option>";
+                }
+            }
+        } else {
+            echo "Query execution failed";
+        }
+
+    }
+
 
     if (!empty(trim($_POST["property_name"])) && !empty(trim($_POST["location_id"]))) {
         $property_name = trim($_POST["property_name"]);
@@ -29,20 +66,13 @@ if (isset($_POST['form_search_property'])) {
         $result = $conn->query($query);
     }
 
-    if(!empty(trim($_POST["property_name"])) && empty(trim($_POST["location_id"]))){
-        $property_name = trim($_POST["property_name"]);
-        $property_name = mb_strtolower($property_name);
-        $property_name = ucwords($property_name);
-        $property_name = mysqli_real_escape_string($conn, $property_name);
-        echo $property_name;
-    }
 
-    if(empty(trim($_POST["location_id"])) && empty(trim($_POST["property_name"]))){        
+    if (empty(trim($_POST["location_id"])) && empty(trim($_POST["property_name"]))) {
         $location_id = trim($_POST["location_id"]);
         echo $location_id;
     }
 
-    
+
 }
 
 ?>
@@ -64,6 +94,7 @@ if (isset($_POST['form_search_property'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+
     <title>Equitable Property Group</title>
 </head>
 
@@ -92,7 +123,7 @@ if (isset($_POST['form_search_property'])) {
                             echo "border-danger"; ?>">
                             <option value="">Select Property Location</option>
                             <?php
-                            
+
 
                             $table = "locations";
                             $check_locations_list = $conn->query("SELECT * FROM $table");
@@ -117,32 +148,32 @@ if (isset($_POST['form_search_property'])) {
 
             <!-- start listing section -->
             <div class="container d-flex flex-wrap pb-5 mb-5">
-                            <?php
-                            // redirect to user login if session is expired
-                            if (!$_SESSION['auth_active']) {
-                                echo '<script>alert("Your Session has expired please login")</script>';
-                                echo '<script>setTimeout(function(){
+                <?php
+                // redirect to user login if session is expired
+                if (!$_SESSION['auth_active']) {
+                    echo '<script>alert("Your Session has expired please login")</script>';
+                    echo '<script>setTimeout(function(){
                         window.location.href = "./auth/user-login.php";
                     }, 1000);</script>';
-                            }
-                            if ($_SESSION['role'] == "USER") {
-                                $table = "properties";
-                                $property_type_name = "";
-                                $sql = "SELECT properties.*, locations.id AS location_id, locations.name AS location_name,  types.name AS property_type_name FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id ORDER BY reg_date DESC";
-                                $check_properties_list = $conn->query($sql);
-                                if ($check_properties_list->num_rows > 0) {
-                                    while ($row = $check_properties_list->fetch_assoc()) {
-                                        $title = mb_convert_case($row["title"], MB_CASE_TITLE, "UTF-8");
-                                        $id = $row["id"];
-                                        $description = $row["property_description"];
-                                        $price = $row["price"];
-                                        $location = $row["location_name"];
-                                        $imageData = $row['property_image'];
-                                        $imageData = base64_encode($imageData);
-                                        $datePosted = $row["reg_date"];
-                                        $property_type_name = $row["property_type_name"];
+                }
+                if ($_SESSION['role'] == "USER") {
+                    // $table = "properties";
+                    // $property_type_name = "";
+                    // $sql = "SELECT properties.*, locations.id AS location_id, locations.name AS location_name,  types.name AS property_type_name FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id ORDER BY reg_date DESC";
+                    // $check_properties_list = $conn->query($sql);
+                    if ($check_properties_list->num_rows > 0) {
+                        while ($row = $check_properties_list->fetch_assoc()) {
+                            $title = mb_convert_case($row["title"], MB_CASE_TITLE, "UTF-8");
+                            $id = $row["id"];
+                            $description = $row["property_description"];
+                            $price = $row["price"];
+                            $location = $row["location_name"];
+                            $imageData = $row['property_image'];
+                            $imageData = base64_encode($imageData);
+                            $datePosted = $row["reg_date"];
+                            $property_type_name = $row["property_type_name"];
 
-                                        echo '<div class="w-25 p-1">
+                            echo '<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 p-1">
                                 <div class="card">
                                     <span style="background-image: url(data:image/jpeg;base64,' . $imageData . ');
                                         background-size: cover;
@@ -155,9 +186,9 @@ if (isset($_POST['form_search_property'])) {
                                     <div class="card-body">
                                         <p class="text_muted"><small><i>Posted : ' . date("F j, Y, g:i a", strtotime($datePosted)) . '</i></small></p>
                                         <h5 class="card-title">' . $title . '</h5>
-                                        <h6>Location: ' . $location . '</h6>
+                                        <h6>Location : ' . $location . '</h6>
                                         <h6>Property Type : ' . $property_type_name . '</h6>
-                                        <h6>Price: USD ' . number_format($price ) . '</h6>
+                                        <h6>Price: USD ' . number_format($price) . '</h6>
                                         <p class="card-text">
                                             ' . $description . '
                                         </p>
@@ -165,26 +196,26 @@ if (isset($_POST['form_search_property'])) {
                                     </div>
                                 </div>
                             </div>';
-                                    }
-                                } else {
-                                    echo "<div class='w-100 text-center py-5 display-1'>No Results found</div>";
-                                }
-                            } else {
-                                header("location:javascript://history.go(-1)");
-                            }
+                        }
+                    } else {
+                        echo "<div class='w-100 text-center py-5 display-1'>No Results found</div>";
+                    }
+                } else {
+                    header("location:javascript://history.go(-1)");
+                }
 
-                            ?>
-
-                    </div>
-                    <!-- end lisitng section -->
-
-                    <!-- import the footer section-->
-                    <?php
-                    include './components/footer.php';
-                    ?>
+                ?>
 
             </div>
+            <!-- end lisitng section -->
+
+            <!-- import the footer section-->
+            <?php
+            include './components/footer.php';
+            ?>
+
         </div>
+    </div>
 </body>
 
 </html>

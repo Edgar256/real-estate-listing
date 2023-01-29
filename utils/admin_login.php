@@ -59,10 +59,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $success_msg = '<div class="alert alert-success text-center">
                 Login was successful.</div>';
 
-                $inactive = 60;
-                ini_set('session.gc_maxlifetime', $inactive); // set the session max lifetime to 2 hours
+                $inactive = 1800;                
 
-                session_start();
+                // start session if session is not started
+                if (!isset($_SESSION)) {
+                    ini_set('session.gc_maxlifetime', $inactive); // set the session max lifetime to 2 hours
+                    session_start();                   
+                }
 
                 // set session variables
                 $_SESSION['email'] = $user['email'];

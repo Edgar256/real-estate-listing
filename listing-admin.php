@@ -79,7 +79,7 @@ require('./config/config.php');
                             $manager_lastname = mb_convert_case($row["manager_lastname"], MB_CASE_TITLE, "UTF-8");
 
 
-                            echo '<div class="w-25 p-1">
+                            echo '<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 p-1">
                             <div class="card">
                                 <span style="background-image: url(data:image/jpeg;base64,' . $imageData . ');
                                     background-size: cover;

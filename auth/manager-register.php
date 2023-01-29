@@ -1,6 +1,15 @@
 <?php
 // import Config File
 require('../config/config.php');
+
+// set FALSE to AUTH_ACTIVE SESSION VARIABLE
+if (isset($_SESSION)) {
+    session_start();
+    $_SESSION['auth_active'] = FALSE;
+} else {
+    session_start();
+    $_SESSION['auth_active'] = FALSE;
+}
 function test_input($data)
 {
     $data = trim($data);
