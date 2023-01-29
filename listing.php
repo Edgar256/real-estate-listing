@@ -2,78 +2,15 @@
 // import Config File
 require_once('./config/config.php');
 
-$property_name = $location_id = $entries_err = $result =  "";
+$property_name = $location_id = $entries_err = $result = $search_query = $property_type_name = "";
 $check_properties_list = array();
-
 $table = "properties";
-$property_type_name = "";
+
 $sql = "SELECT properties.*, locations.id AS location_id, locations.name AS location_name,  types.name AS property_type_name FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id ORDER BY reg_date DESC";
 $check_properties_list = $conn->query($sql);
 
-// Processing form data when form is submitted
-if (isset($_POST['form_search_property'])) {
-
-    // return error if both are empty
-    if (empty(trim($_POST["property_name"])) && empty(trim($_POST["location_id"]))) {
-        $entries_err = '<div class="alert alert-danger text-center mx-auto">
-        Please enter a property name or location.</div>';
-    }
-
-    if (!empty(trim($_POST["property_name"])) && empty(trim($_POST["location_id"]))) {
-        $property_name = trim($_POST["property_name"]);
-        $property_name = mb_strtolower($property_name);
-        $property_name = ucwords($property_name);
-        $property_name = mysqli_real_escape_string($conn, $property_name);
-        // $query = "SELECT * FROM properties WHERE name LIKE '%$property_name%' OR description LIKE '%$property_name%'";
-        // $query = "SELECT * FROM properties WHERE (UPPER(title) LIKE UPPER('%$property_name%') OR UPPER(id) LIKE UPPER('%$property_name%') OR UPPER(description) LIKE UPPER('%$property_name'))";
-        $query = "SELECT * FROM properties WHERE UPPER(title) LIKE UPPER('%$property_name%')";
-        $result = $conn->query($query);
-        $check_properties_list = $conn->query($query);
-
-        echo $property_name;
-
-        if ($result) {
-            echo "Query executed successfully";
-            echo json_encode($result);
-            $check_properties_list = $result;
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    $title = mb_convert_case($row["title"], MB_CASE_TITLE, "UTF-8");
-                    $id = $row["id"];
-                    echo "<option value=" . $id . ">" . $title . "</option>";
-                }
-            }
-        } else {
-            echo "Query execution failed";
-        }
-
-    }
-
-
-    if (!empty(trim($_POST["property_name"])) && !empty(trim($_POST["location_id"]))) {
-        $property_name = trim($_POST["property_name"]);
-        $property_name = mb_strtolower($property_name);
-        $property_name = ucwords($property_name);
-        $property_name = mysqli_real_escape_string($conn, $property_name);
-        echo $property_name;
-
-        $location_id = trim($_POST["location_id"]);
-        echo $location_id;
-
-        // $query = "SELECT * FROM properties WHERE name LIKE '%$search_term%' OR description LIKE '%$search_term%'";
-        $query = "SELECT * FROM properties WHERE (UPPER(name) LIKE UPPER('%$property_name%') OR UPPER(id) LIKE UPPER('%$property_name%') OR UPPER(description) LIKE UPPER('%$property_name'))";
-        // execute the query
-        $result = $conn->query($query);
-    }
-
-
-    if (empty(trim($_POST["location_id"])) && empty(trim($_POST["property_name"]))) {
-        $location_id = trim($_POST["location_id"]);
-        echo $location_id;
-    }
-
-
-}
+// Include search fille
+require('./utils/search_property.php');
 
 ?>
 <html lang="en">
@@ -157,10 +94,7 @@ if (isset($_POST['form_search_property'])) {
                     }, 1000);</script>';
                 }
                 if ($_SESSION['role'] == "USER") {
-                    // $table = "properties";
-                    // $property_type_name = "";
-                    // $sql = "SELECT properties.*, locations.id AS location_id, locations.name AS location_name,  types.name AS property_type_name FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id ORDER BY reg_date DESC";
-                    // $check_properties_list = $conn->query($sql);
+
                     if ($check_properties_list->num_rows > 0) {
                         while ($row = $check_properties_list->fetch_assoc()) {
                             $title = mb_convert_case($row["title"], MB_CASE_TITLE, "UTF-8");
@@ -197,9 +131,12 @@ if (isset($_POST['form_search_property'])) {
                                 </div>
                             </div>';
                         }
+
                     } else {
                         echo "<div class='w-100 text-center py-5 display-1'>No Results found</div>";
                     }
+
+
                 } else {
                     header("location:javascript://history.go(-1)");
                 }
@@ -216,6 +153,17 @@ if (isset($_POST['form_search_property'])) {
 
         </div>
     </div>
+    <script>
+        // When the form is submitted
+        $("form").submit(function (event) {
+            event.preventDefault(); // prevent the form from submitting
+
+            // Get the value of the input field
+            var inputValue = $("#property_name").val();
+            alert(inputValue);
+
+        });
+    </script>
 </body>
 
 </html>
