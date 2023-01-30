@@ -57,7 +57,7 @@ if ($conn->query($sql_create_managers_table) !== TRUE) {
     // echo "Error creating table: " . $conn->error;
 }
 
-// sql to create managers table
+// sql to create admins table
 $sql_create_admins_table = "CREATE TABLE Admins (
     id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     firstname VARCHAR(255) NOT NULL,

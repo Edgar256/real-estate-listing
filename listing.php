@@ -101,11 +101,11 @@ require('./utils/search_property.php');
                             $id = $row["id"];
                             $description = $row["property_description"];
                             $price = $row["price"];
-                            $location = $row["location_name"];
+                            $location = mb_convert_case($row["location_name"], MB_CASE_TITLE, "UTF-8");
                             $imageData = $row['property_image'];
                             $imageData = base64_encode($imageData);
                             $datePosted = $row["reg_date"];
-                            $property_type_name = $row["property_type_name"];
+                            $property_type_name = mb_convert_case($row["property_type_name"], MB_CASE_TITLE, "UTF-8");
 
                             echo '<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 p-1">
                                 <div class="card">
@@ -157,6 +157,7 @@ require('./utils/search_property.php');
         // When the form is submitted
         $("form").submit(function (event) {
             event.preventDefault(); // prevent the form from submitting
+            alert(event.target.value )
 
             // Get the value of the input field
             var inputValue = $("#property_name").val();

@@ -35,14 +35,16 @@ require_once('./config/config.php');
 
         <!-- start landing section -->
         <div class="position-absolute_ landing-area">
-            <div class="container d-flex">
-                <div class="col-8 col-xl-8 col-sm-12">
-                    <div class="p-5">
-                        <div class="text-white py-5 display-1">
-                            Welcome to Equitable Property Group where we help you find your
-                            dream home.
+            <div class="l-container w-100">
+                <div class="container d-flex">
+                    <div class="col-8 col-xl-8 col-sm-12">
+                        <div class="p-5">
+                            <div class="text-white py-5 display-1">
+                                Welcome to Equitable Property Group where we help you find your
+                                dream home.
+                            </div>
+                            <a href="./login.html" class="btn btn-success display-6">Get Started</a>
                         </div>
-                        <a href="./login.html" class="btn btn-success display-6">Get Started</a>
                     </div>
                 </div>
             </div>
@@ -53,10 +55,10 @@ require_once('./config/config.php');
         <?php
         include './components/footer.php';
         ?>
-            
+
 
     </div>
-     
+
 </body>
 
 </html>
