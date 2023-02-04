@@ -23,7 +23,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Validate password
     if (empty(trim($_POST["password"]))) {
-        // $password_err = "Please enter a password.";
         $password_err = '<div class="alert alert-danger">
             Password is required.
         </div>';

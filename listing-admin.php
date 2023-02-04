@@ -22,7 +22,36 @@ require('./config/config.php');
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+
+    <!-- JQUERY LINK -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <title>Equitable Property Group</title>
+
+    <script>
+        $(document).ready(function () {
+            $("#search-form").submit(function (e) {
+                e.preventDefault();
+                var property_name = $("property_name").val();
+                var location_id = $('#location_id:selected').val()
+                $.ajax({
+                    url: "./utils/search_property_admin.php",
+                    type: "post",
+                    data: $('#search-form').serialize(),
+                    success: function (response) {
+                        $("#results").html(response);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        // handle error
+                        console.log({ jqXHR, textStatus, errorThrown });
+                    }
+
+                })
+            });
+        });
+    </script>
+
+
 </head>
 
 <body>
@@ -36,30 +65,55 @@ require('./config/config.php');
             <div class="pb-5 mb-5">
                 <!-- start seacrh section -->
                 <div class="container pt-5">
-                    <form class="row gx-3 gy-2 align-items-center">
+                    <form class="row gx-3 gy-2 align-items-center" method="post" id="search-form">
                         <div class="col-sm-5">
                             <!-- <label for="specificSizeInputName">Search by Name</label> -->
-                            <input type="text" class="form-control" id="specificSizeInputName"
+                            <input type="text" class="form-control" id="property_name" name="property_name"
                                 placeholder="Search by Name" />
                         </div>
                         <div class="col-sm-5">
                             <!-- <label for="specificSizeInputName">Search by Location</label> -->
-                            <select class="form-select" id="specificSizeSelect">
-                                <option selected>Search by Location</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                            <select name="location_id" id="location_id" class="form-control <?php if (!empty($location_err))
+                                echo "border-danger"; ?>">
+                                <option value="">Select Property Location</option>
+                                <?php
+
+
+                                $table = "locations";
+                                $check_locations_list = $conn->query("SELECT * FROM $table");
+                                if ($check_locations_list->num_rows > 0) {
+                                    while ($row = $check_locations_list->fetch_assoc()) {
+                                        $name = mb_convert_case($row["name"], MB_CASE_TITLE, "UTF-8");
+                                        $id = $row["id"];
+                                        echo "<option value=" . $id . ">" . $name . "</option>";
+                                    }
+                                } else {
+                                    echo "No Locations found";
+                                }
+                                ?>
                             </select>
                         </div>
                         <div class="col-sm-2">
-                            <button type="submit" class="btn btn-primary w-100">Submit</button>
+                            <input type="submit" class="btn btn-primary w-100" name="submit" value="Submit" />
                         </div>
                     </form>
                 </div>
                 <!-- end search section -->
 
                 <!-- start listing section -->
-                <div class="container d-flex flex-wrap">
+                <div class="container d-flex flex-wrap  pb-5 mb-5" id="results">
+
+                    <?php
+                    // redirect to user login if session is expired
+                    if (!$_SESSION['auth_active']) {
+                        echo '<script>alert("Your Session has expired please login")</script>';
+                        echo '<script>setTimeout(function(){
+                        window.location.href = "./auth/admin-login.php";
+                    }, 1000);</script>';
+                    }
+
+                    ?>
+
                     <?php
                     $table = "properties";
                     $sql = "SELECT properties.*, locations.name AS location_name, locations.id AS location_id, managers.firstname AS manager_firstname,managers.lastname AS manager_lastname FROM properties JOIN locations ON properties.property_location = locations.id JOIN managers ON properties.manager = managers.id ORDER BY reg_date DESC";
@@ -93,7 +147,7 @@ require('./config/config.php');
                                     <p class="card-title"><small><i>Posted : ' . date("F j, Y, g:i a", strtotime($datePosted)) . '</i></small></p>
                                     <h5 class="card-title">' . $title . '</h5>
                                     <h6>Location: ' . $location . '</h6>
-                                    <h6>Price: USD ' . number_format($price ) . '</h6>
+                                    <h6>Price: USD ' . number_format($price) . '</h6>
                                     <p class="card-text">
                                         ' . $description . '
                                     </p>
@@ -110,14 +164,6 @@ require('./config/config.php');
                         echo "No Locations found";
                     }
 
-                    function deleteProperty()
-                    {
-                        echo "Your test function on button click is working";
-                        exit();
-                    }
-                    if (array_key_exists('delete', $_POST)) {
-                        deleteProperty();
-                    }
                     //  close the connection
                     $conn->close();
                     ?>

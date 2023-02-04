@@ -20,7 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Validate password
     if (empty(trim($_POST["password"]))) {
-        // $password_err = "Please enter a password.";
         $password_err = '<div class="alert alert-danger">
             Password is required.
         </div>';
@@ -68,6 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['role'] = $user['role'];
                 $_SESSION['time'] = time();
                 $_SESSION['auth_active'] = TRUE;
+                $_SESSION['id'] = $user['id'];
 
                 $success_msg = '<div class="alert alert-success text-center">
                 Login was successful.</div>';

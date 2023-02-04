@@ -2,6 +2,10 @@
 // import Config File
 require_once('./config/config.php');
 
+$id = $note = $visit_date = $visit_time = $user = $manager = $property = $visit_success_msg = '';
+$note_err = $visit_date_err = $visit_time_err = $property_err = $user_err = $manager_err = $visit_err = '';
+
+
 ?>
 <html lang="en">
 
@@ -21,7 +25,12 @@ require_once('./config/config.php');
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
+
+  <!-- JQUERY LINK -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
   <title>Equitable Property Group</title>
+
 </head>
 
 <body>
@@ -35,16 +44,19 @@ require_once('./config/config.php');
 
         <!-- Property Profile -->
         <?php
-        if ($_SESSION['role'] == "USER") {
+        if ($_SESSION['role'] == "USER" || $_SESSION['role'] == "MANAGER" || $_SESSION['role'] == "ADMIN") {
           $id = $_GET['id'];
           $property_type = '';
-          $query = "SELECT properties.*, locations.id AS location_id,locations.name AS location_name, types.id AS property_type_id, types.name AS property_type_name FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id WHERE properties.id = " . $id;
+          $user = $_SESSION['id'];
+          $query = "SELECT properties.*, locations.id AS location_id,locations.name AS location_name, types.id AS property_type_id, types.name AS property_type_name, managers.id AS manager_id FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id JOIN managers ON properties.manager = managers.id WHERE properties.id = " . $id;
           $check_property = $conn->query($query);
 
           if ($check_property->num_rows > 0) {
             // output data of each row
             while ($row = $check_property->fetch_assoc()) {
-              // echo "id: " . $row["id"] . " - Name: " . $row["name"] . " " . $row["email"] . "<br>";
+              $property = $row['id'];
+              $manager = $row['manager_id'];
+
               $imageData = $row['property_image'];
               $imageData = base64_encode($imageData);
               $property_type = $row['property_type'];
@@ -53,22 +65,27 @@ require_once('./config/config.php');
               <img src="data:image/jpeg;base64,' . $imageData . '" style="font-weight:bold" class="card-img-top p-2" >
             </span>
             <span class="col-sm-5 p-3">
+              <input type="hidden" name="manager_id" id="manager_id" value="' . $manager . '">
               <p class="text_muted"><small><i>Posted :' . date("F j, Y, g:i a", strtotime($row['reg_date'])) . '</i></small></p>
-              <div class="display-6">' . $row['title'] . '</div>
-              <h6>Location: ' . $row['location_name'] . '</h6>
-              <h6>Property type : ' . $row['property_type_name'] . '</h6>
-              <h6>USD ' . $row['price'] . '</h6>
+              <div class="display-6">' . mb_convert_case($row["title"], MB_CASE_TITLE, "UTF-8") . '</div>
+              <h6>Location: ' . mb_convert_case($row['location_name'], MB_CASE_TITLE, "UTF-8") . '</h6>
+              <h6>Property type : ' . mb_convert_case($row['property_type_name'], MB_CASE_TITLE, "UTF-8") . '</h6>
+              <h6>USD ' . number_format($row['price']) . '</h6>
               <p class="card-text">
               ' . $row['property_description'] . '
-              </p>
-              <div class="col-12">
+              </p>';
+
+              if ($_SESSION["role"] == "USER") {
+                echo '<div class="col-12">
                 <button type="submit" class="btn btn-primary w-100" data-bs-toggle="modal"
                   data-bs-target="#scheduleVisitModal">
                   SCHEDULE FIELD VISIT
                 </button>
-              </div>
-            </span>
-          </div>';
+              </div>';
+              }
+              ;
+
+              echo '</span></div>';
             }
             ;
           } else {
@@ -83,51 +100,65 @@ require_once('./config/config.php');
 
 
 
-        <!-- Similar Houses -->
-        <div class="pt-5">
-          <p class="display-6 pt-5">View Similar Houses</p>
-        </div>
+        <?php
+        if ($_SESSION["role"] == "USER") {
+          echo '
+            <div class="pt-5">
+              <p class="display-6 pt-5">View Similar Houses</p>
+            </div>';
+        }
+        ?>
 
         <div class="d-flex flex-wrap pb-5">
           <?php
           $table = "properties";
 
-          $sql = "SELECT properties.*, locations.id AS location_id,locations.name AS location_name, types.name AS property_type_name FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id WHERE property_type = " . $property_type;
+          $sql = "SELECT properties.*, locations.id AS location_id,locations.name AS location_name, types.name AS property_type_name FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id WHERE property_type = " . $property_type . " AND properties.id != " . $property . " ORDER BY reg_date DESC LIMIT 4";
           $check_properties_list = $conn->query($sql);
           if ($check_properties_list->num_rows > 0) {
             while ($row = $check_properties_list->fetch_assoc()) {
-              $title = mb_convert_case($row["title"], MB_CASE_TITLE, "UTF-8");
-              $id = $row["id"];
-              $description = $row["property_description"];
+              $curr_property_id = $row["id"];
+              $title = mb_convert_case($row["title"], MB_CASE_TITLE, "UTF-8"); // Change title to title case
+              // description should not be more than 110 characters
+              if (strlen($row["property_description"]) > 110) {
+                $description = substr($row["property_description"], 0, 110);
+                $description = $description . "...";
+              } else {
+                $description = $row["property_description"];
+              }
               $price = $row["price"];
-              $location = $row["location_name"];
+              $location = $row["location_name"]; // Change location name to title case
               $imageData = $row['property_image'];
               $imageData = base64_encode($imageData);
               $datePosted = $row["reg_date"];
-              $property_type = $row["property_type_name"];
-
-              echo '<div class="w-25 p-1">
+              $property_type = $row["property_type_name"]; // Change property name to title case
+          
+              if ($_SESSION["role"] == "USER") {
+                echo '<div class="w-25 p-1">
                             <div class="card">
                                 <img src="data:image/jpeg;base64,' . $imageData . '" style="font-weight:bold">
                                 <div class="card-body">
                                     <p class="text_muted"><small><i>Posted :' . date("F j, Y, g:i a", strtotime($datePosted)) . '</i></small></p>
                                     <h5 class="card-title">' . $title . '</h5>
+                                    <input type="hidden" name="property_id" id="property_id" value="' . $curr_property_id . '">
                                     <h6>Location: ' . $location . '</h6>
                                     <h6>Property type: ' . $property_type . '</h6>
-                                    <h6>Price: USD ' . $price . '</h6>
+                                    <h6>Price: USD ' . number_format($price) . '</h6>
                                     <p class="card-text">
                                         ' . $description . '
                                     </p>
-                                    <a href="./property-profile.php?id=' . $id . '" class="btn btn-primary w-100">View More</a>
+                                    <a href="./property-profile.php?id=' . $curr_property_id . '" class="btn btn-primary w-100">View More</a>
                                 </div>
                             </div>
                         </div>';
+              }
+
             }
           } else {
             echo "<div class='w-100 text-center py-5 display-1'>No Results found</div>";
           }
 
-          $conn->close();
+          // $conn->close();
           ?>
 
         </div>
@@ -142,42 +173,50 @@ require_once('./config/config.php');
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">
-            You are scheduling a visit to this Propery.
+            You are scheduling a visit to this Propery. Please fill in your details
           </h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body p-4">
-          <div class="col-12">
-            <label for="date" class="form-label">Date</label>
-            <input type="date" class="form-control" id="date" />
-          </div>
-          <div class="col-12">
-            <label for="time" class="form-label">Time</label>
-            <input type="time" class="form-control" id="time" />
-          </div>
-          <div class="col-12">
-            <label for="name" class="form-label">Name</label>
-            <input type="text" class="form-control" id="name" />
-          </div>
-          <div class="col-12">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" />
-          </div>
-          <div class="col-12">
-            <label for="phone" class="form-label">Phone</label>
-            <input type="text" class="form-control" id="phone" />
-          </div>
-          <div class="col-12">
-            <label for="message" class="form-label">Message</label>
-            <textarea class="form-control" id="message" rows="3"></textarea>
-          </div>
 
-          <div class="col-12 pt-2">
-            <button type="submit" class="btn btn-primary w-100" data-bs-toggle="modal"
-              data-bs-target="#scheduleVisitSuccessModal" data-bs-dismiss="modal">
-              SCHEDULE FIELD VISIT
-            </button>
-          </div>
+          <form method="post" id="schedule-form">
+            <div class="col-12">
+              <label for="date" class="form-label">Date</label>
+              <input type="date" class="form-control" id="date" name="date" />
+            </div>
+            <div class="col-12">
+              <label for="time" class="form-label">Time</label>
+              <input type="time" class="form-control" id="time" name="time" />
+            </div>
+            <div class="col-12 py-2">
+              <label for="name" class="form-label h4">Name:
+                <?php echo isset($_SESSION['firstname']) && isset($_SESSION['lastname']) ? $_SESSION['firstname'] . ' ' . $_SESSION['lastname'] : 'Session variables are not set'; ?>
+              </label>
+              <input type="text" class="d-none" value="<?php echo isset($_SESSION['id']) ? $_SESSION['id'] : ''; ?>"
+                id="user">
+            </div>
+            <div class="col-12">
+              <label for="email" class="form-label h4">Email :
+                <?php echo isset($_SESSION['email']) ? $_SESSION['email'] : ''; ?>
+              </label>
+            </div>
+            <div class="col-12">
+              <label for="phone" class="form-label h4">Phone :
+                <?php echo isset($_SESSION['phone']) ? $_SESSION['phone'] : ''; ?>
+              </label>
+            </div>
+            <div class="col-12">
+              <label for="note" class="form-label">Message</label>
+              <textarea class="form-control" id="note" name="note" rows="3"></textarea>
+            </div>
+
+            <div class="col-12 pt-2">
+              <button type="submit" class="btn btn-primary w-100">
+                SCHEDULE FIELD VISIT
+              </button>
+            </div>
+          </form>
+
         </div>
       </div>
     </div>
@@ -208,6 +247,56 @@ require_once('./config/config.php');
       </div>
     </div>
   </div>
+
+  <?php
+
+
+
+  ?>
+
+  <!-- import the footer section-->
+  <?php
+  include './components/footer.php';
+  ?>
+
+  <script>
+    $(document).ready(function () {
+      $("#schedule-form").submit(function (e) {
+        e.preventDefault();
+        var date = $("#date").val();
+        var time = $('#time').val();
+        var note = $('#note').val();
+        var user = $('#user').val();
+        var property_id = $('#property_id').val();
+        var manager_id = $('#manager_id').val();
+
+        if (!date || !time || !note || !user || !property_id || !manager_id) {
+          alert('Please fill all the fields');
+          return;
+        }
+
+        $.ajax({
+          url: "./utils/schedule_visit.php",
+          type: "post",
+          data: { date, time, note, user, property_id, manager_id },
+          success: function (response) {
+            console.log(response);
+            if (response == 'success') {
+              $('#scheduleVisitModal').modal('hide');
+              $('#scheduleVisitSuccessModal').modal('show');
+            }
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            // handle error
+            console.log({ Failed });
+            console.log({ jqXHR, textStatus, errorThrown });
+          }
+
+        })
+      });
+    });
+  </script>
+
 </body>
 
 </html>

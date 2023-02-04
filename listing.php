@@ -9,9 +9,6 @@ $table = "properties";
 $sql = "SELECT properties.*, locations.id AS location_id, locations.name AS location_name,  types.name AS property_type_name FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id ORDER BY reg_date DESC";
 $check_properties_list = $conn->query($sql);
 
-// Include search fille
-// require('./utils/search_property.php');
-
 ?>
 <html lang="en">
 
@@ -32,6 +29,7 @@ $check_properties_list = $conn->query($sql);
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 
+    <!-- JQUERY LINK -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <title>Equitable Property Group</title>
@@ -47,7 +45,6 @@ $check_properties_list = $conn->query($sql);
                     type: "post",
                     data: $('#search-form').serialize(),
                     success: function (response) {
-                        console.log(response);
                         $("#results").html(response);
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
@@ -120,18 +117,24 @@ $check_properties_list = $conn->query($sql);
                     }, 1000);</script>';
                 }
 
-                // Dispalying default property list              
+                // Displaying default property list              
                 if ($check_properties_list->num_rows > 0) {
                     while ($row = $check_properties_list->fetch_assoc()) {
-                        $title = mb_convert_case($row["title"], MB_CASE_TITLE, "UTF-8");
+                        $title = mb_convert_case($row["title"], MB_CASE_TITLE, "UTF-8");// Change title to title case
                         $id = $row["id"];
-                        $description = $row["property_description"];
+                        // description should not be more than 120 characters
+                        if (strlen($row["property_description"]) > 110) {
+                            $description = substr($row["property_description"], 0, 110);
+                            $description = $description . "...";
+                        } else {
+                            $description = $row["property_description"];
+                        }
                         $price = $row["price"];
-                        $location = mb_convert_case($row["location_name"], MB_CASE_TITLE, "UTF-8");
+                        $location = mb_convert_case($row["location_name"], MB_CASE_TITLE, "UTF-8"); // Change location name to title case
                         $imageData = $row['property_image'];
                         $imageData = base64_encode($imageData);
                         $datePosted = $row["reg_date"];
-                        $property_type_name = mb_convert_case($row["property_type_name"], MB_CASE_TITLE, "UTF-8");
+                        $property_type_name = mb_convert_case($row["property_type_name"], MB_CASE_TITLE, "UTF-8"); // Change property name to title case
 
                         echo '<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 p-1">
                             <div class="card">
@@ -158,7 +161,7 @@ $check_properties_list = $conn->query($sql);
                         </div>';
                     }
                 }
-                
+
                 ?>
             </div>
             <!-- end lisitng section -->

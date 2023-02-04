@@ -122,6 +122,33 @@ if ($conn->multi_query($sql_create_prperties_table) !== TRUE) {
     // echo "Error creating table: " . $conn->error;
 }
 
+// sql to create managers table
+$sql_create_visits_table = "CREATE TABLE visits (
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    note VARCHAR(255) NOT NULL,
+    visit_date DATE NOT NULL,
+    visit_time TIME NOT NULL,
+
+    property INT(6) UNSIGNED,
+    FOREIGN KEY (property) REFERENCES properties(id),
+
+    user INT(6) UNSIGNED,
+    FOREIGN KEY (user) REFERENCES users(id),
+    
+    manager INT(6) UNSIGNED,
+    FOREIGN KEY (manager) REFERENCES managers(id),
+
+    status ENUM('pending','rejected', 'cancelled','success') NOT NULL DEFAULT 'pending',
+     
+    reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    )";
+
+// create Managers table
+if ($conn->multi_query($sql_create_visits_table) !== TRUE) {
+    // DISPLAY ERROR HERE IF DB HAS NOT BEEN CREATED
+    // echo "Error creating table: " . $conn->error;
+}
+
 // echo 'Connected successfully';
 // mysqli_close($conn);
 
