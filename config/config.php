@@ -103,6 +103,7 @@ $sql_create_prperties_table = "CREATE TABLE properties (
     property_description VARCHAR(255) NOT NULL,
     price VARCHAR(255) NOT NULL,
     property_image LONGBLOB NOT NULL,  
+    is_taken TINYINT(1) NOT NULL DEFAULT 0,
 
     property_location INT(6) UNSIGNED,
     FOREIGN KEY (property_location) REFERENCES locations(id),
