@@ -139,7 +139,7 @@ $sql_create_visits_table = "CREATE TABLE visits (
     manager INT(6) UNSIGNED,
     FOREIGN KEY (manager) REFERENCES managers(id),
 
-    status ENUM('pending','rejected', 'cancelled','success') NOT NULL DEFAULT 'pending',
+    status ENUM('pending','rejected', 'cancelled','completed') NOT NULL DEFAULT 'pending',
      
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )";

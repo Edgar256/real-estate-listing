@@ -66,6 +66,7 @@ $note_err = $visit_date_err = $visit_time_err = $property_err = $user_err = $man
             </span>
             <span class="col-sm-5 p-3">
               <input type="hidden" name="manager_id" id="manager_id" value="' . $manager . '">
+              <input type="hidden" name="property_id" id="property_id" value="' . $property . '">
               <p class="text_muted"><small><i>Posted :' . date("F j, Y, g:i a", strtotime($row['reg_date'])) . '</i></small></p>
               <div class="display-6">' . mb_convert_case($row["title"], MB_CASE_TITLE, "UTF-8") . '</div>
               <h6>Location: ' . mb_convert_case($row['location_name'], MB_CASE_TITLE, "UTF-8") . '</h6>
@@ -136,11 +137,17 @@ $note_err = $visit_date_err = $visit_time_err = $property_err = $user_err = $man
               if ($_SESSION["role"] == "USER") {
                 echo '<div class="w-25 p-1">
                             <div class="card">
-                                <img src="data:image/jpeg;base64,' . $imageData . '" style="font-weight:bold">
+                                <span style="background-image: url(data:image/jpeg;base64,' . $imageData . ');
+                                    background-size: cover;
+                                    background-repeat: no-repeat;
+                                    background-position: center center;
+                                    width: 100%;
+                                    border-radius: 3px 3px 0px 0px;
+                                    min-height: 200px;">
+                                </span>
                                 <div class="card-body">
                                     <p class="text_muted"><small><i>Posted :' . date("F j, Y, g:i a", strtotime($datePosted)) . '</i></small></p>
-                                    <h5 class="card-title">' . $title . '</h5>
-                                    <input type="hidden" name="property_id" id="property_id" value="' . $curr_property_id . '">
+                                    <h5 class="card-title">' . $title . '</h5>                                    
                                     <h6>Location: ' . $location . '</h6>
                                     <h6>Property type: ' . $property_type . '</h6>
                                     <h6>Price: USD ' . number_format($price) . '</h6>
@@ -275,12 +282,14 @@ $note_err = $visit_date_err = $visit_time_err = $property_err = $user_err = $man
           return;
         }
 
+        console.log({  property_id });
+
         $.ajax({
           url: "./utils/schedule_visit.php",
           type: "post",
           data: { date, time, note, user, property_id, manager_id },
           success: function (response) {
-            console.log(response);
+            console.log({response});
             if (response == 'success') {
               $('#scheduleVisitModal').modal('hide');
               $('#scheduleVisitSuccessModal').modal('show');

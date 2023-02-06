@@ -3,13 +3,11 @@
 require_once('./config/config.php');
 
 $property_name = $location_id = $entries_err = $result = $search_query = $property_type_name = "";
-$check_locations_list = 0;
 $check_properties_list = array();
 $table = "properties";
 
-$sql = "SELECT properties.*, locations.id AS location_id, locations.name AS location_name,  types.name AS property_type_name FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id ORDER BY reg_date DESC";
+$sql = "SELECT visits.*, properties.title AS title, properties.property_description AS property_description, properties.price AS price, properties.property_image AS property_image  FROM visits JOIN properties ON visits.property = properties.id WHERE status='success' ORDER BY visits.reg_date DESC ";
 $check_properties_list = $conn->query($sql);
-
 
 ?>
 <html lang="en">
@@ -67,44 +65,10 @@ $check_properties_list = $conn->query($sql);
         <?php include './components/header.php'; ?>
 
         <div class="position-relative">
-            <div class="container display-4">Property Listing</div>
+
             <!-- start seacrh section -->
             <div class="container pt-5">
-                <div class="d-flex">
-                    <?php echo $entries_err; ?>
-                </div>
-                <form class="row gx-3 gy-2 align-items-center" method="post" id="search-form">
-                    <div class="col-sm-5">
-                        <!-- <label for="specificSizeInputName">Search by Name</label> -->
-                        <input type="text" class="form-control" id="property_name" name="property_name"
-                            placeholder="Search by Name" />
-                    </div>
-                    <div class="col-sm-5">
-                        <!-- <label for="specificSizeInputName">Search by Location</label> -->
-                        <select name="location_id" id="location_id" class="form-control <?php if (!empty($location_err))
-                            echo "border-danger"; ?>">
-                            <option value="">Select Property Location</option>
-                            <?php
-
-
-                            $table = "locations";
-                            $check_locations_list = $conn->query("SELECT * FROM $table");
-                            if ($check_locations_list->num_rows > 0) {
-                                while ($row = $check_locations_list->fetch_assoc()) {
-                                    $name = mb_convert_case($row["name"], MB_CASE_TITLE, "UTF-8");
-                                    $id = $row["id"];
-                                    echo "<option value=" . $id . ">" . $name . "</option>";
-                                }
-                            } else {
-                                echo "No Locations found";
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <div class="col-sm-2">
-                        <input type="submit" class="btn btn-primary w-100" name="submit" value="Submit" />
-                    </div>
-                </form>
+                <div class="container display-4">Successful Scheduled Visits</div>
             </div>
             <!-- end search section -->
 
@@ -132,12 +96,12 @@ $check_properties_list = $conn->query($sql);
                             $description = $row["property_description"];
                         }
                         $price = $row["price"];
-                        $location = mb_convert_case($row["location_name"], MB_CASE_TITLE, "UTF-8"); // Change location name to title case
                         $imageData = $row['property_image'];
                         $imageData = base64_encode($imageData);
                         $datePosted = $row["reg_date"];
-                        $property_type_name = mb_convert_case($row["property_type_name"], MB_CASE_TITLE, "UTF-8"); // Change property name to title case
-                
+                        $visit_date = $row["visit_date"];
+                        $visit_time = $row["visit_time"];
+
                         echo '<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 p-1">
                             <div class="card">
                                 <span style="background-image: url(data:image/jpeg;base64,' . $imageData . ');
@@ -151,13 +115,13 @@ $check_properties_list = $conn->query($sql);
                                 <div class="card-body">
                                     <p class="text_muted"><small><i>Posted : ' . date("F j, Y, g:i a", strtotime($datePosted)) . '</i></small></p>
                                     <h5 class="card-title">' . $title . '</h5>
-                                    <h6>Location : ' . $location . '</h6>
-                                    <h6>Property Type : ' . $property_type_name . '</h6>
                                     <h6>Price: USD ' . number_format($price) . '</h6>
                                     <p class="card-text">
                                         ' . $description . '
-                                    </p>
-                                    <a href="./property-profile.php?id=' . $id . '" class="btn btn-primary w-100">View More</a>
+                                    </p><hr />
+                                    <h6>Scheduled Date : ' . date("F jS, Y", strtotime($visit_date)) . '</h6>
+                                    <h6>Scheduled Time : ' . date("h:i a", strtotime($visit_time)) . '</h6>
+                                    <button class="btn btn-danger w-100">Cancel Visit</button>
                                 </div>
                             </div>
                         </div>';

@@ -27,7 +27,13 @@ if (isset($_POST['property_name']) || isset($_POST['location_id'])) {
             while ($row = $check_properties_list->fetch_assoc()) {
                 $title = mb_convert_case($row["title"], MB_CASE_TITLE, "UTF-8");
                 $id = $row["id"];
-                $description = $row["property_description"];
+                // $description = $row["property_description"];
+                if (strlen($row["property_description"]) > 110) {
+                    $description = substr($row["property_description"], 0, 110);
+                    $description = $description . "...";
+                } else {
+                    $description = $row["property_description"];
+                }
                 $price = $row["price"];
                 $location = mb_convert_case($row["location_name"], MB_CASE_TITLE, "UTF-8");
                 $imageData = $row['property_image'];
