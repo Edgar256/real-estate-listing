@@ -86,7 +86,6 @@ $check_properties_list = $conn->query($sql);
                             <option value="">Select Property Location</option>
                             <?php
 
-
                             $table = "locations";
                             $check_locations_list = $conn->query("SELECT * FROM $table");
                             if ($check_locations_list->num_rows > 0) {

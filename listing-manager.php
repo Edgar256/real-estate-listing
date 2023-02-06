@@ -2,6 +2,15 @@
 // import Config File
 require_once('./config/config.php');
 
+if (!isset($_SESSION)) {
+    session_start();
+}
+
+$table = "properties";
+$property_type_name = "";
+$sql = "SELECT properties.*, locations.id AS location_id, locations.name AS location_name,  types.name AS property_type_name FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id WHERE manager =" . $_SESSION['id'] . " ORDER BY reg_date DESC";
+$check_properties_list = $conn->query($sql);
+
 ?>
 <html lang="en">
 
@@ -22,6 +31,37 @@ require_once('./config/config.php');
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
     <title>Equitable Property Group</title>
+
+    <!-- JQUERY LINK -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#search-form").submit(function (e) {
+                e.preventDefault();
+                var property_name = $("#property_name").val();
+                var location_id = $('#location_id').val();
+
+                console.log({ property_name, location_id });
+
+                $.ajax({
+                    url: "./utils/search_property_manager.php",
+                    type: "post",
+                    data: $('#search-form').serialize(),
+                    // data: { property_name, location_id },
+                    success: function (response) {
+                        console.log(response);
+                        $("#results").html(response);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        // handle error
+                        console.log({ jqXHR, textStatus, errorThrown });
+                    }
+
+                })
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -34,50 +74,65 @@ require_once('./config/config.php');
 
             <!-- start seacrh section -->
             <div class="container pt-5">
-                <form class="row gx-3 gy-2 align-items-center">
+                <form class="row gx-3 gy-2 align-items-center" method="post" id="search-form">
                     <div class="col-sm-5">
                         <!-- <label for="specificSizeInputName">Search by Name</label> -->
-                        <input type="text" class="form-control" id="specificSizeInputName"
+                        <input type="text" class="form-control" id="property_name" name="property_name"
                             placeholder="Search by Name" />
                     </div>
                     <div class="col-sm-5">
                         <!-- <label for="specificSizeInputName">Search by Location</label> -->
-                        <select class="form-select" id="specificSizeSelect">
-                            <option selected>Search by Location</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <select name="location_id" id="location_id" class="form-control <?php if (!empty($location_err))
+                            echo "border-danger"; ?>">
+                            <option value="">Select Property Location</option>
+                            <?php
+
+                            $table = "locations";
+                            $check_locations_list = $conn->query("SELECT * FROM $table");
+                            if ($check_locations_list->num_rows > 0) {
+                                while ($row = $check_locations_list->fetch_assoc()) {
+                                    $name = mb_convert_case($row["name"], MB_CASE_TITLE, "UTF-8");
+                                    $id = $row["id"];
+                                    echo "<option value=" . $id . ">" . $name . "</option>";
+                                }
+                            } else {
+                                echo "No Locations found";
+                            }
+                            ?>
                         </select>
                     </div>
                     <div class="col-sm-2">
-                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                        <input type="submit" class="btn btn-primary w-100" name="submit" value="Submit" />
                     </div>
                 </form>
             </div>
             <!-- end search section -->
 
             <!-- start listing section -->
-            <div class="container d-flex flex-wrap pb-5 mb-5">
-            <div class='w-100 py-2 h3'>Displaying all properties attached to you as a Property Manager</div>
+            <div class="container d-flex flex-wrap pb-5 mb-5" id="results">
+                <div class='w-100 py-2 h3'>Displaying all properties attached to you as a Property Manager</div>
                 <?php
                 // redirect to manager login if session is expired
                 if (!$_SESSION['auth_active']) {
                     echo '<script>alert("Your Session has expired please login")</script>';
                     echo '<script>setTimeout(function(){
-                        window.location.href = "manager-login.php";
+                        window.location.href = "./auth/manager-login.php";
                     }, 1000);</script>';
                 }
 
                 if ($_SESSION['role'] == "MANAGER") {
-                    $table = "properties";
-                    $property_type_name = "";
-                    $sql = "SELECT properties.*, locations.id AS location_id, locations.name AS location_name,  types.name AS property_type_name FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id WHERE manager =" . $_SESSION['id'] . " ORDER BY reg_date DESC";
-                    $check_properties_list = $conn->query($sql);
+
                     if ($check_properties_list->num_rows > 0) {
                         while ($row = $check_properties_list->fetch_assoc()) {
                             $title = mb_convert_case($row["title"], MB_CASE_TITLE, "UTF-8");
                             $id = $row["id"];
-                            $description = $row["property_description"];
+                            // description should not be more than 120 characters
+                            if (strlen($row["property_description"]) > 110) {
+                                $description = substr($row["property_description"], 0, 110);
+                                $description = $description . "...";
+                            } else {
+                                $description = $row["property_description"];
+                            }
                             $price = $row["price"];
                             $location = $row["location_name"];
                             $imageData = $row['property_image'];
