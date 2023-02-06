@@ -36,13 +36,13 @@ require_once('./config/config.php');
             $("#search-form").submit(function (e) {
                 e.preventDefault();
                 var status = $('#status').val();
-                var user = $('#user').val();
+                var manager = $('#manager').val();
 
                 $.ajax({
-                    url: "./utils/search_visits.php",
+                    url: "./utils/search_visits_manager.php",
                     type: "post",
                     data: $('#search-form').serialize(),
-                    data: { status, user },
+                    data: { status, manager },
                     success: function (response) {
                         $("#results").html(response);
                     },
@@ -52,16 +52,38 @@ require_once('./config/config.php');
                     }
 
                 })
-            });        // AJAX CALL FOR CANCEL BUTTON
-            $(document).on("click", ".cancelButton", function () {
+            });        
+            
+            // AJAX CALL FOR CANCEL BUTTON
+            $(document).on("click", ".rejectButton", function () {
                 var id = $(this).attr('value');
                 var status = $(this).attr('data-currentStatus');
-                var user = $(this).attr('data-user');
+                var manager = $(this).attr('data-manager');
 
                 $.ajax({
-                    url: './utils/cancel_visit.php',
+                    url: './utils/reject_visit.php',
                     type: 'post',
-                    data: { id, status, user },
+                    data: { id, status, manager },
+                    success: function (response) {
+                        $("#results").html(response);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        // handle error
+                        console.log({ jqXHR, textStatus, errorThrown });
+                    }
+                });
+            });
+
+            // AJAX CALL FOR CANCEL BUTTON
+            $(document).on("click", ".completeButton", function () {
+                var id = $(this).attr('value');
+                var status = $(this).attr('data-currentStatus');
+                var manager = $(this).attr('data-manager');
+
+                $.ajax({
+                    url: './utils/complete_visit.php',
+                    type: 'post',
+                    data: { id, status, manager },
                     success: function (response) {
                         $("#results").html(response);
                     },
@@ -89,9 +111,9 @@ require_once('./config/config.php');
 
         $status = "pending";
 
-        $user = $_SESSION['id'];
+        $manager = $_SESSION['id'];
 
-        $sql = "SELECT visits.*, properties.title AS title, properties.property_description AS property_description, properties.price AS price, properties.property_image AS property_image  FROM visits JOIN properties ON visits.property = properties.id WHERE status='" . $status . "' AND user='" . $user . "' ORDER BY visits.reg_date DESC";
+        $sql = "SELECT visits.*, properties.title AS title, properties.property_description AS property_description, properties.price AS price, properties.property_image AS property_image  FROM visits JOIN properties ON visits.property = properties.id WHERE status='" . $status . "' AND visits.manager='" . $manager . "' ORDER BY visits.reg_date DESC";
         $check_properties_list = $conn->query($sql);
         ?>
 
@@ -116,7 +138,7 @@ require_once('./config/config.php');
                             <option value="completed">Completed</option>
                         </select>
                     </div>
-                    <input type="text" id="user" value="<?php echo $_SESSION['id'] ?>" class="d-none">
+                    <input type="text" id="manager" value="<?php echo $_SESSION['id'] ?>" class="d-none">
                     <div class="col-sm-2">
                         <input type="submit" class="btn btn-primary w-100" name="submit" value="Submit" />
                     </div>
@@ -131,7 +153,7 @@ require_once('./config/config.php');
                 if (!$_SESSION['auth_active']) {
                     echo '<script>alert("Your Session has expired please login")</script>';
                     echo '<script>setTimeout(function(){
-                        window.location.href = "./auth/user-login.php";
+                        window.location.href = "./auth/manager-login.php";
                     }, 1000);</script>';
                 }
 
@@ -190,7 +212,8 @@ require_once('./config/config.php');
                                     </p><hr />
                                     <h6>Scheduled Date : ' . date("F jS, Y", strtotime($visit_date)) . '</h6><h6>Scheduled Time : ' . date("h:i a", strtotime($visit_time)) . '</h6><p class="card-text"> ' . $note . '</p>';
                         if ($visit_status === "pending") {
-                            echo '<button class="btn btn-danger w-100 cancelButton" value="' . $row["id"] . '" data-currentStatus="' . $status . '" data-user="' . $_SESSION['id'] . '" >Cancel Visit</button>';
+                            echo '<button class="btn btn-danger w-100 rejectButton" value="' . $row["id"] . '" data-currentStatus="' . $status . '" data-manager="' . $_SESSION['id'] . '" >Reject Visit</button>';
+                            echo '<button class="btn btn-success w-100 completeButton mt-2" value="' . $row["id"] . '" data-currentStatus="' . $status . '" data-manager="' . $_SESSION['id'] . '" >Mark As Completed</button>';
                         }
                         echo '</div> </div> </div>';
                     }

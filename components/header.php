@@ -62,17 +62,17 @@ if (isset($_SESSION['email']) && isset($_SESSION['firstname']) && isset($_SESSIO
             } else if ($_SESSION["role"] == "MANAGER") {
               echo '<div class="dropdown">' .
                 '<button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"> ' . 'Hey (' . $_SESSION["role"] . ') ' . $firstname . ' ' . $lastname . '</button>' .
-                '<ul class="dropdown-menu w-100 text-center"><li><a class="dropdown-item" href="listing-manager.php">Listing</a></li><li class="p-2"><a class="btn btn-danger w-100" href="./auth/logout.php">Logout</a></li></ul>' .
-                '</div>';
+                '<ul class="dropdown-menu w-100 text-center">'.
+                '<li><a class="dropdown-item" href="listing-manager.php">Listing</a></li>'.
+                '<li class="p-2"><a class="dropdown-item" href="scheduled-visits-manager.php">Scheduled Visits</a></li>'.
+                '<li class="p-2"><a class="btn btn-danger w-100" href="./auth/logout.php">Logout</a></li>' .
+                '</ul></div>';
             } else {
               echo '<div class="dropdown">' .
                 '<button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"> ' . 'Hey ' . ' ' . $firstname . ' ' . $lastname . '</button>' .
                 '<ul class="dropdown-menu w-100 text-center">'.
                 '<li><a class="dropdown-item" href="listing.php">Property Listings</a></li>'.
                 '<li class="p-2"><a class="dropdown-item" href="scheduled-visits.php">Scheduled Visits</a></li>'.
-                // '<li class="p-2"><a class="dropdown-item" href="rejected-scheduled-visits.php">Rejected Scheduled Visits</a></li>'.
-                // '<li class="p-2"><a class="dropdown-item" href="cancelled-scheduled-visits.php">Cancelled Scheduled Visits</a></li>'.
-                // '<li class="p-2"><a class="dropdown-item" href="successful-scheduled-visits.php">Successful Scheduled Visits</a></li>'.
                 '<li class="p-2"><a class="btn btn-danger w-100" href="./auth/logout.php">Logout</a></li>'.
                 '</ul></div>';
             }

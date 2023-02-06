@@ -10,7 +10,7 @@ if (!isset($_SESSION)) {
 if (isset($_POST['status'])) {
 
     $status = $_POST['status'];
-    $user = $_POST['user'];
+    $manager = $_POST['manager'];
 
     // return error if both are empty
     if (empty(trim($_POST["status"]))) {
@@ -19,7 +19,7 @@ if (isset($_POST['status'])) {
     }
 
     if (!empty(trim($_POST["status"]))) {
-        $sql = "SELECT visits.*, properties.title AS title, properties.property_description AS property_description, properties.price AS price, properties.property_image AS property_image  FROM visits JOIN properties ON visits.property = properties.id WHERE status='" . $status . "' AND user=' " . $user . "' ORDER BY visits.reg_date DESC";
+        $sql = "SELECT visits.*, properties.title AS title, properties.property_description AS property_description, properties.price AS price, properties.property_image AS property_image  FROM visits JOIN properties ON visits.property = properties.id WHERE status='" . $status . "' AND visits.manager=' " . $manager . "' ORDER BY visits.reg_date DESC";
         $check_properties_list = $conn->query($sql);
 
         if ($check_properties_list->num_rows > 0) {
@@ -74,9 +74,10 @@ if (isset($_POST['status'])) {
                                     <p class="card-text">
                                         ' . $description . '
                                     </p><hr />
-                                    <h6>Scheduled Date Y : ' . date("F jS, Y", strtotime($visit_date)) . '</h6><h6>Scheduled Time : ' . date("h:i a", strtotime($visit_time)) . '</h6><p class="card-text"> ' . $note . '</p>';
+                                    <h6>Scheduled Date : ' . date("F jS, Y", strtotime($visit_date)) . '</h6><h6>Scheduled Time : ' . date("h:i a", strtotime($visit_time)) . '</h6><p class="card-text"> ' . $note . '</p>';
                 if ($visit_status == "pending") {
-                    echo '<button class="btn btn-danger w-100 cancelButton" value="' . $row["id"] . '" data-currentStatus="' . $status . '" data-user="' . $_SESSION['id'] . '" onclick="cancelFunction();">Cancel Visit</button>';
+                    echo '<button class="btn btn-danger w-100 cancelButton" value="' . $row["id"] . '" data-currentStatus="' . $status . '" data-manager="' . $_SESSION['id'] . '" >Cancel Visit</button>';
+                    echo '<button class="btn btn-success w-100 completeButton mt-2" value="' . $row["id"] . '" data-currentStatus="' . $status . '" data-manager="' . $_SESSION['id'] . '" >Mark As Completed</button>';
                 }
                 echo '</div> </div> </div>';
             }
