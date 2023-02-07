@@ -75,8 +75,6 @@ if (isset($_POST['status'])) {
                 $property_id = $row["property_id"];
                 $property_is_taken = $row["property_is_taken"];
 
-                echo $property_is_taken;
-
                 echo '<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 p-1">
                 <div class="card">
                     <span style="background-image: url(data:image/jpeg;base64,' . $imageData . ');

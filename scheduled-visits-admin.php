@@ -33,7 +33,7 @@ $status = "pending";
 
 $user = $_SESSION['id'];
 
-$sql = "SELECT visits.*, properties.title AS title, properties.property_description AS property_description, properties.price AS price, properties.property_image AS property_image, managers.firstname AS firstname , managers.lastname AS lastname  FROM visits JOIN properties ON visits.property = properties.id JOIN managers ON visits.manager = managers.id WHERE status='" . $status . "' ORDER BY visits.reg_date DESC";
+$sql = "SELECT visits.*, properties.id AS property_id, properties.title AS title, properties.is_taken AS property_is_taken, properties.property_description AS property_description, properties.price AS price, properties.property_image AS property_image, managers.firstname AS firstname_manager , managers.lastname AS lastname_manager, users.firstname AS firstname_user , users.lastname AS lastname_user  FROM visits JOIN properties ON visits.property = properties.id JOIN managers ON visits.manager = managers.id JOIN users ON visits.user = users.id WHERE status='" . $status . "' ORDER BY visits.reg_date DESC";
 $list = $conn->query($sql);
 
 ?>
@@ -136,6 +136,10 @@ $list = $conn->query($sql);
                             $imageData = $row['property_image'];
                             $imageData = base64_encode($imageData);
                             $datePosted = $row["reg_date"];
+                            $firstname_user = $row["firstname_user"];
+                            $lastname_user = $row["lastname_user"];
+                            $firstname_manager = $row["firstname_manager"];
+                            $lastname_manager = $row["lastname_manager"];
                             $visit_date = $row["visit_date"];
                             $visit_time = $row["visit_time"];
                             $visit_status = $row["status"];
@@ -145,6 +149,8 @@ $list = $conn->query($sql);
                             } else {
                                 $note = $row["note"];
                             }
+                            $property_id = $row["property_id"];
+                            $property_is_taken = $row["property_is_taken"];
 
                             echo '<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 p-1">
                             <div class="card">
@@ -156,6 +162,12 @@ $list = $conn->query($sql);
                                     border-radius: 3px 3px 0px 0px;
                                     min-height: 200px;">           
                                 </span>';
+
+                            if ($property_is_taken === "1") {
+                                echo '<img src="./images/sold.svg" alt="Sold SVG Image" class="left-0 position-absolute">';
+                            }
+
+
                             if ($visit_status === "pending") {
                                 echo '<div class="right-0 position-absolute p-1"><span class="badge bg-primary">Pending</span></div>';
                             } else if ($visit_status === "rejected") {
@@ -172,11 +184,17 @@ $list = $conn->query($sql);
                                     <h6>Price: USD ' . number_format($price) . '</h6>
                                     <p class="card-text">
                                         ' . $description . '
-                                    </p><hr />
+                                    </p>
+                                    <h6>Manager : ' . $firstname_manager . ' ' . $lastname_manager . '</h6><hr />
+                                    <h6>Client : ' . $firstname_user . ' ' . $lastname_user . '</h6>
                                     <h6>Scheduled Date : ' . date("F jS, Y", strtotime($visit_date)) . '</h6><h6>Scheduled Time : ' . date("h:i a", strtotime($visit_time)) . '</h6><p class="card-text"> ' . $note . '</p>';
-                            if ($visit_status === "pending") {
+                            if ($visit_status === "pending" && $property_is_taken === "0") {
                                 echo '<button class="btn btn-danger w-100 rejectButton" value="' . $row["id"] . '" data-currentStatus="' . $status . '" data-manager="' . $_SESSION['id'] . '" >Reject Visit</button>';
                                 echo '<button class="btn btn-success w-100 completeButton mt-2" value="' . $row["id"] . '" data-currentStatus="' . $status . '" data-manager="' . $_SESSION['id'] . '" >Mark As Completed</button>';
+                            }
+
+                            if ($visit_status === "completed" && $property_is_taken === "0") {
+                                echo '<button class="btn btn-success w-100 sellButton" value="' . $row["id"] . '" data-currentStatus="' . $status . '" data-manager="' . $_SESSION['id'] . '"  data-property-id="' . $property_id . '" >Mark House As Sold</button>';
                             }
                             echo '</div> </div> </div>';
                         }
@@ -209,7 +227,7 @@ $list = $conn->query($sql);
     <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"
         integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha"
         crossorigin="anonymous"></script> -->
-        <script src="./js/dashboard.js"></script>
+    <script src="./js/dashboard.js"></script>
 
     <!-- JQUERY LINK -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
