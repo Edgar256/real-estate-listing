@@ -1,3 +1,40 @@
+<?php
+// import Config File
+require('./config/config.php');
+
+if (!isset($_SESSION)) {
+  session_start();
+}
+
+$_SESSION['page'] = 'dashboard';
+
+// Define variables and initialize with empty values
+$count_users = $count_managers = $count_admins = 0;
+$users_err = "";
+
+// $sql = "SELECT *  FROM users";
+// $result = $conn->query($sql);
+// $count_users = $result->fetchColumn();
+
+// $result = $conn->query("SELECT COUNT(*) FROM users");
+// $row = $result->fetch(PDO::FETCH_ASSOC);
+// $size = $row['COUNT(*)'];
+
+// echo 'here ' .$size;
+
+$sql = "SELECT COUNT(*) FROM users";
+$result = $conn->query($sql);
+
+if (!is_object($result)) {
+  echo 'No result!';
+} else {
+  $row = $result->fetch(PDO::FETCH_ASSOC);
+  $count_users = $row['COUNT(*)'];
+  echo 'here ' . $count_users;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,7 +70,7 @@
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div
           class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">Dashboard</h1>          
+          <h1 class="h2">Dashboard</h1>
         </div>
 
         <div class="d-flex">
@@ -41,7 +78,9 @@
             <div class="alert alert-primary alert-dismissible fade show d-flex">
               <span data-feather="user" class="align-text-bottom w-25" style="height: 70px;"></span>
               <div class="w-75">
-                <h3 class="">Users</h3>
+                <h3 class="">Users
+                  <?php echo $count_users ?>
+                </h3>
                 <h6><a href="./users-listing.php"
                     class="badge bg-primary rounded-pill text-bg-warning text-decoration-none">View All Users</a></h6>
               </div>
