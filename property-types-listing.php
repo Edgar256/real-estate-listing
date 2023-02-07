@@ -2,13 +2,33 @@
 // import Config File
 require('./config/config.php');
 
+function test_input($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
 // Define variables and initialize with empty values
 $users = $list = "";
 
 $table = "types";
 
-$sql = "SELECT *  FROM " . $table;
+$sql = "SELECT *  FROM " . $table . " ORDER BY id DESC";
 $list = $conn->query($sql);
+
+// Define variables and initialize with empty values
+$property_type_name = $location_name = "";
+$property_type_name_err = $location_name_err = "";
+$saving_property_type_name_err = $saving_location_err = $saving_type_err = "";
+$location_success_msg = $type_success_msg = "";
+
+$title = $price = $location = $property_type = $manager = $description = $property_success_msg = "";
+$title_err = $price_err = $location_err = $property_type_err = $manager_err = $description_err = $saving_property_err = "";
+
+// require add_item.php
+require('utils/add_item.php');
 
 ?>
 
@@ -32,21 +52,9 @@ $list = $conn->query($sql);
 </head>
 
 <body>
-    <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">Company name</a>
-        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse"
-            data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
-            aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <input class="form-control form-control-dark w-100 rounded-0 border-0" type="text" placeholder="Search"
-            aria-label="Search" />
-        <div class="navbar-nav">
-            <div class="nav-item text-nowrap">
-                <a class="nav-link px-3" href="#">Sign out</a>
-            </div>
-        </div>
-    </header>
+
+    <!-- Inculde admin header -->
+    <?php include('./components/admin-header.php'); ?>
 
     <div class="container-fluid">
         <div class="row">
@@ -55,6 +63,38 @@ $list = $conn->query($sql);
             <?php include("./components/admin-sidenav.php"); ?>
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Create Property Types Listing</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+
+                    </div>
+                </div>
+
+                <div class="w-100 d-flex justify-content-center align-items-center">
+                    <!-- handle adding property types -->
+                    <div class="col-xl-9 col-md-12 col-sm-12 py-2 px-5">
+                        <div class="border border-secondary bg-light px-5 rounded">
+                            <h1 class="text-center display-4">PROPERTY TYPE</h1>
+                            <?php echo $saving_property_err ?>
+                            <?php
+                            if ($property_type_name_err) {
+                                echo "<div class='alert alert-danger text-center'>" . json_encode($property_type_name_err) . "</div>";
+                            }
+                            ?>
+                            <?php echo $type_success_msg ?>
+                            <form action="" class="w-100 px-5 py-2" method="post">
+                                <input type="text" class="form-control" name="property_type_name">
+                                <div class="d-flex w-100 py-1">
+                                    <input type="submit" class="btn btn-success mx-auto" value="CREATE PROPERTY TYPE"
+                                        name="form_submit_property_type" />
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
                 <div
                     class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Property Types Listing</h1>
@@ -69,7 +109,6 @@ $list = $conn->query($sql);
                         </div>
                     </div>
                 </div>
-
                 <div class="table-responsive">
                     <table class="table table-striped table-sm">
                         <thead>
@@ -84,7 +123,7 @@ $list = $conn->query($sql);
                                 while ($row = $list->fetch_assoc()) {
                                     echo "<tr>";
                                     echo "<td>" . $row['id'] . "</td>";
-                                    echo "<td>" . $row['name'] . "</td>";
+                                    echo "<td>" . mb_convert_case($row["name"], MB_CASE_TITLE, "UTF-8") . "</td>";
                                     echo "</tr>";
                                 }
                             }

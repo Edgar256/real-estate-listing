@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Verify the password
             if (password_verify($password, $user['password'])) {
 
-                $inactive = 1800;                
+                $inactive = 3600;                
 
                 // start session if session is not started
                 if (!isset($_SESSION)) {

@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $success_msg = '<div class="alert alert-success text-center">
                 Login was successful.</div>';
 
-                $inactive = 1800;                
+                $inactive = 3600;                
 
                 // start session if session is not started
                 if (!isset($_SESSION)) {
@@ -71,6 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['firstname'] = $user['firstname'];
                 $_SESSION['lastname'] = $user['lastname'];
                 $_SESSION['phone'] = $user['phone'];
+                $_SESSION['id'] = $user['id'];
                 $_SESSION['role'] = $user['role'];
                 $_SESSION['time'] = time();
                 $_SESSION['auth_active'] = TRUE;
@@ -79,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 Login was successful.</div>';
 
                 echo '<script>setTimeout(function(){
-                    window.location.href = "../property-dashboard.php";
+                    window.location.href = "../admin-dashboard.php";
                 }, 1500);</script>';
 
             } else {

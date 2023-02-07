@@ -74,7 +74,7 @@ require_once('./config/config.php');
                 });
             });
 
-            // AJAX CALL FOR CANCEL BUTTON
+            // AJAX CALL FOR COMPLETE BUTTON
             $(document).on("click", ".completeButton", function () {
                 var id = $(this).attr('value');
                 var status = $(this).attr('data-currentStatus');

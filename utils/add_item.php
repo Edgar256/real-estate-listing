@@ -20,7 +20,7 @@ if (isset($_POST['form_submit_location'])) {
             if ($conn->query($sql) === TRUE) {
                 $location_success_msg = '<div class="alert alert-success text-center">
                     New Location Added.</div>';
-                echo "<script>setTimeout(\"location.href = 'property-dashboard.php';\",1500);</script>";
+                echo "<script>setTimeout(\"location.href = 'locations-listing.php';\",1500);</script>";
             } else {
                 $saving_location_err = $conn->error;
             }
@@ -49,7 +49,7 @@ if (isset($_POST['form_submit_location'])) {
             if ($conn->query($sql) === TRUE) {
                 $type_success_msg = '<div class="alert alert-success text-center">
                     New Type Added.</div>';
-                echo "<script>setTimeout(\"location.href = 'property-dashboard.php';\",1500);</script>";
+                echo "<script>setTimeout(\"location.href = 'property-types-listing.php';\",1500);</script>";
             } else {
                 $saving_property_type_name_err = $conn->error;
             }

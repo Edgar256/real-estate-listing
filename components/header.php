@@ -54,12 +54,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['firstname']) && isset($_SESSIO
       if ($_SESSION) {
         if ($_SESSION['auth_active']) {
           if ($firstname && $lastname) {
-            if ($_SESSION["role"] == "ADMIN") {
-              echo '<div class="dropdown">' .
-                '<button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"> ' . 'Hey (' . $_SESSION["role"] . ') ' . $firstname . ' ' . $lastname . '</button>' .
-                '<ul class="dropdown-menu w-100 text-center"><li><a class="dropdown-item" href="property-dashboard.php">Create New Properties</a></li><li><a class="dropdown-item" href="listing-admin.php">Listing</a></li><li class="p-2"><a class="btn btn-danger w-100" href="./auth/logout.php">Logout</a></li></ul>' .
-                '</div>';
-            } else if ($_SESSION["role"] == "MANAGER") {
+             if ($_SESSION["role"] == "MANAGER") {
               echo '<div class="dropdown">' .
                 '<button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"> ' . 'Hey (' . $_SESSION["role"] . ') ' . $firstname . ' ' . $lastname . '</button>' .
                 '<ul class="dropdown-menu w-100 text-center">'.

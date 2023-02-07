@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $success_msg = '<div class="alert alert-success text-center">
                 Login was successful.</div>';
               
-                $inactive = 1800;                
+                $inactive = 3600;                
 
                 // start session if session is not started
                 if (!isset($_SESSION)) {

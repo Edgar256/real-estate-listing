@@ -2,7 +2,7 @@
     <div class="position-sticky pt-3 sidebar-sticky">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">
+                <a class="nav-link active" aria-current="page" href="admin-dashboard.php">
                     <span data-feather="home" class="align-text-bottom"></span>
                     Dashboard
                 </a>
@@ -17,12 +17,6 @@
             </a>
         </h6>
         <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="file" class="align-text-bottom"></span>
-                    Create a new Location
-                </a>
-            </li>
             <li class="nav-item">
                 <a class="nav-link" href="locations-listing.php">
                     <span data-feather="shopping-cart" class="align-text-bottom"></span>
@@ -40,12 +34,6 @@
         </h6>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="file" class="align-text-bottom"></span>
-                    Create a new Property Type
-                </a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="property-types-listing.php">
                     <span data-feather="shopping-cart" class="align-text-bottom"></span>
                     Property Types Listing
@@ -62,7 +50,7 @@
         </h6>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="create-property.php">
                     <span data-feather="file" class="align-text-bottom"></span>
                     Create a new Property
                 </a>
@@ -71,6 +59,22 @@
                 <a class="nav-link" href="listing-admin.php">
                     <span data-feather="shopping-cart" class="align-text-bottom"></span>
                     Property Listing
+                </a>
+            </li>
+        </ul>
+
+        <h6
+            class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
+            <span>Schedules Visits</span>
+            <a class="link-secondary" href="#" aria-label="Add a new report">
+                <span data-feather="plus-circle" class="align-text-bottom"></span>
+            </a>
+        </h6>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="scheduled-visits-admin.php">
+                    <span data-feather="file" class="align-text-bottom"></span>
+                    Scheduled Visits
                 </a>
             </li>
         </ul>
