@@ -78,6 +78,9 @@ if (isset($_POST['status'])) {
                     echo '<button class="btn btn-danger w-100 cancelButton" value="' . $row["id"] . '" data-currentStatus="' . $status . '" data-user="' . $_SESSION['id'] . '" >Cancel Visit</button>';
                     echo '<button class="btn btn-success w-100 completeButton mt-2" value="' . $row["id"] . '" data-currentStatus="' . $status . '" data-manager="' . $_SESSION['id'] . '" >Mark As Completed</button>';
                 }
+                if ($visit_status === "completed") {
+                    echo '<button class="btn btn-success w-100 sellButton" value="' . $row["id"] . '" data-currentStatus="' . $status . '" data-manager="' . $_SESSION['id'] . '" >Mark House As Sold</button>';
+                }
                 echo '</div> </div> </div>';
             }
         } else {

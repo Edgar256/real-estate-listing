@@ -113,6 +113,9 @@ $sql_create_prperties_table = "CREATE TABLE properties (
     
     manager INT(6) UNSIGNED,
     FOREIGN KEY (manager) REFERENCES managers(id),
+
+    buyer INT(6) UNSIGNED,
+    FOREIGN KEY (buyer) REFERENCES users(id),
      
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )";

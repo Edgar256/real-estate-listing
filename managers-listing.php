@@ -2,6 +2,12 @@
 // import Config File
 require('./config/config.php');
 
+if (!isset($_SESSION)) {
+    session_start();
+}
+
+$_SESSION['page'] = 'managers';
+
 // Define variables and initialize with empty values
 $users = $list = "";
 

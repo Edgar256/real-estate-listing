@@ -2,7 +2,9 @@
 // import Config File
 require_once('./config/config.php');
 
-
+if (!isset($_SESSION)) {
+    session_start();
+}
 
 ?>
 <html lang="en">
@@ -52,8 +54,8 @@ require_once('./config/config.php');
                     }
 
                 })
-            });        
-            
+            });
+
             // AJAX CALL FOR CANCEL BUTTON
             $(document).on("click", ".rejectButton", function () {
                 var id = $(this).attr('value');
@@ -94,6 +96,27 @@ require_once('./config/config.php');
                 });
             });
 
+            // AJAX CALL FOR SELL BUTTON
+            $(document).on("click", ".sellButton", function () {
+                var id = $(this).attr('value');
+                var status = $(this).attr('data-currentStatus');
+                var manager = $(this).attr('data-manager');
+                var propertyId = $(this).attr('data-property-id');
+
+                $.ajax({
+                    url: './utils/mark_as_sold.php',
+                    type: 'post',
+                    data: { id, status, manager, propertyId },
+                    success: function (response) {
+                        $("#results").html(response);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        // handle error
+                        console.log({ jqXHR, textStatus, errorThrown });
+                    }
+                });
+            });
+
         });
     </script>
 
@@ -114,6 +137,7 @@ require_once('./config/config.php');
         $manager = $_SESSION['id'];
 
         $sql = "SELECT visits.*, properties.title AS title, properties.property_description AS property_description, properties.price AS price, properties.property_image AS property_image  FROM visits JOIN properties ON visits.property = properties.id WHERE status='" . $status . "' AND visits.manager='" . $manager . "' ORDER BY visits.reg_date DESC";
+        $sql = "SELECT visits.*, properties.id AS property_id, properties.is_taken AS property_is_taken, properties.title AS title, properties.property_description AS property_description, properties.price AS price, properties.property_image AS property_image , users.firstname AS firstname, users.lastname AS lastname  FROM visits JOIN properties ON visits.property = properties.id JOIN users ON visits.user = users.id WHERE status='" . $status . "' AND visits.manager=' " . $manager . "' ORDER BY visits.reg_date DESC";
         $check_properties_list = $conn->query($sql);
         ?>
 
@@ -180,8 +204,10 @@ require_once('./config/config.php');
                             $note = substr($row["note"], 0, 100);
                             $note = $note . "...";
                         } else {
-                            $note= $row["note"];
+                            $note = $row["note"];
                         }
+                        $property_id = $row["property_id"];
+                        $property_is_taken = $row["property_is_taken"];
 
                         echo '<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 p-1">
                             <div class="card">
@@ -193,6 +219,11 @@ require_once('./config/config.php');
                                     border-radius: 3px 3px 0px 0px;
                                     min-height: 200px;">           
                                 </span>';
+
+                        if ($property_is_taken === "1") {
+                            echo '<img src="./images/sold.svg" alt="Sold SVG Image" class="left-0 position-absolute">';
+                        }
+
                         if ($visit_status === "pending") {
                             echo '<div class="right-0 position-absolute p-1"><span class="badge bg-primary">Pending</span></div>';
                         } else if ($visit_status === "rejected") {
@@ -214,6 +245,9 @@ require_once('./config/config.php');
                         if ($visit_status === "pending") {
                             echo '<button class="btn btn-danger w-100 rejectButton" value="' . $row["id"] . '" data-currentStatus="' . $status . '" data-manager="' . $_SESSION['id'] . '" >Reject Visit</button>';
                             echo '<button class="btn btn-success w-100 completeButton mt-2" value="' . $row["id"] . '" data-currentStatus="' . $status . '" data-manager="' . $_SESSION['id'] . '" >Mark As Completed</button>';
+                        }
+                        if ($visit_status === "completed") {
+                            echo '<button class="btn btn-danger w-100 sellButton" value="' . $row["id"] . '" data-currentStatus="' . $status . '" data-manager="' . $_SESSION['id'] . '" data-property-id="' . $property_id . '">Mark House As Sold</button>';
                         }
                         echo '</div> </div> </div>';
                     }
