@@ -22,16 +22,16 @@ $users_err = "";
 
 // echo 'here ' .$size;
 
-$sql = "SELECT COUNT(*) FROM users";
-$result = $conn->query($sql);
+// $sql = "SELECT COUNT(*) FROM users";
+// $result = $conn->query($sql);
 
-if (!is_object($result)) {
-  echo 'No result!';
-} else {
-  $row = $result->fetch(PDO::FETCH_ASSOC);
-  $count_users = $row['COUNT(*)'];
-  echo 'here ' . $count_users;
-}
+// if (!is_object($result)) {
+//   echo 'No result!';
+// } else {
+//   $row = $result->fetch(PDO::FETCH_ASSOC);
+//   $count_users = $row['COUNT(*)'];
+//   echo 'here ' . $count_users;
+// }
 
 ?>
 
