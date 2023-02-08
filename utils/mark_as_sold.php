@@ -13,35 +13,15 @@ if (isset($_POST['status'])) {
     $id = $_POST['id'];
     $manager = $_POST['manager'];
     $propertyId = $_POST['propertyId'];
-
-    // echo $status;
-    // echo $id;
-    // echo $manager;
-    echo 'Property ID ' . $propertyId;
+    $userId = $_POST['userId'];
 
     if (!empty(trim($_POST["status"]))) {
 
         // Set Property to SOLD
-        $sell_sql = "UPDATE properties SET is_taken=1 WHERE id=' . $id . ' ";
+        $sell_sql = "UPDATE properties SET is_taken = true, buyer = '" . $userId . "' WHERE id = '" . $propertyId . "'";
         $sell_property = $conn->query($sell_sql);
 
-
-        if ($sell_property == 1) {
-            echo 'Property is now SOLD';
-        }
-
-        // $sell_sql = "UPDATE properties SET is_taken = 1 WHERE id = '" . $conn->real_escape_string($id) . "';";
-        // if ($conn->query($sell_sql) === TRUE) {
-        //     echo "Update was successful";
-        // } else {
-        //     echo "Update failed: " . $conn->error;
-        // }
-
-        echo 'SQL for the sell' . $sell_property;
-
-        // Return results after cancelling train
-        // $sql = "SELECT visits.*, properties.title AS title,properties.id AS property_id,  properties.property_description AS property_description, properties.price AS price, properties.property_image AS property_image  FROM visits JOIN properties ON visits.property = properties.id WHERE status='" . $status . "' AND visits.manager=' " . $manager . "' ORDER BY visits.reg_date DESC";
-        $sql = "SELECT visits.*, properties.id AS property_id, properties.is_taken AS property_is_taken, properties.title AS title, properties.property_description AS property_description, properties.price AS price, properties.property_image AS property_image , users.firstname AS firstname, users.lastname AS lastname  FROM visits JOIN properties ON visits.property = properties.id JOIN users ON visits.user = users.id WHERE status='" . $status . "' AND visits.manager=' " . $manager . "' ORDER BY visits.reg_date DESC";
+        // Return results after updating the status
         $sql = "SELECT visits.*, properties.id AS property_id, properties.is_taken AS property_is_taken, properties.title AS title, properties.property_description AS property_description, properties.price AS price, properties.property_image AS property_image , users.firstname AS firstname, users.lastname AS lastname  FROM visits JOIN properties ON visits.property = properties.id JOIN users ON visits.user = users.id WHERE status='" . $status . "' AND visits.manager=' " . $manager . "' ORDER BY visits.reg_date DESC";
 
         $check_properties_list = $conn->query($sql);

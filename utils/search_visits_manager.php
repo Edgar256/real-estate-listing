@@ -20,7 +20,7 @@ if (isset($_POST['status'])) {
 
     if (!empty(trim($_POST["status"]))) {
         $sql = "SELECT visits.*, properties.title AS title, properties.property_description AS property_description, properties.price AS price, properties.property_image AS property_image , users.firstname AS firstname, users.lastname AS lastname  FROM visits JOIN properties ON visits.property = properties.id WHERE status='" . $status . "' AND visits.manager=' " . $manager . "' ORDER BY visits.reg_date DESC";
-        $sql = "SELECT visits.*, properties.id AS property_id,properties.is_taken AS property_is_taken, properties.title AS title, properties.property_description AS property_description, properties.price AS price, properties.property_image AS property_image , users.firstname AS firstname, users.lastname AS lastname  FROM visits JOIN properties ON visits.property = properties.id JOIN users ON visits.user = users.id WHERE status='" . $status . "' AND visits.manager=' " . $manager . "' ORDER BY visits.reg_date DESC";
+        $sql = "SELECT visits.*, properties.id AS property_id, properties.is_taken AS property_is_taken, properties.title AS title, properties.property_description AS property_description, properties.price AS price, properties.property_image AS property_image , users.id AS user_id, users.firstname AS firstname, users.lastname AS lastname  FROM visits JOIN properties ON visits.property = properties.id JOIN users ON visits.user = users.id WHERE status='" . $status . "' AND visits.manager=' " . $manager . "' ORDER BY visits.reg_date DESC";
         $check_properties_list = $conn->query($sql);
 
         if ($check_properties_list->num_rows > 0) {
@@ -51,6 +51,7 @@ if (isset($_POST['status'])) {
                 }
                 $property_id = $row["property_id"];
                 $property_is_taken = $row["property_is_taken"];
+                $user_id = $row["user_id"];
 
                 echo '<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 p-1">
                             <div class="card">
@@ -91,7 +92,7 @@ if (isset($_POST['status'])) {
                     echo '<button class="btn btn-success w-100 completeButton mt-2" value="' . $row["id"] . '" data-currentStatus="' . $status . '" data-manager="' . $_SESSION['id'] . '" >Mark As Completed</button>';
                 }
                 if ($visit_status === "completed"  && $property_is_taken === "0") {
-                    echo '<button class="btn btn-success w-100 sellButton" value="' . $row["id"] . '" data-currentStatus="' . $status . '" data-manager="' . $_SESSION['id'] . '"  data-property-id="' . $property_id . '" >Mark House As Sold</button>';
+                    echo '<button class="btn btn-success w-100 sellButton" value="' . $row["id"] . '" data-currentStatus="' . $status . '" data-manager="' . $_SESSION['id'] . '"  data-property-id="' . $property_id . '" data-user-id="' . $user_id . '" >Mark House As Sold</button>';
                 }
                 echo '</div> </div> </div>';
             }

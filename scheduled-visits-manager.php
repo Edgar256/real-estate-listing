@@ -103,11 +103,14 @@ if (!isset($_SESSION)) {
                 var status = $(this).attr('data-currentStatus');
                 var manager = $(this).attr('data-manager');
                 var propertyId = $(this).attr('data-property-id');
+                var userId = $(this).attr('data-user-id');
+
+                console.log({ id, status, manager, propertyId, userId });
 
                 $.ajax({
                     url: './utils/mark_as_sold.php',
                     type: 'post',
-                    data: { id, status, manager, propertyId },
+                    data: { id, status, manager, propertyId, userId },
                     success: function (response) {
                         $("#results").html(response);
                     },
