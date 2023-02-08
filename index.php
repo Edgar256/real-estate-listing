@@ -44,7 +44,7 @@ require_once('./config/config.php');
                                 Welcome to Realtors Inc. where we help you find your
                                 dream home.
                             </div>
-                            <a href="./auth/user-register.php" class="btn btn-success display-6">Get Started</a>
+                            <a href="./auth/user-register.php" class="btn btn-primary display-6 text-white">Get Started</a>
                         </div>
                     </div>
                 </div>

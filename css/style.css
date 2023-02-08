@@ -18,6 +18,22 @@
 .right-0{
   right: 0 !important;
 }
+.nav-link {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: #AF2024 !important;
+  text-decoration: none;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+}
+a {
+  color: #AF2024 !important;
+  text-decoration: underline;
+}
+.btn-primary {
+  color: #fff;
+  background-color: #AF2024 !important;
+  border-color: #AF2024 !important;
+}
 
 @media (min-width: 576px) {
   /* .container,
