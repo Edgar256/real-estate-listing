@@ -137,6 +137,7 @@ if ($result->num_rows > 0) {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="" />
   <meta name="author" content="Edgar Tinkamanyire" />
+  <link rel="icon" type="image/png" href="./images/logo.png">
   <meta name="generator" content="Hugo 0.101.0" />
   <title>Dashboard Template · Bootstrap v5.2</title>
 
