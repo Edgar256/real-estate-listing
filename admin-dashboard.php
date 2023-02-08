@@ -9,29 +9,123 @@ if (!isset($_SESSION)) {
 $_SESSION['page'] = 'dashboard';
 
 // Define variables and initialize with empty values
-$count_users = $count_managers = $count_admins = 0;
+$count_users = $count_managers = $count_admins = $count_properties = $count_property_types = $count_locations = $count_visits = 0;
 $users_err = "";
 
-// $sql = "SELECT *  FROM users";
-// $result = $conn->query($sql);
-// $count_users = $result->fetchColumn();
+$sql = "SELECT COUNT(*) FROM users";
+$result = $conn->query($sql);
 
-// $result = $conn->query("SELECT COUNT(*) FROM users");
-// $row = $result->fetch(PDO::FETCH_ASSOC);
-// $size = $row['COUNT(*)'];
+// Check if there is a result
+if ($result->num_rows > 0) {
 
-// echo 'here ' .$size;
+  // Fetch the result
+  $row = $result->fetch_assoc();
 
-// $sql = "SELECT COUNT(*) FROM users";
-// $result = $conn->query($sql);
+  // Extract the count from the result
+  $count_users = $row["COUNT(*)"];
 
-// if (!is_object($result)) {
-//   echo 'No result!';
-// } else {
-//   $row = $result->fetch(PDO::FETCH_ASSOC);
-//   $count_users = $row['COUNT(*)'];
-//   echo 'here ' . $count_users;
-// }
+} else {
+  $count_users = 0;
+}
+
+$sql = "SELECT COUNT(*) FROM managers";
+$result = $conn->query($sql);
+
+// Check if there is a result
+if ($result->num_rows > 0) {
+
+  // Fetch the result
+  $row = $result->fetch_assoc();
+
+  // Extract the count from the result
+  $count_managers = $row["COUNT(*)"];
+
+} else {
+  $count_managers = 0;
+}
+
+$sql = "SELECT COUNT(*) FROM admins";
+$result = $conn->query($sql);
+
+// Check if there is a result
+if ($result->num_rows > 0) {
+
+  // Fetch the result
+  $row = $result->fetch_assoc();
+
+  // Extract the count from the result
+  $count_admins = $row["COUNT(*)"];
+
+} else {
+  $count_admins = 0;
+}
+
+$sql = "SELECT COUNT(*) FROM properties";
+$result = $conn->query($sql);
+
+// Check if there is a result
+if ($result->num_rows > 0) {
+
+  // Fetch the result
+  $row = $result->fetch_assoc();
+
+  // Extract the count from the result
+  $count_properties = $row["COUNT(*)"];
+
+} else {
+  $count_properties = 0;
+}
+
+$sql = "SELECT COUNT(*) FROM types";
+$result = $conn->query($sql);
+
+// Check if there is a result
+if ($result->num_rows > 0) {
+
+  // Fetch the result
+  $row = $result->fetch_assoc();
+
+  // Extract the count from the result
+  $count_property_types = $row["COUNT(*)"];
+
+} else {
+  $count_property_types = 0;
+}
+
+$sql = "SELECT COUNT(*) FROM locations";
+$result = $conn->query($sql);
+
+// Check if there is a result
+if ($result->num_rows > 0) {
+
+  // Fetch the result
+  $row = $result->fetch_assoc();
+
+  // Extract the count from the result
+  $count_locations = $row["COUNT(*)"];
+
+} else {
+  $count_locations = 0;
+}
+
+
+$sql = "SELECT COUNT(*) FROM visits";
+$result = $conn->query($sql);
+
+// Check if there is a result
+if ($result->num_rows > 0) {
+
+  // Fetch the result
+  $row = $result->fetch_assoc();
+
+  // Extract the count from the result
+  $count_visits = $row["COUNT(*)"];
+
+} else {
+  $count_visits = 0;
+}
+
+
 
 ?>
 
@@ -73,13 +167,13 @@ $users_err = "";
           <h1 class="h2">Dashboard</h1>
         </div>
 
-        <div class="d-flex">
+        <div class="d-flex flex-wrap">
           <div class="col-4 p-2">
             <div class="alert alert-primary alert-dismissible fade show d-flex">
               <span data-feather="user" class="align-text-bottom w-25" style="height: 70px;"></span>
               <div class="w-75">
-                <h3 class="">Users
-                  <?php echo $count_users ?>
+                <h3 class="">Users (
+                  <?php echo $count_users; ?> )
                 </h3>
                 <h6><a href="./users-listing.php"
                     class="badge bg-primary rounded-pill text-bg-warning text-decoration-none">View All Users</a></h6>
@@ -90,7 +184,9 @@ $users_err = "";
             <div class="alert alert-warning alert-dismissible fade show d-flex">
               <span data-feather="command" class="align-text-bottom w-25" style="height: 70px;"></span>
               <div class="w-75">
-                <h3 class="">Managers</h3>
+                <h3 class="">Managers (
+                  <?php echo $count_managers; ?> )
+                </h3>
                 <h6><a href="./managers-listing.php"
                     class="badge bg-warning rounded-pill text-bg-warning text-decoration-none">View All Managers</a>
                 </h6>
@@ -101,9 +197,65 @@ $users_err = "";
             <div class="alert alert-secondary alert-dismissible fade show d-flex">
               <span data-feather="terminal" class="align-text-bottom w-25" style="height: 70px;"></span>
               <div class="w-75">
-                <h3 class="">Admins</h3>
+                <h3 class="">Admins (
+                  <?php echo $count_admins; ?> )
+                </h3>
                 <h6><a href="./admins-listing.php"
                     class="badge bg-secondary rounded-pill text-bg-warning text-decoration-none">View All Admins</a>
+                </h6>
+              </div>
+            </div>
+          </div>
+          <div class="col-8 p-2">
+            <div class="alert alert-primary alert-dismissible fade show d-flex">
+              <span data-feather="list" class="align-text-bottom w-25" style="height: 70px;"></span>
+              <div class="w-75">
+                <h3 class="">Property Listings (
+                  <?php echo $count_properties; ?> )
+                </h3>
+                <h6><a href="./listing-admin.php"
+                    class="badge bg-primary rounded-pill text-bg-warning text-decoration-none">View All Properties</a>
+                </h6>
+              </div>
+            </div>
+          </div>
+          <div class="col-4 p-2">
+            <div class="alert alert-warning alert-dismissible fade show d-flex">
+              <span data-feather="command" class="align-text-bottom w-25" style="height: 70px;"></span>
+              <div class="w-75">
+                <h3 class="">Property Types (
+                  <?php echo $count_property_types; ?> )
+                </h3>
+                <h6><a href="./property-types-listing.php"
+                    class="badge bg-warning rounded-pill text-bg-warning text-decoration-none">View All Property
+                    Types</a>
+                </h6>
+              </div>
+            </div>
+          </div>
+          <div class="col-4 p-2">
+            <div class="alert alert-danger alert-dismissible fade show d-flex">
+              <span data-feather="list" class="align-text-bottom w-25" style="height: 70px;"></span>
+              <div class="w-75">
+                <h3 class="">Locations (
+                  <?php echo $count_locations; ?> )
+                </h3>
+                <h6><a href="./locations-listing.php"
+                    class="badge bg-primary rounded-pill text-bg-warning text-decoration-none">View All Locations</a>
+                </h6>
+              </div>
+            </div>
+          </div>
+          <div class="col-8 p-2">
+            <div class="alert alert-info alert-dismissible fade show d-flex">
+              <span data-feather="command" class="align-text-bottom w-25" style="height: 70px;"></span>
+              <div class="w-75">
+                <h3 class="">Scheduled Visits (
+                  <?php echo $count_visits; ?> )
+                </h3>
+                <h6><a href="./scheduled-visits-admin.php"
+                    class="badge bg-warning rounded-pill text-bg-warning text-decoration-none">View All Scheduled
+                    Visits</a>
                 </h6>
               </div>
             </div>
