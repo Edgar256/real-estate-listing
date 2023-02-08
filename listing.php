@@ -35,7 +35,7 @@ $check_properties_list = $conn->query($sql);
     <!-- JQUERY LINK -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <title>Equitable Property Group</title>
+    <title>Realtors Inc.</title>
 
     <script>
         $(document).ready(function () {

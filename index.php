@@ -23,7 +23,7 @@ require_once('./config/config.php');
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-    <title>Equitable Property Group</title>
+    <title>Realtors Inc.</title>
 </head>
 
 <body>
@@ -41,7 +41,7 @@ require_once('./config/config.php');
                     <div class="col-8 col-xl-8 col-sm-12">
                         <div class="p-5">
                             <div class="text-white py-5 display-1">
-                                Welcome to Equitable Property Group where we help you find your
+                                Welcome to Realtors Inc. where we help you find your
                                 dream home.
                             </div>
                             <a href="./auth/user-register.php" class="btn btn-success display-6">Get Started</a>

@@ -28,7 +28,7 @@ require_once('./config/config.php');
     <!-- JQUERY LINK -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <title>Equitable Property Group</title>
+    <title>Realtors Inc.</title>
 
     <script defer>
         $(document).ready(function () {

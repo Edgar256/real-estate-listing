@@ -30,7 +30,7 @@ $note_err = $visit_date_err = $visit_time_err = $property_err = $user_err = $man
   <!-- JQUERY LINK -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-  <title>Equitable Property Group</title>
+  <title>Realtors Inc.</title>
 
 </head>
 
