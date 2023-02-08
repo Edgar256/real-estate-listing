@@ -56,7 +56,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['firstname']) && isset($_SESSIO
           if ($firstname && $lastname) {
              if ($_SESSION["role"] == "MANAGER") {
               echo '<div class="dropdown">' .
-                '<button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"> ' . 'Hey (' . $_SESSION["role"] . ') ' . $firstname . ' ' . $lastname . '</button>' .
+                '<button class="btn btn-primary bg-primary border-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"> ' . 'Hey (' . $_SESSION["role"] . ') ' . $firstname . ' ' . $lastname . '</button>' .
                 '<ul class="dropdown-menu w-100 text-center">'.
                 '<li><a class="dropdown-item" href="listing-manager.php">Listing</a></li>'.
                 '<li class="p-2"><a class="dropdown-item" href="scheduled-visits-manager.php">Scheduled Visits</a></li>'.
