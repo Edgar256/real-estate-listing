@@ -57,7 +57,12 @@ require('../utils/admin_register.php');
         <!-- start register body -->
         <div class="position-relative">
             <div class="container d-flex">
-                <div class="col-6 col-xl-6 col-sm-12 mx-auto py-5">
+                <div class="col-6 col-xl-6 col-sm-12 mx-auto py-2">
+                    <div class="d-flex justify-content-center align-items-center py-3">
+                        <a class="navbar-brand" href="../index.php">
+                            <img src="../images/logo-tagline.svg" height="150" width="200" alt="" />
+                        </a>
+                    </div>
                     <h1 class="text-center display-4">ADMIN REGISTRATION</h1>
 
                     <!-- Display error if fail to save user -->
@@ -68,7 +73,8 @@ require('../utils/admin_register.php');
                     <?php echo $success_msg ?>
 
                     <!-- Login form  -->
-                    <form class="row g-3" action='<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>' method="POST" onsubmit="return validateForm()">
+                    <form class="row g-3" action='<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>' method="POST"
+                        onsubmit="return validateForm()">
                         <div class="col-md-6">
                             <label for="firstname" class="form-label">First Name <span
                                     class="text-danger pl-2">*</span></label>

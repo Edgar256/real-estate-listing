@@ -4,7 +4,7 @@ require('../config/config.php');
 
 // set FALSE to AUTH_ACTIVE SESSION VARIABLE
 if (isset($_SESSION)) {
-    session_start(); 
+    session_start();
     $_SESSION['auth_active'] = FALSE;
 } else {
     session_start();
@@ -57,7 +57,12 @@ require('../utils/manager_login.php');
         <div class="position-relative">
             <div class="container d-flex">
 
-                <div class="col-6 col-xl-6 col-sm-12 mx-auto py-5">
+                <div class="col-6 col-xl-6 col-sm-12 mx-auto py-2">
+                    <div class="d-flex justify-content-center align-items-center py-3">
+                        <a class="navbar-brand" href="../index.php">
+                            <img src="../images/logo-tagline.svg" height="150" width="200" alt="" />
+                        </a>
+                    </div>
                     <h1 class="text-center display-4">MANAGER LOGIN</h1>
                     <div>
                         <?php echo $login_err; ?>
@@ -71,14 +76,14 @@ require('../utils/manager_login.php');
                                     class="text-danger pl-2">*</span></label>
                             <div class="col-sm-10">
                                 <input type="email" class="form-control <?php if (!empty($email_err))
-                                    echo "border-danger"; ?>" name="email" id="email" required/>
+                                    echo "border-danger"; ?>" name="email" id="email" required />
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
                             <div class="col-sm-10">
                                 <input type="password" class="form-control <?php if (!empty($password_err))
-                                    echo "border-danger"; ?>" name="password" id="password" required/>
+                                    echo "border-danger"; ?>" name="password" id="password" required />
                             </div>
                         </div>
                         <input type="submit" class="btn btn-primary w-100" value="Sign in" />
@@ -107,7 +112,7 @@ require('../utils/manager_login.php');
             var password = document.getElementById("password").value;
 
             // Check if input values are not empty
-            if (email == "" || password == "" ) {
+            if (email == "" || password == "") {
                 alert("All fields are required!");
                 return false;
             }

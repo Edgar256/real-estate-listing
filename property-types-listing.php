@@ -108,7 +108,7 @@ require('utils/add_item.php');
                         <div class="btn-group me-2">
                             <button type="button" class="btn btn-sm btn-outline-secondary">
                                 Share
-                            </button>
+                            </button>z
                             <button type="button" class="btn btn-sm btn-outline-secondary">
                                 Export
                             </button>

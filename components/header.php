@@ -47,7 +47,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['firstname']) && isset($_SESSIO
     </button>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
       <a class="navbar-brand" href="index.php">
-        <img src="./images/logo.png" height="50" width="100" alt="" />
+        <img src="./images/logo.svg" height="60" width="150" alt="" />
       </a>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
       <?php

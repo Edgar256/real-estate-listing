@@ -57,7 +57,12 @@ require('../utils/user_register.php');
         <!-- start register body -->
         <div class="position-relative">
             <div class="container d-flex">
-                <div class="col-6 col-xl-6 col-sm-12 mx-auto py-5">
+                <div class="col-6 col-xl-6 col-sm-12 mx-auto py-2">
+                    <div class="d-flex justify-content-center align-items-center py-3">
+                        <a class="navbar-brand" href="../index.php">
+                            <img src="../images/logo-tagline.svg" height="150" width="200" alt="" />
+                        </a>
+                    </div>
                     <h1 class="text-center display-4">USER REGISTRATION</h1>
                     <!-- Display error if fail to save user -->
                     <?php if (!empty($saving_user_err)) {
