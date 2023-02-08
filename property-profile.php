@@ -61,10 +61,14 @@ $note_err = $visit_date_err = $visit_time_err = $property_err = $user_err = $man
               $imageData = $row['property_image'];
               $imageData = base64_encode($imageData);
               $property_type = $row['property_type'];
+              $property_is_taken = $row["is_taken"];
               echo '<div class="d-flex">
-            <span class="col-sm-7 p-3">
-              <img src="data:image/jpeg;base64,' . $imageData . '" style="font-weight:bold" class="card-img-top p-2" >
-            </span>
+            <span class="col-sm-7 p-3">';
+              if ($property_is_taken === "1") {
+                echo '<img src="./images/sold.svg" alt="Sold SVG Image" class="left-0 position-absolute">';
+              }
+              echo '<img src="data:image/jpeg;base64,' . $imageData . '" style="font-weight:bold" class="card-img-top p-0" >              
+              </span>
             <span class="col-sm-5 p-3">
               <input type="hidden" name="manager_id" id="manager_id" value="' . $manager . '">
               <input type="hidden" name="property_id" id="property_id" value="' . $property . '">
@@ -77,7 +81,7 @@ $note_err = $visit_date_err = $visit_time_err = $property_err = $user_err = $man
               ' . $row['property_description'] . '
               </p>';
 
-              if ($_SESSION["role"] == "USER") {
+              if ($_SESSION["role"] == "USER" && $property_is_taken === "0") {
                 echo '<div class="col-12">
                 <button type="submit" class="btn btn-primary w-100" data-bs-toggle="modal"
                   data-bs-target="#scheduleVisitModal">
@@ -134,7 +138,8 @@ $note_err = $visit_date_err = $visit_time_err = $property_err = $user_err = $man
               $imageData = base64_encode($imageData);
               $datePosted = $row["reg_date"];
               $property_type = $row["property_type_name"]; // Change property name to title case
-          
+              $property_is_taken = $row["is_taken"];
+
               if ($_SESSION["role"] == "USER") {
                 echo '<div class="w-25 p-1">
                             <div class="card">
@@ -145,8 +150,11 @@ $note_err = $visit_date_err = $visit_time_err = $property_err = $user_err = $man
                                     width: 100%;
                                     border-radius: 3px 3px 0px 0px;
                                     min-height: 200px;">
-                                </span>
-                                <div class="card-body">
+                                </span>';
+                if ($property_is_taken === "1") {
+                  echo '<img src="./images/sold.svg" alt="Sold SVG Image" class="left-0 position-absolute">';
+                }
+                echo '<div class="card-body">
                                     <p class="text_muted"><small><i>Posted :' . date("F j, Y, g:i a", strtotime($datePosted)) . '</i></small></p>
                                     <h5 class="card-title">' . $title . '</h5>                                    
                                     <h6>Location: ' . $location . '</h6>
@@ -283,14 +291,14 @@ $note_err = $visit_date_err = $visit_time_err = $property_err = $user_err = $man
           return;
         }
 
-        console.log({  property_id });
+        console.log({ property_id });
 
         $.ajax({
           url: "./utils/schedule_visit.php",
           type: "post",
           data: { date, time, note, user, property_id, manager_id },
           success: function (response) {
-            console.log({response});
+            console.log({ response });
             if (response == 'success') {
               $('#scheduleVisitModal').modal('hide');
               $('#scheduleVisitSuccessModal').modal('show');
