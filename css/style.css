@@ -30,7 +30,7 @@ a {
   text-decoration: underline;
 }
 .btn-primary {
-  color: #fff;
+  color: #fff !important;
   background-color: #AF2024 !important;
   border-color: #AF2024 !important;
 }
