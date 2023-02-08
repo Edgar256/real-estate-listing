@@ -2,7 +2,19 @@
 // import Config File
 require_once('./config/config.php');
 
+if (!isset($_SESSION)) {
+    session_start();
+}
 
+$property_name = $location_id = $entries_err = $result = $search_query = $property_type_name = $user = "";
+$check_properties_list = array();
+
+$status = "pending";
+
+$user = $_SESSION['id'];
+
+$sql = "SELECT visits.*, properties.id AS property_id, properties.title AS title, properties.is_taken AS property_is_taken, properties.property_description AS property_description, properties.price AS price, properties.property_image AS property_image  FROM visits JOIN properties ON visits.property = properties.id WHERE status='" . $status . "' AND user='" . $user . "' ORDER BY visits.reg_date DESC";
+$check_properties_list = $conn->query($sql);
 
 ?>
 <html lang="en">
@@ -84,18 +96,6 @@ require_once('./config/config.php');
         <!-- import the header section-->
         <?php include './components/header.php'; ?>
 
-        <?php
-        $property_name = $location_id = $entries_err = $result = $search_query = $property_type_name = $user = "";
-        $check_properties_list = array();
-
-        $status = "pending";
-
-        $user = $_SESSION['id'];
-
-        $sql = "SELECT visits.*, properties.title AS title, properties.property_description AS property_description, properties.price AS price, properties.property_image AS property_image  FROM visits JOIN properties ON visits.property = properties.id WHERE status='" . $status . "' AND user='" . $user . "' ORDER BY visits.reg_date DESC";
-        $check_properties_list = $conn->query($sql);
-        ?>
-
         <div class="position-relative">
 
             <!-- start seacrh section -->
@@ -159,8 +159,9 @@ require_once('./config/config.php');
                             $note = substr($row["note"], 0, 100);
                             $note = $note . "...";
                         } else {
-                            $note= $row["note"];
+                            $note = $row["note"];
                         }
+                        $property_is_taken = $row["property_is_taken"];
 
                         echo '<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 p-1">
                             <div class="card">
@@ -172,6 +173,10 @@ require_once('./config/config.php');
                                     border-radius: 3px 3px 0px 0px;
                                     min-height: 200px;">           
                                 </span>';
+                        if ($property_is_taken === "1") {
+                            echo '<img src="./images/sold.svg" alt="Sold SVG Image" class="left-0 position-absolute">';
+                        }
+
                         if ($visit_status === "pending") {
                             echo '<div class="right-0 position-absolute p-1"><span class="badge bg-primary">Pending</span></div>';
                         } else if ($visit_status === "rejected") {

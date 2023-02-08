@@ -19,7 +19,7 @@ if (isset($_POST['status'])) {
     }
 
     if (!empty(trim($_POST["status"]))) {
-        $sql = "SELECT visits.*, properties.title AS title, properties.property_description AS property_description, properties.price AS price, properties.property_image AS property_image  FROM visits JOIN properties ON visits.property = properties.id WHERE status='" . $status . "' AND user=' " . $user . "' ORDER BY visits.reg_date DESC";
+        $sql = "SELECT visits.*, properties.id AS property_id, properties.title AS title, properties.is_taken AS property_is_taken, properties.property_description AS property_description, properties.price AS price, properties.property_image AS property_image  FROM visits JOIN properties ON visits.property = properties.id WHERE status='" . $status . "' AND user=' " . $user . "' ORDER BY visits.reg_date DESC";
         $check_properties_list = $conn->query($sql);
 
         if ($check_properties_list->num_rows > 0) {
@@ -44,8 +44,9 @@ if (isset($_POST['status'])) {
                     $note = substr($row["note"], 0, 100);
                     $note = $note . "...";
                 } else {
-                    $note= $row["note"];
+                    $note = $row["note"];
                 }
+                $property_is_taken = $row["property_is_taken"];
 
                 echo '<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 p-1">
                             <div class="card">
@@ -57,6 +58,10 @@ if (isset($_POST['status'])) {
                                     border-radius: 3px 3px 0px 0px;
                                     min-height: 200px;">           
                                 </span>';
+
+                if ($property_is_taken === "1") {
+                    echo '<img src="./images/sold.svg" alt="Sold SVG Image" class="left-0 position-absolute">';
+                }
                 if ($visit_status === "pending") {
                     echo '<div class="right-0 position-absolute p-1"><span class="badge bg-primary">Pending</span></div>';
                 } else if ($visit_status == "rejected") {
