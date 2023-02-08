@@ -222,7 +222,7 @@ if ($result->num_rows > 0) {
           </div>
           <div class="col-4 p-2">
             <div class="alert alert-warning alert-dismissible fade show d-flex">
-              <span data-feather="command" class="align-text-bottom w-25" style="height: 70px;"></span>
+              <span data-feather="list" class="align-text-bottom w-25" style="height: 70px;"></span>
               <div class="w-75">
                 <h3 class="">Property Types (
                   <?php echo $count_property_types; ?> )
@@ -236,7 +236,7 @@ if ($result->num_rows > 0) {
           </div>
           <div class="col-4 p-2">
             <div class="alert alert-danger alert-dismissible fade show d-flex">
-              <span data-feather="list" class="align-text-bottom w-25" style="height: 70px;"></span>
+              <span data-feather="map-pin" class="align-text-bottom w-25" style="height: 70px;"></span>
               <div class="w-75">
                 <h3 class="">Locations (
                   <?php echo $count_locations; ?> )
@@ -249,7 +249,7 @@ if ($result->num_rows > 0) {
           </div>
           <div class="col-8 p-2">
             <div class="alert alert-info alert-dismissible fade show d-flex">
-              <span data-feather="command" class="align-text-bottom w-25" style="height: 70px;"></span>
+              <span data-feather="user-check" class="align-text-bottom w-25" style="height: 70px;"></span>
               <div class="w-75">
                 <h3 class="">Scheduled Visits (
                   <?php echo $count_visits; ?> )
