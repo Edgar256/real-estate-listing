@@ -44,6 +44,7 @@ if (isset($_POST['property_name']) || isset($_POST['location_id'])) {
                 $imageData = base64_encode($imageData);
                 $datePosted = $row["reg_date"];
                 $property_type_name = mb_convert_case($row["property_type_name"], MB_CASE_TITLE, "UTF-8");
+                $property_is_taken = $row["is_taken"];
 
                 echo '<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 p-1">
                     <div class="card">
@@ -54,8 +55,11 @@ if (isset($_POST['property_name']) || isset($_POST['location_id'])) {
                             width: 100%;
                             border-radius: 3px 3px 0px 0px;
                             min-height: 200px;">
-                        </span>
-                        <div class="card-body">
+                        </span>';
+                        if ($property_is_taken === "1") {
+                            echo '<img src="./images/sold.svg" alt="Sold SVG Image" class="left-0 position-absolute">';
+                        }
+                        echo ' <div class="card-body">
                             <p class="text_muted"><small><i>Posted : ' . date("F j, Y, g:i a", strtotime($datePosted)) . '</i></small></p>
                             <h5 class="card-title">' . $title . '</h5>
                             <h6>Location : ' . $location . '</h6>
@@ -98,6 +102,7 @@ if (isset($_POST['property_name']) || isset($_POST['location_id'])) {
                 $imageData = base64_encode($imageData);
                 $datePosted = $row["reg_date"];
                 $property_type_name = mb_convert_case($row["property_type_name"], MB_CASE_TITLE, "UTF-8");
+                $property_is_taken = $row["is_taken"];
 
                 echo '<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 p-1">
                     <div class="card">
@@ -108,8 +113,11 @@ if (isset($_POST['property_name']) || isset($_POST['location_id'])) {
                             width: 100%;
                             border-radius: 3px 3px 0px 0px;
                             min-height: 200px;">
-                        </span>
-                        <div class="card-body">
+                        </span>';
+                        if ($property_is_taken === "1") {
+                            echo '<img src="./images/sold.svg" alt="Sold SVG Image" class="left-0 position-absolute">';
+                        }
+                        echo ' <div class="card-body">
                             <p class="text_muted"><small><i>Posted : ' . date("F j, Y, g:i a", strtotime($datePosted)) . '</i></small></p>
                             <h5 class="card-title">' . $title . '</h5>
                             <h6>Location : ' . $location . '</h6>
@@ -155,6 +163,7 @@ if (isset($_POST['property_name']) || isset($_POST['location_id'])) {
                 $imageData = base64_encode($imageData);
                 $datePosted = $row["reg_date"];
                 $property_type_name = mb_convert_case($row["property_type_name"], MB_CASE_TITLE, "UTF-8");
+                $property_is_taken = $row["is_taken"];
 
                 echo '<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 p-1">
                     <div class="card">
@@ -165,8 +174,11 @@ if (isset($_POST['property_name']) || isset($_POST['location_id'])) {
                             width: 100%;
                             border-radius: 3px 3px 0px 0px;
                             min-height: 200px;">
-                        </span>
-                        <div class="card-body">
+                        </span>';
+                        if ($property_is_taken === "1") {
+                            echo '<img src="./images/sold.svg" alt="Sold SVG Image" class="left-0 position-absolute">';
+                        }
+                        echo ' <div class="card-body">
                             <p class="text_muted"><small><i>Posted : ' . date("F j, Y, g:i a", strtotime($datePosted)) . '</i></small></p>
                             <h5 class="card-title">' . $title . '</h5>
                             <h6>Location : ' . $location . '</h6>
@@ -194,6 +206,7 @@ if (isset($_POST['property_name']) || isset($_POST['location_id'])) {
         $query = "SELECT properties.*, locations.id AS location_id, locations.name AS location_name,  types.name AS property_type_name FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id WHERE manager =" . $_SESSION['id'] . " ORDER BY reg_date DESC";
         $result = $conn->query($query);
         $check_properties_list = $conn->query($query);
+        $property_is_taken = $row["is_taken"];
 
         if ($check_properties_list->num_rows > 0) {
             while ($row = $check_properties_list->fetch_assoc()) {
@@ -222,8 +235,11 @@ if (isset($_POST['property_name']) || isset($_POST['location_id'])) {
                             width: 100%;
                             border-radius: 3px 3px 0px 0px;
                             min-height: 200px;">
-                        </span>
-                        <div class="card-body">
+                        </span>';
+                        if ($property_is_taken === "1") {
+                            echo '<img src="./images/sold.svg" alt="Sold SVG Image" class="left-0 position-absolute">';
+                        }
+                        echo ' <div class="card-body">
                             <p class="text_muted"><small><i>Posted : ' . date("F j, Y, g:i a", strtotime($datePosted)) . '</i></small></p>
                             <h5 class="card-title">' . $title . '</h5>
                             <h6>Location : ' . $location . '</h6>
