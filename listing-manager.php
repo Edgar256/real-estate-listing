@@ -8,7 +8,16 @@ if (!isset($_SESSION)) {
 
 $table = "properties";
 $property_type_name = "";
-$sql = "SELECT properties.*, locations.id AS location_id, locations.name AS location_name,  types.name AS property_type_name FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id WHERE manager =" . $_SESSION['id'] . " ORDER BY reg_date DESC";
+$sql = "SELECT properties.*, 
+        locations.id AS location_id, 
+        locations.name AS location_name,  
+        types.name AS property_type_name 
+        FROM properties 
+        JOIN locations ON properties.property_location = locations.id 
+        JOIN types ON properties.property_type = types.id 
+        WHERE manager =" . $_SESSION['id'] . " 
+        ORDER BY reg_date DESC";
+        
 $check_properties_list = $conn->query($sql);
 
 ?>

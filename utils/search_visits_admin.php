@@ -91,12 +91,8 @@ if (isset($_POST['status'])) {
                                     <h6>Scheduled Date : ' . date("F jS, Y", strtotime($visit_date)) . '</h6><h6>Scheduled Time : ' . date("h:i a", strtotime($visit_time)) . '</h6><p class="card-text"> ' . $note . '</p>';
                 if ($visit_status === "pending" && $property_is_taken === "0") {
                     echo '<button class="btn btn-danger w-100 rejectButton" value="' . $row["id"] . '" data-currentStatus="' . $status . '" data-manager="' . $_SESSION['id'] . '" >Reject Visit</button>';
-                    echo '<button class="btn btn-success w-100 completeButton mt-2" value="' . $row["id"] . '" data-currentStatus="' . $status . '" data-manager="' . $_SESSION['id'] . '" >Mark As Completed</button>';
                 }
 
-                if ($visit_status === "completed" && $property_is_taken === "0") {
-                    echo '<button class="btn btn-success w-100 sellButton" value="' . $row["id"] . '" data-currentStatus="' . $status . '" data-manager="' . $_SESSION['id'] . '"  data-property-id="' . $property_id . '" >Mark House As Sold</button>';
-                }
                 echo '</div> </div> </div>';
             }
         } else {
