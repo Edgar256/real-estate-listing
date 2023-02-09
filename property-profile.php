@@ -49,7 +49,7 @@ $note_err = $visit_date_err = $visit_time_err = $property_err = $user_err = $man
           $id = $_GET['id'];
           $property_type = '';
           $user = $_SESSION['id'];
-          $query = "SELECT properties.*, locations.id AS location_id,locations.name AS location_name, types.id AS property_type_id, types.name AS property_type_name, managers.id AS manager_id FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id JOIN managers ON properties.manager = managers.id WHERE properties.id = " . $id;
+          $query = "SELECT properties.*, locations.id AS location_id,locations.name AS location_name, types.id AS property_type_id, types.name AS property_type_name, managers.id AS manager_id, users.id AS buyer_id , users.firstname AS buyer_firstname, users.lastname AS buyer_lastname, users.phone AS buyer_phone, users.email AS buyer_email  FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id JOIN managers ON properties.manager = managers.id JOIN users ON properties.buyer = users.id WHERE properties.id = " . $id;
           $check_property = $conn->query($query);
 
           if ($check_property->num_rows > 0) {
@@ -88,6 +88,14 @@ $note_err = $visit_date_err = $visit_time_err = $property_err = $user_err = $man
                   SCHEDULE FIELD VISIT
                 </button>
               </div>';
+              }
+              ;
+
+              if ($_SESSION["role"] == "MANAGER" && $property_is_taken === "1") {
+                echo '<div class="col-12 py-5">
+                 <h5>Client: ' . mb_convert_case($row['buyer_firstname'], MB_CASE_TITLE, "UTF-8") . ' ' . mb_convert_case($row['buyer_lastname'], MB_CASE_TITLE, "UTF-8") . '</h5>';
+                echo '<h5>Phone: ' . $row['buyer_phone'] . '</h5>';
+                echo '<h5>Email: ' . $row['buyer_email'] . '</h5>';
               }
               ;
 
