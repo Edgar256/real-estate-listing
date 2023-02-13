@@ -64,7 +64,7 @@ $note_err = $visit_date_err = $visit_time_err = $property_err = $user_err = $man
                     JOIN locations ON properties.property_location = locations.id 
                     JOIN types ON properties.property_type = types.id 
                     JOIN managers ON properties.manager = managers.id 
-                    JOIN users ON properties.buyer = users.id 
+                    LEFT JOIN users ON properties.buyer = users.id 
                     WHERE properties.id = " . $id;
 
           $check_property = $conn->query($query);
