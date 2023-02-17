@@ -23,7 +23,13 @@ if (isset($_POST['property_name']) || isset($_POST['location_id'])) {
         $property_name = mb_strtolower($property_name);
         $property_name = ucwords($property_name);
         $property_name = mysqli_real_escape_string($conn, $property_name);
-        $query = "SELECT properties.*, locations.id AS location_id, locations.name AS location_name,  types.name AS property_type_name FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id WHERE UPPER(title) LIKE UPPER('%$property_name%') AND manager =" . $_SESSION['id'] . " ORDER BY reg_date DESC";
+        $query = "SELECT properties.*, 
+                    locations.id AS location_id, 
+                    locations.name AS location_name,  
+                    types.name AS property_type_name 
+                    FROM properties JOIN locations ON properties.property_location = locations.id 
+                    JOIN types ON properties.property_type = types.id WHERE UPPER(title) LIKE UPPER('%$property_name%') 
+                    AND manager =" . $_SESSION['id'] . " ORDER BY reg_date DESC";
 
         $check_properties_list = $conn->query($query);
 
@@ -81,7 +87,14 @@ if (isset($_POST['property_name']) || isset($_POST['location_id'])) {
 
     if (empty(trim($_POST["property_name"])) && !empty(trim($_POST["location_id"]))) {
         $location_id = trim($_POST["location_id"]);
-        $query = "SELECT properties.*, locations.id AS location_id, locations.name AS location_name,  types.name AS property_type_name FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id  WHERE property_location='$location_id' AND manager =" . $_SESSION['id'] . " ORDER BY reg_date DESC";
+        $query = "SELECT properties.*, 
+                    locations.id AS location_id, 
+                    locations.name AS location_name,  
+                    types.name AS property_type_name 
+                    FROM properties 
+                    JOIN locations ON properties.property_location = locations.id 
+                    JOIN types ON properties.property_type = types.id  
+                    WHERE property_location='$location_id' AND manager =" . $_SESSION['id'] . " ORDER BY reg_date DESC";
         $result = $conn->query($query);
         $check_properties_list = $conn->query($query);
 
@@ -142,7 +155,16 @@ if (isset($_POST['property_name']) || isset($_POST['location_id'])) {
         $property_name = mb_strtolower($property_name);
         $property_name = ucwords($property_name);
         $property_name = mysqli_real_escape_string($conn, $property_name);
-        $query = "SELECT properties.*, locations.id AS location_id, locations.name AS location_name,  types.name AS property_type_name FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id  WHERE UPPER(title) LIKE UPPER('%$property_name%') AND property_location='$location_id' AND manager =" . $_SESSION['id'] . " ORDER BY reg_date DESC";
+        $query = "SELECT properties.*, 
+                    locations.id AS location_id, 
+                    locations.name AS location_name,  
+                    types.name AS property_type_name 
+                    FROM properties 
+                    JOIN locations ON properties.property_location = locations.id 
+                    JOIN types ON properties.property_type = types.id  
+                    WHERE UPPER(title) LIKE UPPER('%$property_name%') 
+                    AND property_location='$location_id' AND manager =" . $_SESSION['id'] . " ORDER BY reg_date DESC";
+
         $result = $conn->query($query);
         $check_properties_list = $conn->query($query);
 
@@ -203,7 +225,14 @@ if (isset($_POST['property_name']) || isset($_POST['location_id'])) {
         $property_name = mb_strtolower($property_name);
         $property_name = ucwords($property_name);
         $property_name = mysqli_real_escape_string($conn, $property_name);
-        $query = "SELECT properties.*, locations.id AS location_id, locations.name AS location_name,  types.name AS property_type_name FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id WHERE manager =" . $_SESSION['id'] . " ORDER BY reg_date DESC";
+        $query = "SELECT properties.*, 
+                    locations.id AS location_id, 
+                    locations.name AS location_name,  
+                    types.name AS property_type_name 
+                    FROM properties 
+                    JOIN locations ON properties.property_location = locations.id 
+                    JOIN types ON properties.property_type = types.id WHERE manager =" . $_SESSION['id'] . " ORDER BY reg_date DESC";
+                    
         $result = $conn->query($query);
         $check_properties_list = $conn->query($query);
         $property_is_taken = $row["is_taken"];

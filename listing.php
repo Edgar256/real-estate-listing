@@ -7,7 +7,15 @@ $check_locations_list = 0;
 $check_properties_list = array();
 $table = "properties";
 
-$sql = "SELECT properties.*, locations.id AS location_id, locations.name AS location_name,  types.name AS property_type_name FROM properties JOIN locations ON properties.property_location = locations.id JOIN types ON properties.property_type = types.id ORDER BY reg_date DESC";
+$sql = "SELECT properties.*, 
+            locations.id AS location_id, 
+            locations.name AS location_name,  
+            types.name AS property_type_name 
+            FROM properties 
+            JOIN locations ON properties.property_location = locations.id 
+            JOIN types ON properties.property_type = types.id 
+            ORDER BY reg_date DESC";
+            
 $check_properties_list = $conn->query($sql);
 
 

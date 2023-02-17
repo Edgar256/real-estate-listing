@@ -19,7 +19,20 @@ if (isset($_POST['status'])) {
 
     if (!empty(trim($_POST["status"]))) {
         $sql = "SELECT visits.*, properties.title AS title, properties.property_description AS property_description, properties.price AS price, properties.property_image AS property_image  FROM visits JOIN properties ON visits.property = properties.id WHERE status='" . $status . "' ORDER BY visits.reg_date DESC";
-        $sql = "SELECT visits.*, properties.id AS property_id, properties.title AS title, properties.is_taken AS property_is_taken, properties.property_description AS property_description, properties.price AS price, properties.property_image AS property_image, managers.firstname AS firstname_manager , managers.lastname AS lastname_manager, users.firstname AS firstname_user , users.lastname AS lastname_user  FROM visits JOIN properties ON visits.property = properties.id JOIN managers ON visits.manager = managers.id JOIN users ON visits.user = users.id WHERE status='" . $status . "' ORDER BY visits.reg_date DESC";
+        $sql = "SELECT visits.*, 
+                    properties.id AS property_id, 
+                    properties.title AS title, 
+                    properties.is_taken AS property_is_taken, 
+                    properties.property_description AS property_description, 
+                    properties.price AS price, properties.property_image AS property_image, 
+                    managers.firstname AS firstname_manager , 
+                    managers.lastname AS lastname_manager, 
+                    users.firstname AS firstname_user , 
+                    users.lastname AS lastname_user  
+                    FROM visits JOIN properties ON visits.property = properties.id 
+                    JOIN managers ON visits.manager = managers.id 
+                    JOIN users ON visits.user = users.id 
+                    WHERE status='" . $status . "' ORDER BY visits.reg_date DESC";
 
         $list = $conn->query($sql);
 

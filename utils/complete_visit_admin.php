@@ -19,7 +19,15 @@ if (isset($_POST['status'])) {
         $complete_a_visit = $conn->query($complete_sql);
 
         // Return results after cancelling train
-        $sql = "SELECT visits.*, properties.title AS title, properties.property_description AS property_description, properties.price AS price, properties.property_image AS property_image  FROM visits JOIN properties ON visits.property = properties.id WHERE status='" . $status . "'  ORDER BY visits.reg_date DESC";
+        $sql = "SELECT visits.*, 
+                    properties.title AS title, 
+                    properties.property_description AS property_description, 
+                    properties.price AS price, 
+                    properties.property_image AS property_image  
+                    FROM visits 
+                    JOIN properties ON visits.property = properties.id 
+                    WHERE status='" . $status . "'  ORDER BY visits.reg_date DESC";
+                    
         $check_properties_list = $conn->query($sql);
 
         if ($check_properties_list->num_rows > 0) {

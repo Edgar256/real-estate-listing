@@ -19,7 +19,18 @@ if (isset($_POST['status'])) {
     }
 
     if (!empty(trim($_POST["status"]))) {
-        $sql = "SELECT visits.*, properties.id AS property_id, properties.title AS title, properties.is_taken AS property_is_taken, properties.property_description AS property_description, properties.price AS price, properties.property_image AS property_image  FROM visits JOIN properties ON visits.property = properties.id WHERE status='" . $status . "' AND user=' " . $user . "' ORDER BY visits.reg_date DESC";
+        $sql = "SELECT visits.*, 
+                    properties.id AS property_id, 
+                    properties.title AS title, 
+                    properties.is_taken AS property_is_taken, 
+                    properties.property_description AS property_description, 
+                    properties.price AS price, 
+                    properties.property_image AS property_image  
+                    FROM visits 
+                    JOIN properties ON visits.property = properties.id 
+                    WHERE status='" . $status . "' AND user=' " . $user . "' 
+                    ORDER BY visits.reg_date DESC";
+                    
         $check_properties_list = $conn->query($sql);
 
         if ($check_properties_list->num_rows > 0) {
