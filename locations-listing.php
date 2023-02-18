@@ -20,7 +20,7 @@ $users = $list = "";
 
 $table = "locations";
 
-$sql = "SELECT *  FROM " . $table . " ORDER BY id DESC";
+$sql = "SELECT *  FROM " . $table . " ORDER BY id ASC";
 $list = $conn->query($sql);
 
 // Define variables and initialize with empty values

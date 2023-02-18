@@ -52,6 +52,7 @@ $list = $conn->query($sql);
 
     <!-- Custom styles for this template -->
     <link href="./css/dashboard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./css/style.css">
 
     <!-- JQUERY LINK -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -181,6 +182,12 @@ $list = $conn->query($sql);
                             $user_email = $row["user_email"];
                             $user_phone = $row["user_phone"];
 
+                            //retrieve image data from database
+                            $imgData = base64_encode($row['property_image']);
+
+                            //create data URI for image
+                            $src = 'data:image/jpeg;base64,' . $imgData;
+
                             echo '<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 p-1">
                             <div class="card">
                                 <span style="background-image: url(data:image/jpeg;base64,' . $imageData . ');
@@ -191,9 +198,12 @@ $list = $conn->query($sql);
                                     border-radius: 3px 3px 0px 0px;
                                     min-height: 200px;">
                                 </span>';
+
                             if ($property_is_taken === "1") {
                                 echo '<img src="./images/sold.svg" alt="Sold SVG Image" class="left-0 position-absolute">';
                             }
+                            echo '<button type="button" class="btn btn-info position-absolute right-0 m-1 py-1 rounded-pill" data-bs-toggle="modal"  data-bs-target="#editModal' . $id . '" >Edit<span data-feather="edit" class="align-text-bottom ml-2"></span></button>';
+
                             echo ' <div class="card-body">
                                     <p class="card-title"><small><i>Posted : ' . date("F j, Y, g:i a", strtotime($datePosted)) . '</i></small></p>
                                     <h5 class="card-title">' . $title . '</h5>
@@ -220,9 +230,82 @@ $list = $conn->query($sql);
                                         <input type="hidden" name="id" value=' . $id . '>
                                         <input type="submit" name="delete" id="delete" value="DELETE" class="btn btn-danger w-100"/><br/>
                                     </form>
+
                                 </div>
                             </div>
                         </div>';
+
+                            echo '<div class="modal fade" id="editModal' . $id . '" tabindex="-1" aria-labelledby="editPropertyModalLabel"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h5 class="modal-title">Edit Property</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body p-4">
+                                            <form id="edit-form' . $id . '" class="d-xl-flex flex-wrap d-md-flex d-sm-block" method="post">';
+
+                            echo '<img src="' . $src . '" alt="Property Image" class="img-fluid mb-3 w-100" />';
+
+
+                            echo '<input type="text" class="form-control" name="id" id="currentProperty' . $id . '" value="' . $id . '" hidden />
+                                                <div class="col-xl-12 col-md-12 col-sm-12 p-3">
+                                                    <label for="title" class="form-label">Property Title <span class="text-danger pl-2">*</span></label>
+                                                    <input type="text" class="form-control" value="' . $title . '" placeholder="' . $title . '" name="title" id="title' . $id . '" />
+                                                </div>
+                                                <div class="col-xl-12 col-md-12 col-sm-12 p-3">
+                                                    <label for="title" class="form-label">Property Price <span class="text-danger pl-2">*</span></label>
+                                                    <input type="text" class="form-control" value="' . $price . '" placeholder="' . number_format($price) . '"  name="price" id="price' . $id . '" />
+                                                </div>
+                                                <div class="col-xl-12 col-md-12 col-sm-12 p-3">
+                                                    <label for="title" class="form-label">Property description <span class="text-danger pl-2">*</span></label>
+                                                    <textarea class="form-control" name="description" value="' . $description . '" id="description' . $id . '" rows="5" maxLength="254" id="description' . $id . '">' . $description . '</textarea>
+                                                </div>
+                                                <div class="col-12 pt-2">                                                    
+                                                    <input type="submit" name="delete" value="SAVE EDITS" class="btn btn-danger w-100"/><br/>
+                                                </div>
+                                            </form>                                 
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>';
+
+                            echo '<script> $(document).ready(function () {
+                                    $("#edit-form' . $id . '").submit(function (e) {
+                                        e.preventDefault();
+                                        var form = $(this);
+                                        var currentProperty = $("#currentProperty' . $id . '").val();
+                                        var title = $("#title' . $id . '").val();
+                                        var price = $("#price' . $id . '").val();
+                                        var description = $("#description' . $id . '").val();
+
+                                        if( title=="" || price=="" || description=="" ){
+                                            alert("Please fill all the fields");
+                                            return;
+                                        }
+
+                                        console.log({currentProperty, title, price, description});
+
+                                        $.ajax({
+                                            type: "post",
+                                            url: "./utils/edit_property.php",
+                                            data: { currentProperty, title, price, description},
+                                            success: function (data) {
+                                                // $("#___editPropertyModal").modal("show");
+                                                if (data == "success") {
+                                                    alert("Property updated successfully");
+                                                    location.reload();
+                                                } else {
+                                                    console.log("Property update failed");
+                                                    console.log(data);
+                                                    alert("Something went wrong");
+                                                }
+                                            }
+                                        });
+                                    });
+                                }); </script>';
+
                         }
                     } else {
                         echo "No Results found";
@@ -239,6 +322,32 @@ $list = $conn->query($sql);
         </div>
     </div>
 
+
+    <!-- Edit Property Modal -->
+    <div class="modal fade" id="___editPropertyModal" tabindex="-1" aria-labelledby="editPropertyModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Success</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p class="display-6 text-center text-success">
+                        Hooray! Your visit has been scheduled. One of our property
+                        managers will reach out to you shortly.
+                    </p>
+
+                    <div class="col-12 pt-2">
+                        <button type="submit" class="btn btn-primary w-100" data-bs-dismiss="modal">
+                            DISMISS
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- <script src="../assets/dist/js/bootstrap.bundle.min.js"></script> -->
     <!-- BOOTSTRAP JS LINKS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -252,6 +361,53 @@ $list = $conn->query($sql);
         integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha"
         crossorigin="anonymous"></script> -->
     <script src="./js/dashboard.js"></script>
+
+
+
+    <script>
+        $(document).ready(function () {
+            $("#edit-form").submit(function (e) {
+                e.preventDefault();
+
+                console.log(this)
+
+                var currentProperty = $('#currentProperty').val();
+                var title = $('#title').val();
+                var price = $('#price').val();
+                var description = $('#description').val();
+
+                console.log({ currentProperty, title, price, description });
+
+                // if (!date || !time || !note || !user || !property_id || !manager_id) {
+                //   alert('Please fill all the fields');
+                //   return;
+                // }
+
+                // console.log({ property_id });
+
+                // $.ajax({
+                //   url: "./utils/schedule_visit.php",
+                //   type: "post",
+                //   data: { date, time, note, user, property_id, manager_id },
+                //   success: function (response) {
+                //     console.log({ response });
+                //     if (response == 'success') {
+                //       $('#scheduleVisitModal').modal('hide');
+                //       $('#scheduleVisitSuccessModal').modal('show');
+                //     }
+                //   },
+                //   error: function (jqXHR, textStatus, errorThrown) {
+                //     // handle error
+                //     console.log({ Failed });
+                //     console.log({ jqXHR, textStatus, errorThrown });
+                //   }
+
+                // })
+
+            });
+    });
+    </script>
+
 </body>
 
 </html>

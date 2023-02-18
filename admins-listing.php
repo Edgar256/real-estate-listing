@@ -13,7 +13,7 @@ $users = $list = "";
 
 $table = "admins";
 
-$sql = "SELECT *  FROM " . $table . " ORDER BY reg_date DESC";
+$sql = "SELECT *  FROM " . $table . " ORDER BY reg_date ASC";
 $list = $conn->query($sql);
 
 ?>

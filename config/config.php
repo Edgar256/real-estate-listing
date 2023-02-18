@@ -32,7 +32,7 @@ $sql_create_users_table = "CREATE TABLE Users (
     phone VARCHAR(255) NOT NULL,
     role VARCHAR(255) NOT NULL DEFAULT 'USER',
     password VARCHAR(255) NOT NULL,
-    reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )";
 
 // create Users table
@@ -66,7 +66,7 @@ $sql_create_admins_table = "CREATE TABLE Admins (
     phone VARCHAR(255) NOT NULL,
     role VARCHAR(255) NOT NULL DEFAULT 'ADMIN',
     password VARCHAR(255) NOT NULL,    
-    reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )";
 
 // create Managers table
@@ -117,7 +117,7 @@ $sql_create_prperties_table = "CREATE TABLE properties (
     buyer INT(6) UNSIGNED,
     FOREIGN KEY (buyer) REFERENCES users(id),
      
-    reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )";
 
 // create Managers table
@@ -144,7 +144,7 @@ $sql_create_visits_table = "CREATE TABLE visits (
 
     status ENUM('pending','rejected', 'cancelled','completed') NOT NULL DEFAULT 'pending',
      
-    reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )";
 
 // create Managers table

@@ -279,8 +279,7 @@ $note_err = $visit_date_err = $visit_time_err = $property_err = $user_err = $man
           </p>
 
           <div class="col-12 pt-2">
-            <button type="submit" class="btn btn-primary w-100" data-bs-toggle="modal"
-              data-bs-target="#scheduleVisitSuccessModal" data-bs-dismiss="modal">
+            <button type="submit" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#scheduleVisitSuccessModal" data-bs-dismiss="modal">
               DISMISS
             </button>
           </div>
