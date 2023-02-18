@@ -17,6 +17,14 @@ To run this project on a Windows machine, you will need the following software i
 - XAMPP or a similar web server bundle that includes Apache, PHP, and MySQL
 - A web browser, such as Chrome or Firefox
 
+- Web Server: You will need a web server that supports PHP, such as Apache, Nginx, or Microsoft IIS. These servers can be installed on your local machine or on a remote server.
+- PHP: PHP is a programming language that is used to create dynamic web pages. You will need a version of PHP installed on your server or local machine. The minimum version of PHP required for your project will depend on the specific requirements of your project.
+- MySQL: MySQL is a database management system that is used to store and retrieve data for your project. You will need to have a MySQL server installed on your machine or hosted on a remote server.
+- Database Management Tool: You will need a tool to manage your MySQL database. Popular options include phpMyAdmin, MySQL Workbench, and HeidiSQL.
+- Text Editor: You will need a text editor to write and edit your PHP code. Popular options include Sublime Text, Atom, and Visual Studio Code.
+
+Browser: You will need a web browser to test and view your PHP web pages. Popular options include Chrome, Firefox, and Safari.
+
 ## Installation
 - Download the project files and extract them to the htdocs directory of your XAMPP installation. The htdocs directory is typically located at C:\xampp\htdocs.
 - Open XAMPP and start the Apache and MySQL services.
