@@ -1,8 +1,14 @@
-<div align="center">
+<div align="center" style="display: flex; align-items: center; justify-content: center;">
     <a href="https://php.net">
         <img
             alt="PHP"
             src="https://www.php.net/images/logos/new-php-logo.svg"
+            width="150">
+    </a>
+    <a href="https://php.net">
+        <img
+            alt=""
+            src="https://raw.githubusercontent.com/Edgar256/real-estate-listing/master/images/logo.png"
             width="150">
     </a>
 </div>
