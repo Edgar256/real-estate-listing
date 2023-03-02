@@ -100,7 +100,7 @@ $note_err = $visit_date_err = $visit_time_err = $property_err = $user_err = $man
 
               if ($_SESSION["role"] == "USER" && $property_is_taken === "0") {
                 echo '<div class="col-12">
-                <button type="submit" class="btn btn-primary w-100" data-bs-toggle="modal"
+                <button type="submit" class="btn btn-primary w-100 rounded-pill" data-bs-toggle="modal"
                   data-bs-target="#scheduleVisitModal">
                   SCHEDULE FIELD VISIT
                 </button>
@@ -188,7 +188,7 @@ $note_err = $visit_date_err = $visit_time_err = $property_err = $user_err = $man
                                     <p class="card-text">
                                         ' . $description . '
                                     </p>
-                                    <a href="./property-profile.php?id=' . $curr_property_id . '" class="btn btn-primary w-100">View More</a>
+                                    <a href="./property-profile.php?id=' . $curr_property_id . '" class="btn btn-primary w-100 rounded-pill">View More</a>
                                 </div>
                             </div>
                         </div>';

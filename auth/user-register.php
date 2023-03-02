@@ -110,7 +110,7 @@ require('../utils/user_register.php');
                                 echo "border-danger"; ?>" name="confirm_password" id="confirmPassword" required />
                         </div>
                         <div class="col-12">
-                            <input type="submit" class="btn btn-primary w-100" value="Sign Up" />
+                            <input type="submit" class="btn btn-primary w-100 rounded-pill" value="Sign Up" />
                         </div>
                         <div class="d-flex py-4">
                             <a href="user-login.php" class="text-decoration-none text-center w-100">Already have

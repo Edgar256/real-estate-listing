@@ -86,7 +86,7 @@ require('../utils/manager_login.php');
                                     echo "border-danger"; ?>" name="password" id="password" required />
                             </div>
                         </div>
-                        <input type="submit" class="btn btn-primary w-100" value="Sign in" />
+                        <input type="submit" class="btn btn-info w-100 rounded-pill" value="Sign in" />
                         <div class="d-flex py-4">
                             <a href="manager-register.php" class="text-decoration-none text-center w-100">Do not have
                                 Account? Register</a>

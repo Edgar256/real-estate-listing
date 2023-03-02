@@ -110,7 +110,7 @@ $check_properties_list = $conn->query($sql);
                         </select>
                     </div>
                     <div class="col-sm-2">
-                        <input type="submit" class="btn btn-primary w-100" name="submit" value="Submit" />
+                        <input type="submit" class="btn btn-primary w-100 rounded-pill" name="submit" value="SEARCH" />
                     </div>
                 </form>
             </div>
@@ -169,7 +169,7 @@ $check_properties_list = $conn->query($sql);
                                     <p class="card-text">
                                         ' . $description . '
                                     </p>
-                                    <a href="./property-profile.php?id=' . $id . '" class="btn btn-primary w-100">View More</a>
+                                    <a href="./property-profile.php?id=' . $id . '" class="btn btn-primary w-100 rounded-pill">View More</a>
                                 </div>
                             </div>
                         </div>';

@@ -72,7 +72,7 @@ if (isset($_POST['property_name']) || isset($_POST['location_id'])) {
                             <p class="card-text">
                                 ' . $description . '
                             </p>
-                            <a href="./property-profile.php?id=' . $id . '" class="btn btn-primary w-100">View More</a>
+                            <a href="./property-profile.php?id=' . $id . '" class="btn btn-primary w-100 rounded-pill">View More</a>
                         </div>
                     </div>
                 </div>';
@@ -124,7 +124,7 @@ if (isset($_POST['property_name']) || isset($_POST['location_id'])) {
                             <p class="card-text">
                                 ' . $description . '
                             </p>
-                            <a href="./property-profile.php?id=' . $id . '" class="btn btn-primary w-100">View More</a>
+                            <a href="./property-profile.php?id=' . $id . '" class="btn btn-primary w-100 rounded-pill">View More</a>
                         </div>
                     </div>
                 </div>';
@@ -189,7 +189,7 @@ if (isset($_POST['property_name']) || isset($_POST['location_id'])) {
                             <p class="card-text">
                                 ' . $description . '
                             </p>
-                            <a href="./property-profile.php?id=' . $id . '" class="btn btn-primary w-100">View More</a>
+                            <a href="./property-profile.php?id=' . $id . '" class="btn btn-primary w-100 rounded-pill">View More</a>
                         </div>
                     </div>
                 </div>';
@@ -252,7 +252,7 @@ if (isset($_POST['property_name']) || isset($_POST['location_id'])) {
                             <p class="card-text">
                                 ' . $description . '
                             </p>
-                            <a href="./property-profile.php?id=' . $id . '" class="btn btn-primary w-100">View More</a>
+                            <a href="./property-profile.php?id=' . $id . '" class="btn btn-primary w-100 rounded-pill">View More</a>
                         </div>
                     </div>
                 </div>';

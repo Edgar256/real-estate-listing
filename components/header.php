@@ -68,7 +68,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['firstname']) && isset($_SESSIO
                 '<ul class="dropdown-menu w-100 text-center">'.
                 '<li><a class="dropdown-item" href="listing.php">Property Listings</a></li>'.
                 '<li class="p-2"><a class="dropdown-item" href="scheduled-visits.php">Scheduled Visits</a></li>'.
-                '<li class="p-2"><a class="btn btn-danger text-white w-100" href="./auth/logout.php">Logout</a></li>'.
+                '<li class="p-2"><a class="btn btn-danger text-white w-100 rounded-pill" href="./auth/logout.php">Logout</a></li>'.
                 '</ul></div>';
             }
           } else {

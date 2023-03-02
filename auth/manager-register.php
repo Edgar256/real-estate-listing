@@ -109,7 +109,7 @@ require('../utils/manager_register.php');
                                 echo "border-danger"; ?>" name="confirm_password" id="confirmPassword" required />
                         </div>
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary w-100">
+                            <button type="submit" class="btn btn-info w-100 rounded-pill">
                                 Sign up
                             </button>
                         </div>
