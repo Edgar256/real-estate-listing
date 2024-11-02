@@ -4,6 +4,6 @@
 define("DB_HOST", 'localhost');     // DATABASE HOST
 define("DB_USER", 'root');          // DATABASE USER
 define("DB_PASSWORD", '');          // DATABASE PASSWORD
-define("DB_NAME", 'test_database'); // DATABASE NAME
+define("DB_NAME", 'real_estate_database'); // DATABASE NAME
 
 ?>
