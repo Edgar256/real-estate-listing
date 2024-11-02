@@ -22,7 +22,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}  # FTP password
           port: ${{ secrets.FTP_PORT || '21' }}  # Default to FTP port 21
           local-dir: ./  # Deploy everything from the root of your repository
-          server-dir: /home/public_html/realestate/  # Remote server directory path to deploy into
+          server-dir: /  # Remote server directory path to deploy into
           protocol: ftp  # or sftp if your server supports it
           debug: true  # Debug mode to see upload logs
 
