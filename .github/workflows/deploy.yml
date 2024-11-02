@@ -17,9 +17,9 @@ jobs:
       - name: Upload via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.0  # Use the FTP Deploy Action
         with:
-          ftp-server: ${{ secrets.FTP_HOST }}  # FTP server hostname
-          ftp-username: ${{ secrets.FTP_USERNAME }}  # FTP username
-          ftp-password: ${{ secrets.FTP_PASSWORD }}  # FTP password
+          server: ${{ secrets.FTP_HOST }}  # FTP server hostname
+          username: ${{ secrets.FTP_USERNAME }}  # FTP username
+          password: ${{ secrets.FTP_PASSWORD }}  # FTP password
           port: ${{ secrets.FTP_PORT || '21' }}  # Default to FTP port 21
           local-dir: ./  # Deploy everything from the root of your repository
           server-dir: /home/public_html/realestate  # Remote server directory path to deploy into
