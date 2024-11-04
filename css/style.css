@@ -35,9 +35,15 @@ a {
   border-color: #AF2024 !important;
 }
 
-@media (min-width: 576px) {
+@media (max-width: 728px) {
   /* .container,
   .container-sm {
     max-width: 700px !important;
   } */
+  .landing-area {    
+    height: 100% !important;
+  }
+  .l-container{
+    height: 100% !important;
+  }
 }
