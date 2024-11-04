@@ -38,7 +38,7 @@ require_once('./config/config.php');
         <div class="position-absolute_ landing-area">
             <div class="l-container w-100">
                 <div class="container d-flex">
-                    <div class="col-8 col-xl-8 col-sm-12">
+                    <div class="col-12 col-xl-8 col-sm-12">
                         <div class="p-5">
                             <div class="text-white py-5 display-1">
                                 Welcome to Realtors Inc. where we help you find your
